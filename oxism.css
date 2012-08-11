@@ -1,0 +1,113 @@
+::-moz-selection{
+    background: #444;
+    color: #fff;
+    text-shadow: none;
+}
+
+::selection{
+    background: #444;
+    color: #fff;
+    text-shadow: none;
+}
+
+body{
+    padding-left: 100px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, Times, FreeSerif, serif;
+    color: #444;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    width: 600px;
+}
+
+a{
+    color: #666;
+    text-decoration: none;
+}
+
+.prima{
+    color: #fff;
+    background-color: #6ac1ff;
+    font-family: "Times New Roman", Times, serif;
+    width: 400px;
+    padding: 20px 70px;
+    text-align: center;
+    color: #E2BB7C;
+    /* color: #ff676d; */
+    padding: 30px 10px;
+    margin-bottom: 20px;
+    background-color: #eee;
+    color: #666;
+    /* text-shadow: 0 -1px 0 #c7a56d; */
+    cursor: pointer;
+}
+
+.prima > h1{
+    font-weight: 900;
+    //font-style: italic;
+    //text-transform: uppercase;
+    font-size: 90px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+h4{
+    font-weight: normal;
+    font-size: 16px;
+    font-style: italic;
+    color: #777;
+}
+
+h2{
+    font-size: 30px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    color: #555;
+}
+h3{
+    margin-bottom: 20px;
+    border-bottom: 1px #ddd dotted;
+}
+#works{
+    font-size: 20px;
+    list-style: none;
+    margin-bottom: 40px;
+}
+#works > li{
+    line-height: 2;
+    margin-bottom: 80px;
+}
+.chaincal > div{
+    width: 355px;
+    height: 696px;
+    background-image: url('images/chaincal.png');
+}
+
+.oridomi > .shot1{
+    width: 343px;
+    height: 286px;
+    margin-bottom: 40px;
+    background-image: url('images/oridomi.png');
+}
+
+.oridomi > .shot2{
+    width: 425px;
+    height: 223px;
+    background-image: url('images/oridomi2.png');
+}
+
+p{
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 50px;
+}
+
+#contact li{
+    line-height: 2;
+}
+
+#contact a:hover{
+    text-decoration: underline;
+}
