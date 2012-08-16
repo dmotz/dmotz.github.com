@@ -1,7 +1,7 @@
 (function(){
     
-var email = ["m", "a", "i", "l", "t", "o", ":", "d", "a", "n",
-             "@", "o", "x", "i", "s", "m", ".", "c", "o", "m"];
+var email = ['m', 'a', 'i', 'l', 't', 'o', ':', 'd', 'a', 'n',
+             '@', 'o', 'x', 'i', 's', 'm', '.', 'c', 'o', 'm'];
 
 window.addEventListener('DOMContentLoaded', function(){
 
