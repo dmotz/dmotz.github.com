@@ -60,6 +60,14 @@ h4{
     color: #777;
 }
 
+h4 > a{
+    border-bottom: 1px #ddd dotted;
+    color: #111;
+}
+h4 > a:hover{
+    color: #333;
+}
+
 h2{
     font-size: 30px;
     margin-top: 50px;
