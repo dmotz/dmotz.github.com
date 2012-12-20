@@ -11,15 +11,13 @@
 }
 
 body{
-    padding-left: 100px;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    font-size: 100%;
+    padding: 3% 5%;
     font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, Times, FreeSerif, serif;
     color: #444;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
-    width: 600px;
 }
 
 a{
@@ -29,33 +27,26 @@ a{
 
 .prima{
     color: #fff;
-    background-color: #6ac1ff;
     font-family: "Times New Roman", Times, serif;
-    width: 400px;
-    padding: 20px 70px;
+    width: 25rem;
     text-align: center;
-    color: #E2BB7C;
-    /* color: #ff676d; */
-    padding: 30px 10px;
-    margin-bottom: 20px;
+    text-shadow: 0 1px 0 #fff;
+    padding: 1.5rem 0.5rem;
+    margin-bottom: 1.2rem;
     background-color: #eee;
     color: #666;
-    /* text-shadow: 0 -1px 0 #c7a56d; */
-    cursor: pointer;
 }
 
 .prima > h1{
     font-weight: 900;
-    //font-style: italic;
-    //text-transform: uppercase;
-    font-size: 90px;
-    line-height: 1;
-    letter-spacing: -1px;
+    font-size: 7rem;
+    line-height: .5;
+    letter-spacing: -6px;
 }
 
 h4{
     font-weight: normal;
-    font-size: 16px;
+    font-size: 1rem;
     font-style: italic;
     color: #777;
 }
@@ -69,47 +60,50 @@ h4 > a:hover{
 }
 
 h2{
-    font-size: 30px;
-    margin-top: 50px;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    margin-top: 3.125rem;
+    margin-bottom: 1.25rem;
     color: #555;
+    letter-spacing: -1px;
 }
 h3{
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     border-bottom: 1px #ddd dotted;
+    letter-spacing: -2px;
 }
 #works{
-    font-size: 20px;
+    font-size: 1.25rem;
     list-style: none;
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem
 }
 #works > li{
     line-height: 2;
-    margin-bottom: 80px;
+    margin-bottom: 4rem;
 }
-.chaincal > div{
-    width: 378px;
-    height: 800px;
-    background-image: url('images/chaincal.png');
-}
-
-.oridomi > .shot1{
-    width: 343px;
-    height: 286px;
-    margin-bottom: 40px;
-    background-image: url('images/oridomi.png');
+.chaincal > img{
+    width: 100%;
+    max-width: 1032px;
 }
 
-.oridomi > .shot2{
-    width: 425px;
-    height: 223px;
-    background-image: url('images/oridomi2.png');
+.oridomi > img{
+    width: 100%;
+    display: block;
+    max-width: 343px;
+}
+
+.oridomi > img:last-child{
+    max-width: 425px;
+}
+
+.maskew > img{
+    width: 100%;
+    max-width: 708px;
 }
 
 p{
-    font-size: 16px;
+    font-size: 1rem;
     margin-top: 0;
-    margin-bottom: 50px;
+    margin-bottom: 2rem;
 }
 
 #contact li{

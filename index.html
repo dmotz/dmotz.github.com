@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="author" content="Dan Motzenbecker">
     <meta name="description" content="Oxism">
-    <meta name="keywords" content="oxism, dan motzenbecker">
-    <title>Oxism -~- Dan Motzenbecker</title>
+    <title>Oxism /// Dan Motzenbecker</title>
     <link href="oxism.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -24,7 +23,7 @@
             <a class="chaincal" href="http://chaincalapp.com">
                 <h3>ChainCal</h3>
                 <p>The simple habit building app for iPhone.</p>
-                <div></div>
+                <img src="images/chaincal.png">
             </a>
         </li>
 
@@ -32,8 +31,17 @@
             <a class="oridomi" href="http://oridomi.com">
                 <h3>oriDomi</h3>
                 <p>Fold up the DOM like paper.</p>
-                <div class="shot1"></div>
-                <div class="shot2"></div>
+                <img src="images/oridomi.png">
+                <img src="images/oridomi2.png">
+            </a>
+        </li>
+
+        <li>
+            <a class="maskew" href="http://oxism.com/maskew">
+                <h3>Maskew</h3>
+                <p>Add some diagonal rhythm to your elements.</p>
+                <img src="images/maskew.png">
+
             </a>
         </li>
 
@@ -50,27 +58,23 @@
     <script src="http://oridomi.com/oridomi.min.js"></script>
     <script>
         (function(){
-        
+
         var email = ['m', 'a', 'i', 'l', 't', 'o', ':', 'd', 'a', 'n',
                      '@', 'o', 'x', 'i', 's', 'm', '.', 'c', 'o', 'm'];
-        
+
         document.addEventListener('DOMContentLoaded', function(){
-        
+
             document.getElementById('mail').href = email.join('');
-        
+
             var prima = document.getElementsByClassName('prima')[0],
                 primaDomi = new OriDomi(prima);
-        
-            prima.addEventListener('mousedown', function(){
-                primaDomi.reveal(Math.random() * 53 * (Math.random() > .5 ? 1 : -1));
-            }, false);
-        
+
             setTimeout(function(){
                 primaDomi.reveal(33);
             }, 500);
-        
+
         });
-        
+
         })();
 
     </script>
