@@ -67,10 +67,10 @@
             document.getElementById('mail').href = email.join('');
 
             var prima = document.getElementsByClassName('prima')[0],
-                primaDomi = new OriDomi(prima, { shading: 'soft', shadingIntensity: .25 });
+                primaDomi = new OriDomi(prima, { vPanels: 4, shading: 'hard', shadingIntensity: .3 });
 
             setTimeout(function(){
-                primaDomi.reveal(33);
+                primaDomi.stairs(24);
             }, 500);
 
         });
