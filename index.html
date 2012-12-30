@@ -67,7 +67,7 @@
             document.getElementById('mail').href = email.join('');
 
             var prima = document.getElementsByClassName('prima')[0],
-                primaDomi = new OriDomi(prima);
+                primaDomi = new OriDomi(prima, { shading: 'soft', shadingIntensity: .25 });
 
             setTimeout(function(){
                 primaDomi.reveal(33);
