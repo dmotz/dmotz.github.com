@@ -41,7 +41,7 @@ a{
 }
 
 .prima > h1{
-    color: rgba(255, 255, 255, .1);
+    color: rgba(255, 255, 255, .3);
     text-shadow: 0 1px 0 rgba(0, 0, 0, .2);
     font-weight: 900;
     font-size: 8rem;
@@ -86,8 +86,7 @@ h3{
     margin-bottom: 4rem;
 }
 .chaincal > img{
-    width: 100%;
-    max-width: 1032px;
+    margin-right: 4rem;
 }
 
 .oridomi > img{
