@@ -12,25 +12,25 @@
 
 html{
     font-size: 87%;
-    padding: 3% 5%;
 }
 
 body{
-    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, Times, FreeSerif, serif;
+    font-family: 'Playfair Display', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, Times, FreeSerif, serif;
     color: #444;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
+    padding: 1rem 2rem;
 }
 
 a{
-    color: #666;
+    color: #444;
     text-decoration: none;
 }
 
 .prima{
     color: #fff;
-    font-family: "Times New Roman", Times, serif;
+    font-family: 'Playfair Display', "Times New Roman", Times, serif;
     width: 25rem;
     text-align: center;
     padding: 1.5rem 0.5rem;
@@ -41,7 +41,7 @@ a{
 }
 
 .prima > h1{
-    color: rgba(255, 255, 255, .3);
+    color: #444;
     text-shadow: 0 1px 0 rgba(0, 0, 0, .2);
     font-weight: 900;
     font-size: 8rem;
@@ -51,7 +51,7 @@ a{
 
 h4{
     font-weight: normal;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-style: italic;
     color: #777;
 }
@@ -65,13 +65,13 @@ h4 > a:hover{
 }
 
 h2{
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     margin-top: 3.125rem;
     margin-bottom: 1.25rem;
-    color: #555;
     letter-spacing: -0.0625rem;
 }
 h3{
+    font-size: 2rem;
     margin-bottom: 1.25rem;
     border-bottom: 1px #ddd dotted;
     letter-spacing: -0.125rem;
@@ -87,6 +87,7 @@ h3{
 }
 .chaincal > img{
     margin-right: 4rem;
+    margin-bottom: 2rem;
 }
 
 .oridomi > img{
@@ -105,16 +106,24 @@ h3{
 }
 
 p{
-    font-size: 1.1rem;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, Times, FreeSerif, serif;
+    font-size: 1.4rem;
     margin-top: 0;
     margin-bottom: 2rem;
 }
 
 #contact li{
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, Times, FreeSerif, serif;
     line-height: 2;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 #contact a:hover{
     text-decoration: underline;
+}
+
+@media only screen and (max-width: 500px){
+    html{
+        font-size: 70%;
+    }
 }
