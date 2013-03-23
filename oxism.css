@@ -105,6 +105,11 @@ h3{
     max-width: 708px;
 }
 
+.hexaflip > img{
+    width: 100%;
+    max-width: 665px;
+}
+
 p{
     font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, Times, FreeSerif, serif;
     font-size: 1.4rem;
