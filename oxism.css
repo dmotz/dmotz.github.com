@@ -28,6 +28,10 @@ a{
     text-decoration: none;
 }
 
+a, img, a img{
+    border: none;
+}
+
 .prima{
     color: #fff;
     font-family: 'Playfair Display', "Times New Roman", Times, serif;
