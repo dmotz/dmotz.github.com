@@ -1,0 +1,182 @@
+!!!
+html.no-js(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='description', content='Dan Motzenbecker - oxism.com')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='author', content='Dan Motzenbecker')
+    link(href='css/oxism.css', rel='stylesheet', type='text/css')
+    link(href='images/favicon.png', rel='icon', type='image/png')
+    title Dan Motzenbecker /oxism.com
+
+  body
+    section#intro
+      .cover
+        .inner
+          h1 Dan Motzenbecker
+      .content
+        .info
+          h3
+            | Below are a few of the more visual things I&rsquo;ve built recently.
+            | Many of them are
+            | <a href="http://en.wikipedia.org/wiki/Open-source_software" target="_blank">open-source</a>,
+            | including
+            | <a href="https://github.com/dmotz/dmotz.github.com" target="_blank">the site itself</a>.
+            | Thanks for taking a look.
+
+          h5 &mdash; Dan Motzenbecker
+
+          ul.contact
+            li
+              a#email(href='#') email
+            li
+              a(href='http://github.com/dmotz', target='_blank') github
+            li
+              a(href='http://twitter.com/dcmotz', target='_blank') twitter
+
+
+    section#oridomi
+      .cover
+        .inner
+          h1 OriDomi
+          h2 Fold the DOM up like paper.
+
+      .content
+        .images
+          img(src='images/oridomi1.jpg')
+          img(src='images/oridomi2.jpg')
+
+        .info
+          p
+            | The web is flat, but with OriDomi you can fold it up. Open-source
+            | paper-folding library with animation queueing, touch support, and
+            | zero dependencies.
+          .tools CoffeeScript / JavaScript, CSS3
+          .buttons
+            a.button(href='http://oridomi.com') oridomi.com
+            a.button(href='https://github.com/dmotz/oriDomi') github
+            a.button(href='http://oridomi.com/docs/oridomi.html') annotated source
+
+
+    section#pozaic
+      .cover
+        .inner
+          h1 Pozaic
+          h2 Capture one second moments as animated gif mosaics.
+
+      .content
+        .images
+          img(src='images/pozaic1.jpg')
+          img(src='images/pozaic2.gif')
+
+        .info
+          p
+            | Pozaic uses WebRTC to connect friends (or strangers) in live
+            | video compositions you can turn into animated gifs. The medium
+            | captures a single second in time across geographic gaps.
+          .tools Node.js, WebRTC, WebSockets, web workers
+          .buttons
+            a.button(href='http://pozaic.com') pozaic.com
+
+
+    section#chaincal
+      .cover
+        .inner
+          h1 ChainCal
+          h2 The simple habit building app for iPhone.
+
+      .content
+        .images
+          img(src='images/chaincal1.jpg')
+          img(src='images/chaincal2.jpg')
+
+        .info
+          p
+            | Set daily goals and visualize your progress in an intuitive and visual way.
+            | Motivate yourself to adopt new positive habits one day at a time.
+          .tools CoffeeScript / JavaScript, Apache Cordova, CSS3, Objective-C
+          .buttons
+            a.button(href='http://chaincalapp.com') chaincalapp.com
+
+
+    section#hexaflip
+      .cover
+        .inner
+          h1 HexaFlip
+          h2 Visualize arrays as cubes.
+
+      .content
+        .images
+          img(src='images/hexaflip1.jpg')
+          img(src='images/hexaflip2.jpg')
+
+        .info
+          p
+            | Transform arrays of any length into cubes that can be rotated infinitely.
+            | Originally developed as the time picking interface for
+            | <a href="#chaincal">ChainCal</a>, I expanded it to visualize
+            | arbitrary arrays and wrote an article detailing it
+            | <a href="http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/">on Codrops</a>.
+          .tools CoffeeScript / JavaScript, CSS3
+          .buttons
+            a.button(href='http://oxism.com/hexaflip') oxism.com/hexaflip
+            a.button(href='https://github.com/dmotz/hexaflip') github
+            a.button(href='http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/') codrops article
+
+
+    section#maskew
+      .cover
+        .inner
+          h1 Maskew
+          h2 Add some diagonal rhythm to your elements.
+
+      .content
+        .images
+          img(src='images/maskew1.jpg')
+          img(src='images/maskew2.jpg')
+
+        .info
+          p
+            | Skew the shapes of elements without distorting their contents.
+            | Maskew creates a parallelogram mask over the element and supports
+            | touch/mouse manipulation of the skew amount.
+          .tools CoffeeScript, CSS3
+          .buttons
+            a.button(href='http://oxism.com/maskew') oxism.com/maskew
+            a.button(href='https://github.com/dmotz/maskew') github
+
+
+    section#etc
+      .cover
+        .inner
+          h1 et cetera
+
+      .content
+        .info
+          ul
+            li
+              h3 Express SPA Router
+              p Express middleware to add intelligent server-side routing for single page applications.
+              .tools Node.js
+              .buttons
+                a.button(href='https://github.com/dmotz/express-spa-router') github
+
+            li
+              h3 TuringType
+              p A naïve human typing effect.
+              .tools CoffeeScript / JavaScript
+              .buttons
+                a.button(href='http://oxism.com/TuringType') demo
+                a.button(href='https://github.com/dmotz/TuringType') github
+
+            li
+              h3 Commune.js
+              p Easy web worker threads without creating separate function files.
+              .tools CoffeeScript / JavaScript, web workers
+              .buttons
+                a.button(href='https://github.com/dmotz/commune.js') github
+
+
+    script(src='http://oridomi.com/oridomi.min.js')
+    script(src='js/oxism.js')
+
