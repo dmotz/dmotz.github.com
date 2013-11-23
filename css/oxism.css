@@ -55,6 +55,7 @@ a:hover {
   color: #dea866;
 }
 section {
+  position: relative;
   overflow: hidden;
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
