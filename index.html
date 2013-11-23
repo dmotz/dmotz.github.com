@@ -1,101 +1,173 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en" class="no-js">
+  <head>
     <meta charset="utf-8">
+    <meta name="description" content="Dan Motzenbecker - oxism.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Dan Motzenbecker">
-    <meta name="description" content="Oxism">
-    <title>Oxism /// Dan Motzenbecker</title>
-    <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
-    <link href="oxism.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-
-    <div class="prima">
-        <h1>Oxism.</h1>
-    </div>
-
-    <h4>by <a href="https://twitter.com/dcmotz" target="_blank">Dan Motzenbecker</a></h4>
-
-    <h2>Recent Works:</h2>
-
-    <ul id="works">
-
-        <li>
-            <a class="chaincal" href="http://chaincalapp.com">
-                <h3>ChainCal</h3>
-                <p>The simple habit building app for iPhone.</p>
-                <img src="images/chaincal1.png">
-                <img src="images/chaincal2.png">
-            </a>
-        </li>
-
-        <li>
-            <a class="oridomi" href="http://oridomi.com">
-                <h3>oriDomi</h3>
-                <p>Fold up the DOM like paper.</p>
-                <img src="images/oridomi.png">
-                <img src="images/oridomi2.png">
-            </a>
-        </li>
-
-        <li>
-            <a class="maskew" href="http://oxism.com/maskew">
-                <h3>Maskew</h3>
-                <p>Add some diagonal rhythm to your elements.</p>
-                <img src="images/maskew.png">
-            </a>
-        </li>
-
-        <li>
-            <a class="hexaflip" href="http://oxism.com/hexaflip">
-                <h3>HexaFlip</h3>
-                <p>HexaFlip visualizes arrays as cube interfaces.</p>
-                <img src="images/hexaflip.png">
-            </a>
-        </li>
-
-    </ul>
-
-    <h2>&amp;c.</h2>
-
-    <ul id="contact">
-        <li><a href="https://twitter.com/dcmotz">@dcmotz</a></li>
-        <li><a href="mailto:" id="mail">mail</a></li>
-        <li><a href="https://github.com/dmotz">github</a></li>
-    </ul>
-
+    <link href="css/oxism.css" rel="stylesheet" type="text/css">
+    <link href="images/favicon.png" rel="icon" type="image/png">
+    <title>Dan Motzenbecker /oxism.com</title>
+  </head>
+  <body>
+    <section id="intro">
+      <div class="cover">
+        <div class="inner">
+          <h1>Dan Motzenbecker</h1>
+        </div>
+      </div>
+      <div class="content">
+        <div class="info">
+          <h3>
+            Below are a few of the more visual things I&rsquo;ve built recently.
+            Many of them are
+            <a href="http://en.wikipedia.org/wiki/Open-source_software" target="_blank">open-source</a>,
+            including
+            <a href="https://github.com/dmotz/dmotz.github.com" target="_blank">the site itself</a>.
+            Thanks for taking a look.
+          </h3>
+          <h5>&mdash; Dan Motzenbecker</h5>
+          <ul class="contact">
+            <li><a id="email" href="#">email</a></li>
+            <li><a href="http://github.com/dmotz" target="_blank">github</a></li>
+            <li><a href="http://twitter.com/dcmotz" target="_blank">twitter</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="oridomi">
+      <div class="cover">
+        <div class="inner">
+          <h1>OriDomi</h1>
+          <h2>Fold the DOM up like paper.</h2>
+        </div>
+      </div>
+      <div class="content">
+        <div class="images"><img src="images/oridomi1.jpg"><img src="images/oridomi2.jpg"></div>
+        <div class="info">
+          <p>
+            The web is flat, but with OriDomi you can fold it up. Open-source
+            paper-folding library with animation queueing, touch support, and
+            zero dependencies.
+          </p>
+          <div class="tools">CoffeeScript / JavaScript, CSS3</div>
+          <div class="buttons"><a href="http://oridomi.com" class="button">oridomi.com</a><a href="https://github.com/dmotz/oriDomi" class="button">github</a><a href="http://oridomi.com/docs/oridomi.html" class="button">annotated source</a></div>
+        </div>
+      </div>
+    </section>
+    <section id="pozaic">
+      <div class="cover">
+        <div class="inner">
+          <h1>Pozaic</h1>
+          <h2>Capture one second moments as animated gif mosaics.</h2>
+        </div>
+      </div>
+      <div class="content">
+        <div class="images"><img src="images/pozaic1.jpg"><img src="images/pozaic2.gif"></div>
+        <div class="info">
+          <p>
+            Pozaic uses WebRTC to connect friends (or strangers) in live
+            video compositions you can turn into animated gifs. The medium
+            captures a single second in time across geographic gaps.
+          </p>
+          <div class="tools">Node.js, WebRTC, WebSockets, web workers</div>
+          <div class="buttons"><a href="http://pozaic.com" class="button">pozaic.com</a></div>
+        </div>
+      </div>
+    </section>
+    <section id="chaincal">
+      <div class="cover">
+        <div class="inner">
+          <h1>ChainCal</h1>
+          <h2>The simple habit building app for iPhone.</h2>
+        </div>
+      </div>
+      <div class="content">
+        <div class="images"><img src="images/chaincal1.jpg"><img src="images/chaincal2.jpg"></div>
+        <div class="info">
+          <p>
+            Set daily goals and visualize your progress in an intuitive and visual way.
+            Motivate yourself to adopt new positive habits one day at a time.
+          </p>
+          <div class="tools">CoffeeScript / JavaScript, Apache Cordova, CSS3, Objective-C</div>
+          <div class="buttons"><a href="http://chaincalapp.com" class="button">chaincalapp.com</a></div>
+        </div>
+      </div>
+    </section>
+    <section id="hexaflip">
+      <div class="cover">
+        <div class="inner">
+          <h1>HexaFlip</h1>
+          <h2>Visualize arrays as cubes.</h2>
+        </div>
+      </div>
+      <div class="content">
+        <div class="images"><img src="images/hexaflip1.jpg"><img src="images/hexaflip2.jpg"></div>
+        <div class="info">
+          <p>
+            Transform arrays of any length into cubes that can be rotated infinitely.
+            Originally developed as the time picking interface for
+            <a href="#chaincal">ChainCal</a>, I expanded it to visualize
+            arbitrary arrays and wrote an article detailing it
+            <a href="http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/">on Codrops</a>.
+          </p>
+          <div class="tools">CoffeeScript / JavaScript, CSS3</div>
+          <div class="buttons"><a href="http://oxism.com/hexaflip" class="button">oxism.com/hexaflip</a><a href="https://github.com/dmotz/hexaflip" class="button">github</a><a href="http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/" class="button">codrops article</a></div>
+        </div>
+      </div>
+    </section>
+    <section id="maskew">
+      <div class="cover">
+        <div class="inner">
+          <h1>Maskew</h1>
+          <h2>Add some diagonal rhythm to your elements.</h2>
+        </div>
+      </div>
+      <div class="content">
+        <div class="images"><img src="images/maskew1.jpg"><img src="images/maskew2.jpg"></div>
+        <div class="info">
+          <p>
+            Skew the shapes of elements without distorting their contents.
+            Maskew creates a parallelogram mask over the element and supports
+            touch/mouse manipulation of the skew amount.
+          </p>
+          <div class="tools">CoffeeScript, CSS3</div>
+          <div class="buttons"><a href="http://oxism.com/maskew" class="button">oxism.com/maskew</a><a href="https://github.com/dmotz/maskew" class="button">github</a></div>
+        </div>
+      </div>
+    </section>
+    <section id="etc">
+      <div class="cover">
+        <div class="inner">
+          <h1>et cetera</h1>
+        </div>
+      </div>
+      <div class="content">
+        <div class="info">
+          <ul>
+            <li>
+              <h3>Express SPA Router</h3>
+              <p>Express middleware to add intelligent server-side routing for single page applications.</p>
+              <div class="tools">Node.js</div>
+              <div class="buttons"><a href="https://github.com/dmotz/express-spa-router" class="button">github</a></div>
+            </li>
+            <li>
+              <h3>TuringType</h3>
+              <p>A naïve human typing effect.</p>
+              <div class="tools">CoffeeScript / JavaScript</div>
+              <div class="buttons"><a href="http://oxism.com/TuringType" class="button">demo</a><a href="https://github.com/dmotz/TuringType" class="button">github</a></div>
+            </li>
+            <li>
+              <h3>Commune.js</h3>
+              <p>Easy web worker threads without creating separate function files.</p>
+              <div class="tools">CoffeeScript / JavaScript, web workers</div>
+              <div class="buttons"><a href="https://github.com/dmotz/commune.js" class="button">github</a></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
     <script src="http://oridomi.com/oridomi.min.js"></script>
-    <script>
-        (function(){
-
-        var email = ['m', 'a', 'i', 'l', 't', 'o', ':', 'd', 'a', 'n',
-                     '@', 'o', 'x', 'i', 's', 'm', '.', 'c', 'o', 'm'];
-
-        document.addEventListener('DOMContentLoaded', function(){
-
-            document.getElementById('mail').href = email.join('');
-
-            var prima = document.getElementsByClassName('prima')[0],
-                primaDomi = new OriDomi(prima, { vPanels: 4, shading: 'hard', shadingIntensity: .3 });
-
-            setTimeout(function(){
-                primaDomi.stairs(24);
-            }, 500);
-
-        });
-
-        })();
-
-    </script>
-    <script>
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-30392798-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-</body>
+    <script src="js/oxism.js"></script>
+  </body>
 </html>
