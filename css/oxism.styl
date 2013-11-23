@@ -1,0 +1,342 @@
+@import 'nib'
+
+$helv     = 'Helvetica Neue', Helvetica, Arial, sans-serif
+$serif    = Georgia, Times, 'Times New Roman', serif
+$advBold  = 'Adventor Bold', $helv
+$gold     = #dea866
+$bgColor  = #f3f3f3
+$sideways = rotateZ(90deg) translateY(-11rem) translateX(1rem)
+$intro    = $gold
+$oridomi  = #333
+$pozaic   = #e74c5f
+$chaincal = #0cd1d1
+$hexaflip = #4ad391
+$maskew   = #e96b4b
+$etc      = #23ccb1
+
+
+@font-face
+  font-family: 'Adventor Bold'
+  src: url('../fonts/adventor-bold.eot')
+  src: url('../fonts/adventor-bold.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/adventor-bold.woff') format('woff'),
+       url('../fonts/adventor-bold.ttf') format('truetype'),
+       url('../fonts/adventor-bold.svg#texgyreadventorbold') format('svg')
+  font-weight: bold
+  font-style: normal
+
+
+::-moz-selection
+  background: #444
+  color: #fff
+  text-shadow: none
+
+
+::selection
+  background: #444
+  color: #fff
+  text-shadow: none
+
+
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+
+html
+  font-size: 8px
+  height: 100%
+  font-family: $helv
+  text-rendering: optimizeLegibility
+  font-smoothing: antialiased
+
+
+ul
+  list-style: none
+
+
+body
+  background-color: $bgColor
+  transform-style: preserve-3d
+  padding-bottom: 5rem
+
+
+a
+  text-decoration: none
+  border-bottom: 1px dotted #ccc
+  color: #555
+  transition: color .1s
+
+  &:hover
+    color: $gold
+
+
+section
+  overflow: hidden
+  transform-style: preserve-3d
+  margin: 10rem 0
+  transition-delay: .5s
+  cursor: pointer
+
+  .content
+    pointer-events: none
+
+  &:hover
+    .inner
+      transform: $sideways
+      transform: translateX(4rem) translateY(4rem)
+
+  &.open
+    cursor: auto
+
+    .content
+      pointer-events: auto
+
+    .inner
+      transition-delay: .3s
+      transform: $sideways
+
+    &:hover
+      .inner
+        transform: $sideways
+
+
+.inner
+  transition: transform .2s
+  transform-origin: 0 0
+
+
+.cover
+  width: 100%
+  position: absolute
+  top: 0
+  bottom: 0
+  pointer-events: none
+  background-color: #222
+  color: #fff
+  padding: 1rem
+
+
+  h1
+    font-family: $advBold
+    font-size: 9em
+    letter-spacing: -0.2rem
+    text-transform: lowercase
+    line-height: 1.1
+    margin-bottom: 1.4rem
+
+  h2
+    color: #fff
+    font-size: 3rem
+    font-size: 3.4rem
+    max-width: 40rem
+    font-family: $serif
+    line-height: 1.6
+
+
+#intro
+  margin-top: 3rem
+  min-height: 20rem
+
+  h3
+    font-size: 2.6rem
+    width: 70%
+    color: #888
+    letter-spacing: -0.1rem
+    line-height: 1.6
+    font-weight: 400
+
+
+.contact
+  position: absolute
+  right: 0
+  top: 0
+  list-style: none
+  font-weight: bold
+  font-size: 2.6rem
+  text-align: right
+  padding: 0 2rem
+
+  li
+    line-height: 1.6
+
+
+.content
+  height: 100%
+  position: relative
+  z-index: -1
+  margin-left: 20%
+
+  p
+    color: #555
+    line-height: 1.6
+    font-size: 2.2rem
+    font-weight: 500
+    margin-bottom: 2rem
+
+
+.info
+  max-width: 70rem
+  padding-right: 1rem
+
+
+.images
+  margin-bottom: 2rem
+  padding-right: 2rem
+  overflow: hidden
+
+  img
+    background-color: #fff
+    width: 49%
+    margin-right: 2%
+    max-width: 400px
+
+    &:last-child
+      margin-right: 0
+      margin-bottom: 0
+
+
+.button
+  font-size: 1.9rem
+  background-color: #777
+  color: $bgColor
+  border: none
+  padding: 1rem
+  cursor: pointer
+  font-weight: bold
+  margin: 0 .5rem
+  display: inline-block
+
+  &:first-child
+    margin-left: 0
+
+  &:hover
+    background-color: $gold
+    color: $bgColor
+
+
+.tools
+  font-family: monospace
+  font-size: 2rem
+  margin-bottom: 2rem
+  color: #aaa
+  line-height: 1.6
+  letter-spacing: -0.1rem
+
+
+h5
+  font-size: 2rem
+  line-height: 3
+  color: $gold
+
+
+h3
+  font-size: 2.6rem
+  line-height: 1.6
+  color: #444
+
+
+#pozaic img:last-child
+  padding: 1.4%
+
+
+#etc li
+  margin-bottom: 6rem
+
+
+#intro .cover
+  background-color: $intro
+
+#oridomi .cover
+  background-color: $oridomi
+
+#pozaic .cover
+  background-color: $pozaic
+
+#chaincal .cover
+  background-color: $chaincal
+
+#hexaflip .cover
+  background-color: $hexaflip
+
+#maskew .cover
+  background-color: $maskew
+
+#etc .cover
+  background-color: $etc
+
+
+$noJsTransform = rotateZ(90deg) translateY(-40rem) translateX(1rem)
+
+.no-js
+  section
+    cursor: auto
+
+    &:hover
+      .inner
+        transform: $noJsTransform
+
+  .cover
+    margin-left: -85%
+
+  .inner
+    float: right
+    transform: $noJsTransform
+
+
+@media only screen and (max-width: 600px)
+
+  html
+    font-size: 8px
+
+
+  .contact
+    position: static
+    text-align: left
+    padding: 0
+
+    li
+      display: inline-block
+
+
+  .content
+    margin-left: 22%
+
+
+  .cover h1
+    font-size: 6rem
+
+
+  #intro h3
+    width: 100%
+
+
+  .button
+    margin-right: 100%
+    margin-left: 0
+    margin-bottom: 0.5rem
+    white-space: nowrap
+
+
+  .images
+    margin-right: 0
+
+    img
+      width: 100%
+      margin-bottom: 1rem
+
+
+  section
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+
+    &:hover .inner
+      transform: none
+
+    &.open
+      .inner
+        transform: rotateZ(90deg) translateY(-5.3rem) translateX(1rem)
+
+      &:hover .inner
+        transform: rotateZ(90deg) translateY(-5.3rem) translateX(1rem)
+
