@@ -29,11 +29,6 @@ computePositions = ->
 
 
 onMove = (e) ->
-  #console.log e
-  # {x, y} = e
-  #x += window.pageXOffset
-  #y += window.pageYOffset
-
   for square, i in squares
     dX   = e.pageX + window.pageXOffset - positions[i][0] - w / 2
     dY   = e.pageY + window.pageYOffset - positions[i][1] - h / 2
@@ -41,7 +36,6 @@ onMove = (e) ->
     rY   =  dX / (dist or 1) / 2
     rX   = -dY / (dist or 1) / 2
     square.children[0].style[vendor.transform] = "rotateX(#{ rX }deg) rotateY(#{ rY }deg)"
-    #console.log x, y#dX, dY, dist, rY, rX
 
   null
 
