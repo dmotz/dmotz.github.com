@@ -3,54 +3,103 @@ html.no-js(lang='en')
   head
     meta(charset='utf-8')
     meta(name='description', content='Dan Motzenbecker - oxism.com')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui')
     meta(name='author', content='Dan Motzenbecker')
-    link(href='css/oxism.css', rel='stylesheet', type='text/css')
+    link.monocat(href='css/oxism.css', rel='stylesheet', type='text/css')
     link(href='images/favicon.png', rel='icon', type='image/png')
     title Dan Motzenbecker /oxism.com
 
   body
-    section#intro
-      .cover
-        .inner
-          h1 Dan Motzenbecker
-      .content
-        .info
-          h3
-            | Below are a few of the more visual things I&rsquo;ve built recently.
-            | Many of them are
-            | <a href="http://en.wikipedia.org/wiki/Open-source_software" target="_blank">open-source</a>,
-            | including
-            | <a href="https://github.com/dmotz/dmotz.github.com" target="_blank">the site itself</a>.
-            | Thanks for taking a look.
 
-          h5 &mdash; Dan Motzenbecker
+    section#grid
 
-          ul.contact
-            li
-              a#email(href='#') email
-            li
-              a(href='https://github.com/dmotz', target='_blank') github
-            li
-              a(href='https://twitter.com/dcmotz', target='_blank') twitter
+      #info
+        div
+          .cover
+            h1 Dan Motzenbecker
+            br
+            h2 recent works
+          .image
+
+      #meta
+        div
+          .cover
+            a.button#email email
+            a.button(href='https://twitter.com/dcmotz') twitter
+            a.button(href='https://github.com/dmotz') github
+
+      a#oridomi-link.major(href='#oridomi')
+        div
+          .cover
+            h2 OriDomi
+          .image
+
+      a#pozaic-link.major(href='#pozaic')
+        div
+          .cover
+            h2 Pozaic
+          .image
+
+      a#chaincal-link.major(href='#chaincal')
+        div
+          .cover
+            h2 ChainCal
+          .image
+
+      a#hexaflip-link.major(href='#hexaflip')
+        div
+          .cover
+            h2 HexaFlip
+          .image
+
+      a#maskew-link.major(href='#maskew')
+        div
+          .cover
+            h2 Maskew
+          .image
+
+      a#turingtype-link.major(href='#turingtype')
+        div
+          .cover
+            h2 TuringType
+          .image
+
+      a#stream-snitch-link(href='#stream-snitch')
+        div
+          .cover
+            h2 stream-snitch
+
+      a#ear-pipe-link(href='#ear-pipe')
+        div
+          .cover
+            h2 ear-pipe
+
+      a#statmap-link(href='#statmap')
+        div
+          .cover
+            h2 statmap
+
+      a#commune-link(href='#commune')
+        div
+          .cover
+            h2 Commune
 
 
-    section#oridomi
-      .cover
-        .inner
+    section#perma
+      a#x(href='#') &times;
+      #perma-content
+
+        #content-oridomi
           h1 OriDomi
           h2 Fold the DOM up like paper.
-
-      .content
-        .images
-          img(src='images/oridomi1.jpg')
-          img(src='images/oridomi2.jpg')
-
-        .info
+          .images
+            img(src='images/oridomi1.jpg')
+            img(src='images/oridomi2.jpg')
           p
-            | The web is flat, but with OriDomi you can fold it up. Open-source
-            | paper-folding library with animation queueing, touch support, and
-            | zero dependencies.
+            | The web is flat, but with OriDomi you can fold it up.
+            | Open-source paper-folding library with animation queueing,
+            | touch support, and zero dependencies.
+
           .tools CoffeeScript / JavaScript, CSS3
           .buttons
             a.button(href='http://oridomi.com') oridomi.com
@@ -58,146 +107,156 @@ html.no-js(lang='en')
             a.button(href='http://oridomi.com/docs/oridomi.html') annotated source
 
 
-    section#pozaic
-      .cover
-        .inner
+
+        #content-pozaic
           h1 Pozaic
           h2 Capture one second moments as animated gif mosaics.
-
-      .content
-        .images
-          img(src='images/pozaic1.jpg')
-          img(src='images/pozaic2.gif')
-
-        .info
+          .images
+            img(src='images/pozaic1.jpg')
+            img(src='images/pozaic2.gif')
           p
             | Pozaic uses WebRTC to connect friends (or strangers) in live
             | video compositions you can turn into animated gifs. The medium
             | captures a single second in time across geographic gaps.
-            | Collaboration with
-            | <a href="https://twitter.com/danordille">@danordille</a> and
-            | <a href="https://twitter.com/aharonwasserman">@aharonwasserman</a>.
+
           .tools Node.js, WebRTC, WebSockets, web workers
           .buttons
             a.button(href='http://pozaic.com') pozaic.com
 
 
-    section#chaincal
-      .cover
-        .inner
+        #content-chaincal
           h1 ChainCal
           h2 The simple habit building app for iPhone.
-
-      .content
-        .images
-          img(src='images/chaincal1.jpg')
-          img(src='images/chaincal2.jpg')
-
-        .info
+          .images
+            img(src='images/chaincal1.jpg')
+            img(src='images/chaincal2.jpg')
           p
-            | Set daily goals and visualize your progress in an intuitive and visual way.
-            | Motivate yourself to adopt new positive habits one day at a time.
+            | Set daily goals and visualize your progress in an intuitive and
+            | visual way. Motivate yourself to adopt new positive habits
+            | one day at a time.
+
           .tools CoffeeScript / JavaScript, Apache Cordova, CSS3, Objective-C
           .buttons
             a.button(href='http://chaincalapp.com') chaincalapp.com
 
 
-    section#hexaflip
-      .cover
-        .inner
+        #content-hexaflip
           h1 HexaFlip
           h2 Visualize arrays as cubes.
-
-      .content
-        .images
-          img(src='images/hexaflip1.jpg')
-          img(src='images/hexaflip2.jpg')
-
-        .info
+          .images
+            img(src='images/hexaflip1.jpg')
+            img(src='images/hexaflip2.jpg')
           p
             | Transform arrays of any length into cubes that can be rotated infinitely.
             | Originally developed as the time picking interface for
             | <a href="#chaincal">ChainCal</a>, I expanded it to visualize
             | arbitrary arrays and wrote an article detailing it
             | <a href="http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/">on Codrops</a>.
+
           .tools CoffeeScript / JavaScript, CSS3
           .buttons
-            a.button(href='http://oxism.com/hexaflip') oxism.com/hexaflip
+            a.button(href='http://oxism.com/hexaflip') demo / docs
             a.button(href='https://github.com/dmotz/hexaflip') github
             a.button(href='http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/') codrops article
 
 
-    section#maskew
-      .cover
-        .inner
+        #content-maskew
           h1 Maskew
           h2 Add some diagonal rhythm to your elements.
-
-      .content
-        .images
-          img(src='images/maskew1.jpg')
-          img(src='images/maskew2.jpg')
-
-        .info
+          .images
+            img(src='images/maskew1.jpg')
+            img(src='images/maskew2.jpg')
           p
             | Skew the shapes of elements without distorting their contents.
             | Maskew creates a parallelogram mask over the element and supports
             | touch/mouse manipulation of the skew amount.
+
           .tools CoffeeScript, CSS3
           .buttons
-            a.button(href='http://oxism.com/maskew') oxism.com/maskew
+            a.button(href='http://oxism.com/maskew') demo / docs
             a.button(href='https://github.com/dmotz/maskew') github
 
 
-    section#etc
-      .cover
-        .inner
-          h1 et cetera
-
-      .content
-        .info
-          ul
-            li
-              h3 Express SPA Router
-              p
-                | Express middleware to add contextual server-side routing for
-                | single page applications.
-              .tools Node.js
-              .buttons
-                a.button(href='https://github.com/dmotz/express-spa-router') github
-
-            li
-              h3 TuringType
-              p A naïve human typing effect.
-              .tools CoffeeScript / JavaScript
-              .buttons
-                a.button(href='http://oxism.com/TuringType') demo
-                a.button(href='https://github.com/dmotz/TuringType') github
-
-            li
-              h3 ear-pipe
-              p Pipe audio streams to your ears in Node
-              .tools Node.js
-              .buttons
-                a.button(href='https://github.com/dmotz/ear-pipe') github
-
-            li
-              h3 statmap
-              p Output recursive directory stats as JSON for analysis
-              .tools Node.js
-              .buttons
-                a.button(href='https://github.com/dmotz/statmap') github
-
-            li
-              h3 Commune.js
-              p Easy web worker threads without creating separate function files.
-              .tools CoffeeScript / JavaScript, web workers
-              .buttons
-                a.button(href='https://github.com/dmotz/commune.js') github
+        #content-turingtype
+          h1 TuringType
+          h2 A naïve human typing simulation effect.
+          p
+            | Wrote this in a few minutes to scratch an itch.
+            | Take a look at the demo link below.
+          .tools CoffeeScript / JavaScript
+          .buttons
+            a.button(href='http://oxism.com/TuringType') demo / docs
+            a.button(href='https://github.com/dmotz/TuringType') github
 
 
-    script(src='http://oridomi.com/oridomi.min.js')
-    script(src='js/oxism.js')
+        #content-stream-snitch
+          h1 stream-snitch
+          h2 Event emitter for watching text streams with regex patterns.
+          p
+            | stream-snitch is a tiny Node module that allows you to match
+            | streaming data patterns with regular expressions. It&rsquo;s much like
+            | <code>... | grep</code>, but for Node streams using native events
+            | and regular expression objects. It&rsquo;s also a good introduction to
+            | the benefits of streams if you&rsquo;re unconvinced or unintroduced.
+
+          .tools Node.js
+          .buttons
+            a.button(href='https://github.com/dmotz/stream-snitch') github
+
+
+        #content-ear-pipe
+          h1 ear-pipe
+          h2 Pipe audio streams to your ears.
+          p
+            | ear-pipe is a duplex stream that allows you to pipe any streaming
+            | audio data to your ears (by default), handling any decoding
+            | automatically for most formats. You can also leverage this built-in
+            | decoding by specifying an output encoding and pipe the output
+            | stream somewhere else.
+
+          .tools Node.js
+          .buttons
+            a.button(href='https://github.com/dmotz/ear-pipe') github
+
+
+        #content-statmap
+          h1 statmap
+          h2 Output recursive directory stats as JSON for visualization and analysis.
+          p
+            | The JSON will contain a recursive representation of the directory
+            | and all children. Each key is a file or directory name with a
+            | corresponding value containing a <code>stats</code> object and a <code>children</code>
+            | object if it is a directory. Directories also are also given a <code>sum</code>
+            | property which reflects the size of all children recursively, unlike
+            | the typical <code>size</code> property of directory&rsquo;s <code>stats</code> object.
+
+          .tools Node.js
+          .buttons
+            a.button(href='https://github.com/dmotz/statmap') github
+
+
+        #content-commune
+          h1 Commune.js
+          h2 Web workers lose their chains: Easy threads without separate function files.
+          p
+            | Commune.js makes it easy to run computationally heavy functions in a
+            | separate thread and retrieve the results asynchronously. By
+            | delegating these functions to a separate thread, you can avoid
+            | slowing down the main thread that affects the UI. Think of it as a
+            | way to leverage the web workers API without ever having to think
+            | about the web workers API.
+          p
+            | Using straightforward syntax, you can add web worker support to your
+            | app&rsquo;s functions without the need to create separate files (as web
+            | workers typically require) and without the need to change the syntax
+            | of your functions. Best of all, everything will work without problems
+            | on browsers that do not support web workers.
+          .tools CoffeeScript / JavaScript, web workers
+          .buttons
+            a.button(href='https://github.com/dmotz/commune.js') github
+
+
+    script.monocat(src='js/oxism.js')
     script.
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-30392798-1']);
@@ -207,4 +266,3 @@ html.no-js(lang='en')
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-

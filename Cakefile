@@ -1,4 +1,4 @@
-{spawn} = require 'child_process'
+{spawn, exec} = require 'child_process'
 
 startWatcher = (bin, args) ->
   watcher = spawn bin, args?.split ' '
@@ -9,4 +9,9 @@ startWatcher = (bin, args) ->
 task 'watch', 'watch it', ->
   startWatcher 'coffee', '-mwc js/oxism.coffee'
   startWatcher 'stylus', '-u nib -w css/oxism.styl'
-  startWatcher 'jade', '-wP index.jade'
+  startWatcher 'jade',   '-w index.jade'
+
+
+task 'build', 'build it', ->
+  exec 'monocat index.html index.html'
+
