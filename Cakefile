@@ -9,7 +9,7 @@ startWatcher = (bin, args) ->
 task 'watch', 'watch it', ->
   startWatcher 'coffee', '-mwc js/oxism.coffee'
   startWatcher 'stylus', '-u nib -w css/oxism.styl'
-  startWatcher 'jade',   '-Pw index.jade'
+  startWatcher 'jade',   '-w index.jade'
 
 
 task 'build', 'build it', ->
