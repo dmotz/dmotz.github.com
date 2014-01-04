@@ -23,15 +23,19 @@ navHash = ->
   activeContent.className = 'active'
   document.body.className = 'perma'
 
-
 computePositions = ->
-  positions = ([square.offsetLeft, square.offsetTop] for square in squares)
+  for square, i in squares
+    {left, top}  = square.getBoundingClientRect()
+    positions[i] = [left, top]
+  null
+
+
 
 
 onMove = (e) ->
   for square, i in squares
-    dX   = e.pageX + window.pageXOffset - positions[i][0] - w / 2
-    dY   = e.pageY + window.pageYOffset - positions[i][1] - h / 2
+    dX   = e.pageX - positions[i][0] - w / 2
+    dY   = e.pageY - positions[i][1] - h / 2
     dist = sqrt abs(dX) + abs(dY)
     rY   =  dX / (dist or 1) / 2
     rX   = -dY / (dist or 1) / 2
