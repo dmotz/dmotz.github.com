@@ -30,6 +30,11 @@ computePositions = ->
   null
 
 
+debouncer = do ->
+  timer = null
+  ->
+    clearTimeout timer
+    timer = setTimeout computePositions, 333
 
 
 onMove = (e) ->
@@ -67,7 +72,7 @@ document.addEventListener 'DOMContentLoaded', ->
     document.addEventListener 'keydown', (e) -> location.hash = '' if e.keyCode is 27
     return unless vendor.transform
     computePositions()
-    window.addEventListener 'resize', computePositions
+    window.addEventListener 'resize', debouncer
     document.addEventListener 'mousemove', onMove, false
 
 , false
