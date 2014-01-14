@@ -68,8 +68,8 @@ h1, h2
   color: $bgColor
   font-size: 1.8rem
   padding: 0.8rem
-  margin-right: 0.5rem
-  margin-bottom: 0.5rem
+  margin-right: 1rem
+  margin-bottom: 1rem
   font-weight: bold
   cursor: pointer
   transition: background-color .3s
@@ -221,6 +221,7 @@ body.perma
   #grid
     pointer-events: none
 
+$permaDark = rgba(0, 0, 0, .5)
 
 #x
   text-decoration: none
@@ -231,11 +232,11 @@ body.perma
   transition: color .2s
   position: absolute
   right: 0
-  color: rgba(0, 0, 0, .4)
+  color: $permaDark
   underline: none
 
   &:hover
-    color: rgba(0, 0, 0, .4)
+    color: $permaDark
 
 
 #perma-content
@@ -261,7 +262,7 @@ body.perma
     margin-bottom: 2rem
     line-height: 1.1
     max-width: 600px
-    color: rgba(0, 0, 0, .4)
+    color: $permaDark
     letter-spacing: -0.1rem
 
   p
@@ -284,12 +285,15 @@ body.perma
 
 
   .button
-    color: #fff
+    color: $permaDark
     float: left
+    outline: .3rem solid $permaDark
+    background-color: rgba(0, 0, 0, 0)
+    transition: color .2s, background-color .2s
 
     &:hover
-      opacity: 1
-      background-color: rgba(0, 0, 0, .2)
+      background-color: $permaDark
+      color: #fff
 
 
 .images

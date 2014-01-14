@@ -47,8 +47,8 @@ h2 {
   color: #f3f3f3;
   font-size: 1.8rem;
   padding: 0.8rem;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
   font-weight: bold;
   cursor: pointer;
   -webkit-transition: background-color 0.3s;
@@ -223,11 +223,11 @@ body.perma #grid {
   transition: color 0.2s;
   position: absolute;
   right: 0;
-  color: rgba(0,0,0,0.4);
+  color: rgba(0,0,0,0.5);
   underline: none;
 }
 #x:hover {
-  color: rgba(0,0,0,0.4);
+  color: rgba(0,0,0,0.5);
 }
 #perma-content {
   margin: 0 auto;
@@ -252,7 +252,7 @@ body.perma #grid {
   margin-bottom: 2rem;
   line-height: 1.1;
   max-width: 600px;
-  color: rgba(0,0,0,0.4);
+  color: rgba(0,0,0,0.5);
   letter-spacing: -0.1rem;
 }
 #perma-content p {
@@ -274,14 +274,19 @@ body.perma #grid {
   text-decoration: none;
 }
 #perma-content .button {
-  color: #fff;
+  color: rgba(0,0,0,0.5);
   float: left;
+  outline: 0.3rem solid rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0);
+  -webkit-transition: color 0.2s, background-color 0.2s;
+  -moz-transition: color 0.2s, background-color 0.2s;
+  -o-transition: color 0.2s, background-color 0.2s;
+  -ms-transition: color 0.2s, background-color 0.2s;
+  transition: color 0.2s, background-color 0.2s;
 }
 #perma-content .button:hover {
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.5);
+  color: #fff;
 }
 .images {
   margin-bottom: 2rem;
