@@ -79,6 +79,16 @@ h2 {
 #meta .cover {
   background-image: url("../images/m.svg");
 }
+#meta .cover > div {
+  float: right;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 #meta .button {
   color: #fff;
   background-color: rgba(0,0,0,0.6);
@@ -86,9 +96,11 @@ h2 {
   width: 70%;
   float: right;
   position: relative;
-  top: 7rem;
   font-size: 1.6rem;
   text-align: right;
+}
+#meta .button:last-child {
+  margin-bottom: 0;
 }
 #meta .button:hover {
   background-color: rgba(0,0,0,0.4);
