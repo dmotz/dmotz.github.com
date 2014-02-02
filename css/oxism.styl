@@ -99,7 +99,14 @@ h1, h2
 
 #meta
   .cover
-      background-image: url('../images/m.svg')
+    background-image: url('../images/m.svg')
+
+    > div
+      float: right
+      position: relative
+      top: 50%
+      transform: translateY(-50%)
+
 
   .button
     color: #fff
@@ -108,9 +115,11 @@ h1, h2
     width: 70%
     float: right
     position: relative
-    top: 7rem
     font-size: 1.6rem
     text-align: right
+
+    &:last-child
+      margin-bottom: 0
 
     &:hover
       background-color: rgba(0, 0, 0, .4)
