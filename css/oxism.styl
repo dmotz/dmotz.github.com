@@ -82,19 +82,13 @@ h1, h2
 
   h2
     margin-bottom: 2rem
-    color: rgba(0, 0, 0, .2)
     color: #fff
     font-weight: 200
     font-size: 3rem
 
   .cover
-    background-color: $red
     background-image: url('../images/d.svg')
     color: #fff
-
-  &:hover
-    .cover
-      background-color: $red !important
 
 
 #meta
@@ -202,7 +196,6 @@ h1, h2
 
 
 #perma
-  background-color: rgba(247, 112, 112, 0.95)
   position: fixed
   top: 0
   left: 0
@@ -339,4 +332,46 @@ $permaDark = rgba(0, 0, 0, .5)
 
   #perma-content
     padding-bottom: 10rem
+
+
+$cycleSpeed = 2s
+
+#perma
+  transition: background-color $cycleSpeed, opacity .2s
+
+#info .cover, #info:hover .cover
+  transition: background-color $cycleSpeed
+
+.cover, #perma-content p a
+  transition: color $cycleSpeed, background-color $cycleSpeed, opacity .2s
+
+
+colorSet($color)
+
+  #info
+    .cover
+      background-color: $color
+
+    &:hover
+      .cover
+        background-color: $color !important
+
+  .cover
+    color: $color
+
+  #perma
+    background-color: rgba($color, 0.95)
+
+  #perma-content p a
+    background-color: rgba($color, .95)
+
+//        red     blue    aqua    pink    green
+$colors = #f77070 #66AFF1 #68D3CB #DF5A95 #1DD15E
+
+body
+  colorSet($colors[0])
+
+for $color, $n in $colors
+  .color{$n}
+    colorSet($color)
 
