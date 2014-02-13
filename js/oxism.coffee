@@ -1,5 +1,7 @@
 {abs, sqrt}   = Math
 isTouchScreen = 'ontouchstart' of window
+colors        = 3
+colorN        = 0
 lastY         = w = h = 0
 positions     = []
 vendor        = transform: 'transform'
@@ -22,6 +24,7 @@ navHash = ->
   activeContent = document.getElementById 'content-' + hash
   activeContent.className = 'active'
   document.body.className = 'perma'
+
 
 computePositions = ->
   for square, i in squares
@@ -67,6 +70,11 @@ document.addEventListener 'DOMContentLoaded', ->
   document.getElementById('email').href = ['m', 'a', 'i', 'l', 't', 'o', ':',
                                            'd', 'a', 'n', '@', 'o', 'x', 'i',
                                            's', 'm', '.', 'c', 'o', 'm'].join ''
+
+  setInterval ->
+    colorN = 0 if ++colorN > colors
+    document.documentElement.className = 'color' + colorN
+  , 8000
 
   unless isTouchScreen
     document.addEventListener 'keydown', (e) -> location.hash = '' if e.keyCode is 27
