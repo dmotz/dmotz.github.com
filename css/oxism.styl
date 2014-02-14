@@ -71,6 +71,11 @@ h1, h2
   text-decoration: none
 
 
+#info, #meta
+  .cover
+    background-size: cover
+
+
 #info
   h1
     font-size: 3.6rem
@@ -96,6 +101,9 @@ h1, h2
       top: 50%
       transform: translateY(-50%)
 
+  &:hover
+    .cover
+      background-color: rgba(#fff, .9) !important
 
   .button
     color: #fff
@@ -130,11 +138,16 @@ h1, h2
       height: $boxSize
       overflow: hidden
       outline: 1px solid transparent
+      background-color: #fff
 
     &:hover
       .image
         filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale")
         -webkit-filter: none
+
+      .cover
+        background-color: rgba(#fff, .6)
+        transition-duration: .2s !important
 
 
 .cover, .image
@@ -144,8 +157,12 @@ h1, h2
   overflow: hidden
 
 
-.major .cover
-  color: #444
+.major
+  > div
+    background-color: #fff !important
+
+  .cover
+    color: #444 !important
 
 
 .cover
@@ -153,8 +170,7 @@ h1, h2
   padding: 1rem
   font-size: 3rem
   line-height: 1
-  background-color: rgba(255, 255, 255, .7)
-  color: $red
+  background-color: rgba(#fff, .9)
   z-index: 1
   text-transform: lowercase
 
@@ -201,7 +217,7 @@ h1, h2
   padding: 0 1rem
   overflow: auto
   opacity: 0
-  transition: opacity .2s
+
 
 .no-js #perma
   transition: none !important
@@ -218,6 +234,7 @@ body.perma
   #grid
     pointer-events: none
 
+
 $permaDark = rgba(0, 0, 0, .5)
 
 #x
@@ -231,9 +248,10 @@ $permaDark = rgba(0, 0, 0, .5)
   right: 0
   color: $permaDark
   underline: none
+  transition: opacity .2s
 
   &:hover
-    color: $permaDark
+    opacity: .5
 
 
 #perma-content
@@ -273,11 +291,14 @@ $permaDark = rgba(0, 0, 0, .5)
     background-color: rgba(255, 255, 255, .95)
     margin-bottom: 2rem
 
-  a
-    color: #F77070
-
-    &:hover
+    a
+      color: #fff
       text-decoration: none
+      padding: 0 .3rem
+
+      &:hover
+        text-decoration: none
+        opacity: .5
 
 
   .button
