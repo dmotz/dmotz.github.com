@@ -90,6 +90,11 @@ html.no-js(lang='en')
           .cover
             h2 Express SPA Router
 
+      a#monocat-link(href='#monocat')
+        div
+          .cover
+            h2 Monocat
+
 
     section#perma
       a#x(href='#') &times;
@@ -287,6 +292,20 @@ html.no-js(lang='en')
           .tools Node.js
           .buttons
             a.button(href='https://github.com/dmotz/express-spa-router') github
+
+
+        #content-monocat
+          h1 Monocat
+          h2 Automated asset inlining.
+          p
+            | Monocat is a small utility ideal for deploying small, static,
+            | single-page sites where you want to minimize the number of http
+            | requests. Monocat compresses and writes the contents of
+            | external assets into the html source for an easy speed
+            | optimization.
+          .tools Node.js
+          .buttons
+            a.button(href='https://github.com/dmotz/monocat') github
 
 
     script.monocat(src='js/oxism.js')
