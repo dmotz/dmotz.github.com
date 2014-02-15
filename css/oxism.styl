@@ -289,17 +289,13 @@ $permaDark = rgba(#000, .5)
     color: #444
     padding: 1rem
     font-family: $serif
-    background-color: rgba(255, 255, 255, .95)
+    background-color: rgba(#fff, .95)
     margin-bottom: 2rem
 
     a
-      color: #fff
+      color: rgba(#000, .7)
       text-decoration: none
       padding: 0 .3rem
-
-      &:hover
-        text-decoration: none
-        opacity: .5
 
 
   .button
@@ -371,8 +367,11 @@ $cycleSpeed = 2s
 #info .cover, #info:hover .cover
   transition: background-color $cycleSpeed
 
-.cover, #perma-content p a
-  transition: color $cycleSpeed, background-color $cycleSpeed, opacity .2s
+.cover
+  transition: color $cycleSpeed, opacity .2s
+
+#perma-content p a
+  transition: background-color $cycleSpeed, outline-color $cycleSpeed, outline-width .2s
 
 
 colorSet($color)
@@ -393,7 +392,10 @@ colorSet($color)
 
   #perma-content p a
     background-color: rgba($color, .95)
+    outline: 0px solid  rgba($color, .95)
 
+    &:hover
+      outline: 6px solid  rgba($color, .95)
 
 //        red     blue    aqua    pink    green
 $colors = #f77070 #66aff1 #68d3cb #df5a95 #1dd15e
