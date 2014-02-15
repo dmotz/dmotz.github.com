@@ -305,15 +305,9 @@ body.perma #grid {
   margin-bottom: 2rem;
 }
 #perma-content p a {
-  color: #fff;
+  color: rgba(0,0,0,0.7);
   text-decoration: none;
   padding: 0 0.3rem;
-}
-#perma-content p a:hover {
-  text-decoration: none;
-  opacity: 0.5;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: alpha(opacity=50);
 }
 #perma-content .button {
   color: rgba(0,0,0,0.5);
@@ -393,13 +387,19 @@ body.perma #grid {
   -ms-transition: background-color 2s;
   transition: background-color 2s;
 }
-.cover,
+.cover {
+  -webkit-transition: color 2s, opacity 0.2s;
+  -moz-transition: color 2s, opacity 0.2s;
+  -o-transition: color 2s, opacity 0.2s;
+  -ms-transition: color 2s, opacity 0.2s;
+  transition: color 2s, opacity 0.2s;
+}
 #perma-content p a {
-  -webkit-transition: color 2s, background-color 2s, opacity 0.2s;
-  -moz-transition: color 2s, background-color 2s, opacity 0.2s;
-  -o-transition: color 2s, background-color 2s, opacity 0.2s;
-  -ms-transition: color 2s, background-color 2s, opacity 0.2s;
-  transition: color 2s, background-color 2s, opacity 0.2s;
+  -webkit-transition: background-color 2s, outline-color 2s, outline-width 0.2s;
+  -moz-transition: background-color 2s, outline-color 2s, outline-width 0.2s;
+  -o-transition: background-color 2s, outline-color 2s, outline-width 0.2s;
+  -ms-transition: background-color 2s, outline-color 2s, outline-width 0.2s;
+  transition: background-color 2s, outline-color 2s, outline-width 0.2s;
 }
 body #info .cover {
   background-color: #f77070;
@@ -415,6 +415,10 @@ body #perma {
 }
 body #perma-content p a {
   background-color: rgba(247,112,112,0.95);
+  outline: 0px solid rgba(247,112,112,0.95);
+}
+body #perma-content p a:hover {
+  outline: 6px solid rgba(247,112,112,0.95);
 }
 .color0 #info .cover {
   background-color: #f77070;
@@ -430,6 +434,10 @@ body #perma-content p a {
 }
 .color0 #perma-content p a {
   background-color: rgba(247,112,112,0.95);
+  outline: 0px solid rgba(247,112,112,0.95);
+}
+.color0 #perma-content p a:hover {
+  outline: 6px solid rgba(247,112,112,0.95);
 }
 .color1 #info .cover {
   background-color: #66aff1;
@@ -445,6 +453,10 @@ body #perma-content p a {
 }
 .color1 #perma-content p a {
   background-color: rgba(102,175,241,0.95);
+  outline: 0px solid rgba(102,175,241,0.95);
+}
+.color1 #perma-content p a:hover {
+  outline: 6px solid rgba(102,175,241,0.95);
 }
 .color2 #info .cover {
   background-color: #68d3cb;
@@ -460,6 +472,10 @@ body #perma-content p a {
 }
 .color2 #perma-content p a {
   background-color: rgba(104,211,203,0.95);
+  outline: 0px solid rgba(104,211,203,0.95);
+}
+.color2 #perma-content p a:hover {
+  outline: 6px solid rgba(104,211,203,0.95);
 }
 .color3 #info .cover {
   background-color: #df5a95;
@@ -475,6 +491,10 @@ body #perma-content p a {
 }
 .color3 #perma-content p a {
   background-color: rgba(223,90,149,0.95);
+  outline: 0px solid rgba(223,90,149,0.95);
+}
+.color3 #perma-content p a:hover {
+  outline: 6px solid rgba(223,90,149,0.95);
 }
 .color4 #info .cover {
   background-color: #1dd15e;
@@ -490,4 +510,8 @@ body #perma-content p a {
 }
 .color4 #perma-content p a {
   background-color: rgba(29,209,94,0.95);
+  outline: 0px solid rgba(29,209,94,0.95);
+}
+.color4 #perma-content p a:hover {
+  outline: 6px solid rgba(29,209,94,0.95);
 }
