@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Adventor Bold';
+  font-family: 'adv';
   src: url("../fonts/adventor-bold.eot");
   src: url("../fonts/adventor-bold.eot?#iefix") format('embedded-opentype'), url("../fonts/adventor-bold.woff") format('woff'), url("../fonts/adventor-bold.ttf") format('truetype'), url("../fonts/adventor-bold.svg#texgyreadventorbold") format('svg');
   font-weight: bold;
@@ -38,7 +38,7 @@ a {
 }
 h1,
 h2 {
-  font-family: 'Adventor Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'adv', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: -0.2rem;
 }
 .button {
@@ -110,6 +110,10 @@ h2 {
   background-color: rgba(0,0,0,0.4);
 }
 #grid {
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  -ms-perspective: 1000px;
+  perspective: 1000px;
   text-align: center;
 }
 #grid > * {
@@ -133,6 +137,13 @@ h2 {
   overflow: hidden;
   outline: 1px solid transparent;
   background-color: #fff;
+}
+#grid > *:hover {
+  -webkit-transform: translate3d(0, 0, -1.2rem);
+  -moz-transform: translate3d(0, 0, -1.2rem);
+  -o-transform: translate3d(0, 0, -1.2rem);
+  -ms-transform: translate3d(0, 0, -1.2rem);
+  transform: translate3d(0, 0, -1.2rem);
 }
 #grid > *:hover .image {
   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
@@ -174,8 +185,6 @@ h2 {
   background-size: cover;
   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
   filter: #808080;
-}
-.image {
   -webkit-filter: grayscale(100%);
 }
 #oridomi-link .image {
@@ -353,6 +362,21 @@ body.perma #grid {
   #perma-content {
     padding-bottom: 15rem;
   }
+}
+.touch #grid > *:hover {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+.touch #grid > *:hover .image {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale") !important;
+  filter: #808080 !important;
+  -webkit-filter: grayscale(100%) !important;
+}
+.touch .cover {
+  background-color: rgba(255,255,255,0.6);
 }
 #perma {
   -webkit-transition: background-color 2s, opacity 0.2s;
