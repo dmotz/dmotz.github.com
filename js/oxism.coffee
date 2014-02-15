@@ -64,7 +64,8 @@ for key, val of vendor
 
 document.addEventListener 'DOMContentLoaded', ->
   window.addEventListener 'hashchange', navHash
-  setTimeout (-> document.documentElement.className = ''), 0
+  touchClass = if isTouchScreen then ' touch' else ''
+  setTimeout (-> document.documentElement.className = touchClass), 0
   navHash()
   squares = document.getElementById('grid').children
   w   = h = parseInt window.getComputedStyle(squares[0]).width, 10
@@ -75,7 +76,7 @@ document.addEventListener 'DOMContentLoaded', ->
 
   setInterval ->
     colorN = 0 if ++colorN > colors
-    document.documentElement.className = 'color' + colorN
+    document.documentElement.className = 'color' + colorN + touchClass
   , 8000
 
   unless isTouchScreen
