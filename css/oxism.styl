@@ -5,6 +5,7 @@ $boxSize    = 26rem
 $serif      = Georgia, Times, 'Times New Roman', serif
 $advBold    = 'adv', $helv
 $bgColor    = #eee
+$cycleSpeed = 1s
 
 
 @font-face
@@ -117,7 +118,7 @@ h1, h2
     position: relative
     font-size: 1.8rem
     text-align: right
-    transition: transform .2s
+    transition: transform .2s, background-color $cycleSpeed
 
     &:last-child
       margin-bottom: 0
@@ -363,8 +364,6 @@ $permaDark = rgba(#000, .5)
   .cover
     background-color: rgba(#fff, .6)
 
-
-$cycleSpeed = 1s
 
 #perma
   transition: background-color $cycleSpeed, opacity .2s
