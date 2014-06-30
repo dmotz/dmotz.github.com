@@ -16,18 +16,18 @@ html.no-js(lang='en')
       #info
         div
           .cover
-            h1 Dan Motzenbecker
+            h1 Dan<br>Motzenbecker
             br
-            h2 recent works
+            h2 recent<br>works
           .image
 
       #meta
         div
           .cover
             div
-              a.button#email email
-              a.button(href='https://twitter.com/dcmotz') twitter
-              a.button(href='https://github.com/dmotz') github
+              a.button#email email.
+              a.button(href='https://twitter.com/dcmotz') twitter.
+              a.button(href='https://github.com/dmotz') github.
 
       a#oridomi-link.major(href='#oridomi')
         div
@@ -106,16 +106,18 @@ html.no-js(lang='en')
           .images
             img(src='images/oridomi1.jpg')
             img(src='images/oridomi2.jpg')
+
+          .buttons
+            a.button(href='http://oridomi.com') oridomi.com
+            a.button(href='https://github.com/dmotz/oriDomi') github
+            a.button(href='http://oridomi.com/docs/oridomi.html') annotated source
+
           p
             | The web is flat, but with OriDomi you can fold it up.
             | Open-source paper-folding library with animation queueing,
             | touch support, and zero dependencies.
 
           .tools CoffeeScript / JavaScript, CSS3
-          .buttons
-            a.button(href='http://oridomi.com') oridomi.com
-            a.button(href='https://github.com/dmotz/oriDomi') github
-            a.button(href='http://oridomi.com/docs/oridomi.html') annotated source
 
 
 
@@ -125,14 +127,16 @@ html.no-js(lang='en')
           .images
             img(src='images/pozaic1.jpg')
             img(src='images/pozaic2.gif')
+
+          .buttons
+            a.button(href='http://pozaic.com') pozaic.com
+
           p
             | Pozaic uses WebRTC to connect friends (or strangers) in live
             | video compositions you can turn into animated gifs. The medium
             | captures a single second in time across geographic gaps.
 
           .tools Node.js, WebRTC, WebSockets, web workers
-          .buttons
-            a.button(href='http://pozaic.com') pozaic.com
 
 
         #content-chaincal
@@ -141,14 +145,16 @@ html.no-js(lang='en')
           .images
             img(src='images/chaincal1.jpg')
             img(src='images/chaincal2.jpg')
+
+          .buttons
+            a.button(href='http://chaincalapp.com') chaincalapp.com
+
           p
             | Set daily goals and visualize your progress in an intuitive and
             | visual way. Motivate yourself to adopt new positive habits
             | one day at a time.
 
           .tools CoffeeScript / JavaScript, Apache Cordova, CSS3, Objective-C
-          .buttons
-            a.button(href='http://chaincalapp.com') chaincalapp.com
 
 
         #content-hexaflip
@@ -157,6 +163,12 @@ html.no-js(lang='en')
           .images
             img(src='images/hexaflip1.jpg')
             img(src='images/hexaflip2.jpg')
+
+          .buttons
+            a.button(href='http://oxism.com/hexaflip') demo / docs
+            a.button(href='https://github.com/dmotz/hexaflip') github
+            a.button(href='http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/') codrops article
+
           p
             | Transform arrays of any length into cubes that can be rotated infinitely.
             | Originally developed as the time picking interface for
@@ -165,10 +177,6 @@ html.no-js(lang='en')
             | <a href="http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/">Codrops</a>.
 
           .tools CoffeeScript / JavaScript, CSS3
-          .buttons
-            a.button(href='http://oxism.com/hexaflip') demo / docs
-            a.button(href='https://github.com/dmotz/hexaflip') github
-            a.button(href='http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/') codrops article
 
 
         #content-maskew
@@ -177,32 +185,40 @@ html.no-js(lang='en')
           .images
             img(src='images/maskew1.jpg')
             img(src='images/maskew2.jpg')
+
+          .buttons
+            a.button(href='http://oxism.com/maskew') demo / docs
+            a.button(href='https://github.com/dmotz/maskew') github
+
           p
             | Skew the shapes of elements without distorting their contents.
             | Maskew creates a parallelogram mask over the element and supports
             | touch/mouse manipulation of the skew amount.
 
           .tools CoffeeScript, CSS3
-          .buttons
-            a.button(href='http://oxism.com/maskew') demo / docs
-            a.button(href='https://github.com/dmotz/maskew') github
 
 
         #content-turingtype
           h1 TuringType
           h2 A naïve human typing simulation effect.
+
+          .buttons
+            a.button(href='http://oxism.com/TuringType') demo / docs
+            a.button(href='https://github.com/dmotz/TuringType') github
+
           p
             | I wrote this quickly just for fun, but it can be convincing enough.
             | Take a look at the demo link below.
           .tools CoffeeScript / JavaScript
-          .buttons
-            a.button(href='http://oxism.com/TuringType') demo / docs
-            a.button(href='https://github.com/dmotz/TuringType') github
 
 
         #content-stream-snitch
           h1 stream-snitch
           h2 Event emitter for watching text streams with regex patterns.
+
+          .buttons
+            a.button(href='https://github.com/dmotz/stream-snitch') github
+
           p
             | stream-snitch is a tiny Node module that allows you to match
             | streaming data patterns with regular expressions. It&rsquo;s much like
@@ -211,13 +227,15 @@ html.no-js(lang='en')
             | the benefits of streams if you&rsquo;re unconvinced or unintroduced.
 
           .tools Node.js
-          .buttons
-            a.button(href='https://github.com/dmotz/stream-snitch') github
 
 
         #content-ear-pipe
           h1 ear-pipe
           h2 Pipe audio streams to your ears.
+
+          .buttons
+            a.button(href='https://github.com/dmotz/ear-pipe') github
+
           p
             | ear-pipe is a duplex stream that allows you to pipe any streaming
             | audio data to your ears (by default), handling any decoding
@@ -226,13 +244,15 @@ html.no-js(lang='en')
             | stream somewhere else.
 
           .tools Node.js
-          .buttons
-            a.button(href='https://github.com/dmotz/ear-pipe') github
 
 
         #content-statmap
           h1 statmap
           h2 Output recursive directory stats as JSON for visualization and analysis.
+
+          .buttons
+            a.button(href='https://github.com/dmotz/statmap') github
+
           p
             | statmap&rsquo;s JSON output will contain a recursive representation of the directory
             | and all children. Each key is a file or directory name with a
@@ -242,13 +262,15 @@ html.no-js(lang='en')
             | the typical <code>size</code> property of directory&rsquo;s <code>stats</code> object.
 
           .tools Node.js
-          .buttons
-            a.button(href='https://github.com/dmotz/statmap') github
 
 
         #content-commune
           h1 Commune.js
           h2 Web workers lose their chains: Easy threads without separate function files.
+
+          .buttons
+            a.button(href='https://github.com/dmotz/commune.js') github
+
           p
             | Commune.js makes it easy to run computationally heavy functions in a
             | separate thread and retrieve the results asynchronously. By
@@ -262,14 +284,17 @@ html.no-js(lang='en')
             | workers typically require) and without the need to change the syntax
             | of your functions. Best of all, everything will work without problems
             | on browsers that do not support web workers.
+
           .tools CoffeeScript / JavaScript, web workers
-          .buttons
-            a.button(href='https://github.com/dmotz/commune.js') github
 
 
         #content-express-spa-router
           h1 Express SPA Router
           h2 Internally reroute non-AJAX requests to your client-side single page app router.
+
+          .buttons
+            a.button(href='https://github.com/dmotz/express-spa-router') github
+
           p
             | Let&rsquo;s say you have a modern single page web application with
             | client-side URL routing (e.g. Backbone).
@@ -289,23 +314,25 @@ html.no-js(lang='en')
             | router to show the user what&rsquo;s been requested based on the route.
             | This eliminates the tedium of performing this kind of conditional
             | logic within individual route callbacks.
+
           .tools Node.js
-          .buttons
-            a.button(href='https://github.com/dmotz/express-spa-router') github
 
 
         #content-monocat
           h1 Monocat
           h2 Automated asset inlining.
+
+          .buttons
+            a.button(href='https://github.com/dmotz/monocat') github
+
           p
             | Monocat is a small utility ideal for deploying small, static,
             | single-page sites where you want to minimize the number of http
             | requests. Monocat compresses and writes the contents of
             | external assets into the html source for an easy speed
             | optimization.
+
           .tools Node.js
-          .buttons
-            a.button(href='https://github.com/dmotz/monocat') github
 
 
     script.monocat(src='js/oxism.js')
