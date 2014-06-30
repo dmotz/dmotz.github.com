@@ -107,11 +107,11 @@ h2 {
   position: relative;
   font-size: 1.8rem;
   text-align: right;
-  -webkit-transition: -webkit-transform 0.2s;
-  -moz-transition: -moz-transform 0.2s;
-  -o-transition: -o-transform 0.2s;
-  -ms-transition: -ms-transform 0.2s;
-  transition: transform 0.2s;
+  -webkit-transition: -webkit-transform 0.2s, background-color 1s;
+  -moz-transition: -moz-transform 0.2s, background-color 1s;
+  -o-transition: -o-transform 0.2s, background-color 1s;
+  -ms-transition: -ms-transform 0.2s, background-color 1s;
+  transition: transform 0.2s, background-color 1s;
 }
 #meta .button:last-child {
   margin-bottom: 0;
