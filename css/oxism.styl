@@ -56,13 +56,14 @@ a
 h1, h2
   font-family: $advBold
   letter-spacing: -0.2rem
+  transition: color .1s
 
 
 .button
   display: inline-block
   background-color: rgba(#000, .6)
   color: $bgColor
-  font-size: 1.8rem
+  font-size: 1.9rem
   padding: 0.8rem
   margin-right: 1rem
   margin-bottom: 1rem
@@ -78,18 +79,20 @@ h1, h2
 
 
 #info
-  h1
-    font-size: 3.6rem
 
-  h2
-    margin-bottom: 2rem
+  h1, h2
     color: #fff
-    font-weight: 200
-    font-size: 3rem
+    font-size: 2.6rem
+    line-height: 1.1
+    font-family: $helv
 
   .cover
     background-image: url('../images/d.svg')
     color: #fff
+
+  &:hover
+    h2
+      color: #fff !important
 
 
 #meta
@@ -108,19 +111,19 @@ h1, h2
 
   .button
     color: #fff
-    background-color: rgba(#000, .6)
     margin-bottom: 1rem
-    width: 70%
+    width: 50%
     float: right
     position: relative
-    font-size: 1.6rem
+    font-size: 1.8rem
     text-align: right
+    transition: transform .2s
 
     &:last-child
       margin-bottom: 0
 
     &:hover
-      background-color: rgba(#000, .4)
+      transform: translate3d(-1rem, 0, 0)
 
 
 #grid
@@ -146,8 +149,11 @@ h1, h2
       transform: translate3d(0, 0, -1.2rem)
 
       .cover
-        background-color: rgba(#fff, .6)
+        background-color: rgba(#fff, .5)
         transition-duration: .2s !important
+
+      h2
+        color: #555
 
 
 .cover, .image
@@ -162,7 +168,7 @@ h1, h2
     background-color: #fff !important
 
   .cover
-    color: #444 !important
+    color: #555 !important
 
 
 .cover
@@ -170,16 +176,13 @@ h1, h2
   padding: 1rem
   font-size: 3.2rem
   line-height: 1
-  background-color: rgba(#fff, .9)
+  background-color: rgba(#fff, .8)
   z-index: 1
   text-transform: lowercase
 
 
 .image
   background-size: cover
-  filter: $grayFilter
-  filter: gray
-  -webkit-filter: grayscale(100%)
 
 
 #oridomi-link .image
@@ -270,7 +273,7 @@ $permaDark = rgba(#000, .5)
 
   h2
     font-size: 3.2rem
-    margin-bottom: 2rem
+    margin-bottom: 2.4rem
     line-height: 1.1
     color: $permaDark
     letter-spacing: -0.1rem
@@ -285,7 +288,8 @@ $permaDark = rgba(#000, .5)
     padding: 1rem
     font-family: $serif
     background-color: rgba(#fff, .95)
-    margin-bottom: 2rem
+    margin: 2rem 0
+    float: left
 
     a
       color: rgba(#000, .7)
@@ -299,6 +303,7 @@ $permaDark = rgba(#000, .5)
     outline: .3rem solid $permaDark
     background-color: rgba(#000, 0)
     transition: color .2s, background-color .2s
+    margin-left: .3rem
 
     &:hover
       background-color: $permaDark
@@ -306,7 +311,7 @@ $permaDark = rgba(#000, .5)
 
 
 .images
-  margin-bottom: 2rem
+  margin-bottom: 2.6rem
 
   img
     width: 49%
@@ -317,8 +322,13 @@ $permaDark = rgba(#000, .5)
       margin-right: 2%
 
 
-.buttons .button:first-child
-  margin-left: 0
+.buttons
+  width: 100%
+  float: left
+  margin-top: .2rem
+
+  .button:first-child
+    margin-left: 0
 
 
 .tools
@@ -381,6 +391,13 @@ colorSet($color)
 
   .cover
     color: $color
+
+  #meta .button
+    background-color: $color
+
+  #grid .major:hover h2
+    color: $color
+
 
   #perma
     background-color: rgba($color, 0.95)
