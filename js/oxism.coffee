@@ -1,8 +1,7 @@
 {abs, sqrt}   = Math
 isTouchScreen = 'ontouchstart' of window
 colors        = 3
-colorN        = 0
-lastY         = w = h = 0
+lastY         = colorN = w = h = 0
 positions     = []
 vendor        = transform: 'transform'
 squares       = activeContent = null
@@ -40,15 +39,15 @@ debouncer = do ->
     timer = setTimeout computePositions, 333
 
 
-rCo = 1.8
+dampen = 10
 
 onMove = (e) ->
   for square, i in squares
     dX   = e.pageX - positions[i][0] - w / 2
     dY   = e.pageY - positions[i][1] - h / 2
-    dist = sqrt abs(dX) + abs(dY)
-    rY   =  dX / (dist or 1) / rCo
-    rX   = -dY / (dist or 1) / rCo
+    dist = sqrt abs(dX) ** 2 + abs(dY) ** 2
+    rY   =  dX / ((dist or 1) / dampen)
+    rX   = -dY / ((dist or 1) / dampen)
     square.children[0].style[vendor.transform] = "rotateX(#{ rX }deg) rotateY(#{ rY }deg)"
 
   null
