@@ -253,7 +253,7 @@ body.perma #grid {
 #x {
   text-decoration: none;
   height: 4.5rem;
-  font-size: 7rem;
+  font-size: 9.8rem;
   line-height: 0.4;
   text-align: center;
   -webkit-transition: color 0.2s;
@@ -262,7 +262,6 @@ body.perma #grid {
   -ms-transition: color 0.2s;
   transition: color 0.2s;
   position: absolute;
-  right: 0;
   color: rgba(0,0,0,0.5);
   underline: none;
   -webkit-transition: opacity 0.2s;
@@ -270,6 +269,8 @@ body.perma #grid {
   -o-transition: opacity 0.2s;
   -ms-transition: opacity 0.2s;
   transition: opacity 0.2s;
+  top: 1.4rem;
+  right: -0.7rem;
 }
 #x:hover {
   opacity: 0.5;
@@ -282,6 +283,7 @@ body.perma #grid {
   max-width: 800px;
   padding: 1rem 0;
   padding-bottom: 7rem;
+  position: relative;
 }
 #perma-content > div {
   display: none;
@@ -294,6 +296,7 @@ body.perma #grid {
   margin-bottom: 1rem;
   font-size: 6rem;
   word-wrap: break-word;
+  width: 81%;
 }
 #perma-content h2 {
   font-size: 3.2rem;
@@ -331,6 +334,7 @@ body.perma #grid {
   -ms-transition: color 0.2s, background-color 0.2s;
   transition: color 0.2s, background-color 0.2s;
   margin-left: 0.3rem;
+  margin-bottom: 1.3rem;
 }
 #perma-content .button:hover {
   background-color: rgba(0,0,0,0.5);
@@ -350,7 +354,7 @@ body.perma #grid {
 .buttons {
   width: 100%;
   float: left;
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
 }
 .buttons .button:first-child {
   margin-left: 0;
@@ -373,6 +377,12 @@ body.perma #grid {
   #perma-content {
     padding-bottom: 15rem;
   }
+  #perma-content h1 {
+    font-size: 5rem;
+  }
+  #x {
+    font-size: 8.2rem;
+  }
 }
 .touch #grid > *:hover {
   -webkit-transform: none;
@@ -390,11 +400,11 @@ body.perma #grid {
   background-color: rgba(255,255,255,0.6);
 }
 #perma {
-  -webkit-transition: background-color 1s, opacity 0.2s;
-  -moz-transition: background-color 1s, opacity 0.2s;
-  -o-transition: background-color 1s, opacity 0.2s;
-  -ms-transition: background-color 1s, opacity 0.2s;
-  transition: background-color 1s, opacity 0.2s;
+  -webkit-transition: background-color 1s, opacity 0.15s;
+  -moz-transition: background-color 1s, opacity 0.15s;
+  -o-transition: background-color 1s, opacity 0.15s;
+  -ms-transition: background-color 1s, opacity 0.15s;
+  transition: background-color 1s, opacity 0.15s;
 }
 #info .cover,
 #info:hover .cover {

@@ -239,15 +239,16 @@ $permaDark = rgba(#000, .5)
 #x
   text-decoration: none
   height: 4.5rem
-  font-size: 7rem
+  font-size: 9.8rem
   line-height: .4
   text-align: center
   transition: color .2s
   position: absolute
-  right: 0
   color: $permaDark
   underline: none
   transition: opacity .2s
+  top: 1.4rem
+  right: -0.7rem
 
   &:hover
     opacity: .5
@@ -259,6 +260,7 @@ $permaDark = rgba(#000, .5)
   max-width: 800px
   padding: 1rem 0
   padding-bottom: 7rem
+  position: relative
 
   > div
     display: none
@@ -271,6 +273,7 @@ $permaDark = rgba(#000, .5)
     margin-bottom: 1rem
     font-size: 6rem
     word-wrap: break-word
+    width: 81%
 
   h2
     font-size: 3.2rem
@@ -305,6 +308,7 @@ $permaDark = rgba(#000, .5)
     background-color: rgba(#000, 0)
     transition: color .2s, background-color .2s
     margin-left: .3rem
+    margin-bottom: 1.3rem
 
     &:hover
       background-color: $permaDark
@@ -326,7 +330,7 @@ $permaDark = rgba(#000, .5)
 .buttons
   width: 100%
   float: left
-  margin-top: .2rem
+  margin-top: .5rem
 
   .button:first-child
     margin-left: 0
@@ -351,6 +355,12 @@ $permaDark = rgba(#000, .5)
   #perma-content
     padding-bottom: 15rem
 
+    h1
+      font-size: 5rem
+
+  #x
+    font-size: 8.2rem
+
 
 .touch
   #grid > *:hover
@@ -366,7 +376,7 @@ $permaDark = rgba(#000, .5)
 
 
 #perma
-  transition: background-color $cycleSpeed, opacity .2s
+  transition: background-color $cycleSpeed, opacity .15s
 
 #info .cover, #info:hover .cover
   transition: background-color $cycleSpeed
