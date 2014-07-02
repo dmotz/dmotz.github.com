@@ -1,6 +1,6 @@
 {abs, sqrt}   = Math
 isTouchScreen = 'ontouchstart' of window
-colors        = 3
+colors        = 2
 lastY         = colorN = w = h = 0
 positions     = []
 vendor        = transform: 'transform'

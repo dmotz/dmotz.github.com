@@ -6,7 +6,7 @@
 
   isTouchScreen = 'ontouchstart' in window;
 
-  colors = 3;
+  colors = 2;
 
   lastY = colorN = w = h = 0;
 
