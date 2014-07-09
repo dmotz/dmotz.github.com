@@ -13,5 +13,6 @@ task 'watch', 'watch it', ->
 
 
 task 'build', 'build it', ->
-  exec 'monocat index.html index.html'
+  exec 'jade index.jade', ->
+    exec 'monocat index.html index.html'
 
