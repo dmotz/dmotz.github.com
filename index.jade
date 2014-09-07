@@ -66,6 +66,11 @@ html.no-js(lang='en')
             h2 TuringType
           .image
 
+      a#taxa-link(href='#taxa')
+        div
+          .cover
+            h2 ταξα
+
       a#stream-snitch-link(href='#stream-snitch')
         div
           .cover
@@ -210,6 +215,38 @@ html.no-js(lang='en')
           p
             | I wrote this quickly to scratch an itch, but it can be convincing enough.
             | Take a look at the demo link above.
+          .tools CoffeeScript / JavaScript
+
+
+        #content-taxa
+          h1 Taxa
+          h2 A tiny language inside JavaScript to enforce type signatures.
+
+          .buttons
+            a.button(href='https://github.com/dmotz/taxa') github
+          //-
+            pre
+              code.
+                add = t 'n,n n', (a, b) -&gt; a + b
+                add 3, 7
+                # =&gt; 10
+                add '3', '7'
+                # =&gt; Taxa: Expected number as argument 0, given string (3) instead.
+
+          p
+            | Taxa is a small metaprogramming experiment that introduces a minimal
+            | grammar for type annotations to JavaScript (and by extension, CoffeeScript).
+          p
+            | Unlike other projects of this nature, Taxa is purely a runtime type checker
+            | rather than a static analyzer. When a Taxa-wrapped function receives or returns
+            | arguments of the wrong type, an exception is thrown.
+          p
+            | Further unlike other type declaration projects for JavaScript, Taxa&rsquo;s DSL lives
+            | purely within the syntax of the language. There is no intermediary layer and no
+            | preprocessing is required.
+          p
+            | The name derives from the Ancient Greek τάξις (arrangement, order).
+
           .tools CoffeeScript / JavaScript
 
 
