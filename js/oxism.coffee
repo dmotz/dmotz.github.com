@@ -4,7 +4,7 @@ colors        = 2
 lastY         = colorN = w = h = 0
 positions     = []
 vendor        = transform: 'transform'
-squares       = activeContent = null
+squares       = activeContent = permaDiv = null
 testEl        = document.createElement 'div'
 
 
@@ -31,6 +31,7 @@ navHash = ->
   lastY = window.pageYOffset
   activeContent.className = '' if activeContent
   activeContent = document.getElementById 'content-' + hash
+  permaDiv.scrollTop      = 0
   activeContent.className = 'active'
   document.body.className = 'perma'
 
@@ -76,8 +77,9 @@ document.addEventListener 'DOMContentLoaded', ->
   touchClass = if isTouchScreen then ' touch' else ''
   setTimeout (-> document.documentElement.className = 'color' + colorN + touchClass), 0
   navHash()
-  squares = document.getElementById('grid').children
-  w   = h = parseInt window.getComputedStyle(squares[0]).width, 10
+  squares  = document.getElementById('grid').children
+  permaDiv = document.getElementById 'perma'
+  w    = h = parseInt window.getComputedStyle(squares[0]).width, 10
 
   document.getElementById('email').href = ['m', 'a', 'i', 'l', 't', 'o', ':',
                                            'd', 'a', 'n', '@', 'o', 'x', 'i',
