@@ -73,10 +73,8 @@ for key, val of vendor
 
 
 document.addEventListener 'DOMContentLoaded', ->
-  window.addEventListener 'hashchange', navHash
   touchClass = if isTouchScreen then ' touch' else ''
   setTimeout (-> document.documentElement.className = 'color' + colorN + touchClass), 0
-  navHash()
   squares  = document.getElementById('grid').children
   permaDiv = document.getElementById 'perma'
   w    = h = parseInt window.getComputedStyle(squares[0]).width, 10
@@ -97,6 +95,10 @@ document.addEventListener 'DOMContentLoaded', ->
     computePositions()
     window.addEventListener 'resize', debouncer
     document.addEventListener 'mousemove', onMove, false
+
+  window.addEventListener 'hashchange', navHash
+  navHash()
+
 
 , false
 
