@@ -108,12 +108,10 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     var touchClass;
-    window.addEventListener('hashchange', navHash);
     touchClass = isTouchScreen ? ' touch' : '';
     setTimeout((function() {
       return document.documentElement.className = 'color' + colorN + touchClass;
     }), 0);
-    navHash();
     squares = document.getElementById('grid').children;
     permaDiv = document.getElementById('perma');
     w = h = parseInt(window.getComputedStyle(squares[0]).width, 10);
@@ -136,8 +134,10 @@
       }
       computePositions();
       window.addEventListener('resize', debouncer);
-      return document.addEventListener('mousemove', onMove, false);
+      document.addEventListener('mousemove', onMove, false);
     }
+    window.addEventListener('hashchange', navHash);
+    return navHash();
   }, false);
 
 }).call(this);
