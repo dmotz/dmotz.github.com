@@ -72,9 +72,9 @@ h2 {
 #info h1,
 #info h2 {
   color: #fff;
-  font-size: 2.6rem;
+  font-size: 3.3rem;
   line-height: 1.1;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'adv', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 #info .cover {
   background-image: url("../images/d.svg");
@@ -429,79 +429,79 @@ body.perma #grid {
   transition: background-color 1s, outline-color 1s, outline-width 0.2s;
 }
 body #info .cover {
-  background-color: #ff585a;
+  background-color: #0baadc;
 }
 body #info:hover .cover {
-  background-color: #ff585a !important;
-}
-body .cover {
-  color: #ff585a;
-}
-body #meta .button {
-  background-color: #ff585a;
-}
-body #grid .major:hover h2 {
-  color: #ff585a;
-}
-body #perma {
-  background-color: rgba(255,88,90,0.95);
-}
-body #perma-content p a {
-  background-color: rgba(255,88,90,0.95);
-  outline: 0px solid rgba(255,88,90,0.95);
-}
-body #perma-content p a:hover {
-  outline: 6px solid rgba(255,88,90,0.95);
-}
-.color0 #info .cover {
-  background-color: #ff585a;
-}
-.color0 #info:hover .cover {
-  background-color: #ff585a !important;
-}
-.color0 .cover {
-  color: #ff585a;
-}
-.color0 #meta .button {
-  background-color: #ff585a;
-}
-.color0 #grid .major:hover h2 {
-  color: #ff585a;
-}
-.color0 #perma {
-  background-color: rgba(255,88,90,0.95);
-}
-.color0 #perma-content p a {
-  background-color: rgba(255,88,90,0.95);
-  outline: 0px solid rgba(255,88,90,0.95);
-}
-.color0 #perma-content p a:hover {
-  outline: 6px solid rgba(255,88,90,0.95);
-}
-.color1 #info .cover {
-  background-color: #0baadc;
-}
-.color1 #info:hover .cover {
   background-color: #0baadc !important;
 }
-.color1 .cover {
+body .cover {
   color: #0baadc;
 }
-.color1 #meta .button {
+body #meta .button {
   background-color: #0baadc;
 }
-.color1 #grid .major:hover h2 {
+body #grid .major:hover h2 {
   color: #0baadc;
 }
-.color1 #perma {
+body #perma {
   background-color: rgba(11,170,220,0.95);
 }
-.color1 #perma-content p a {
+body #perma-content p a {
   background-color: rgba(11,170,220,0.95);
   outline: 0px solid rgba(11,170,220,0.95);
 }
-.color1 #perma-content p a:hover {
+body #perma-content p a:hover {
   outline: 6px solid rgba(11,170,220,0.95);
+}
+.color0 #info .cover {
+  background-color: #0baadc;
+}
+.color0 #info:hover .cover {
+  background-color: #0baadc !important;
+}
+.color0 .cover {
+  color: #0baadc;
+}
+.color0 #meta .button {
+  background-color: #0baadc;
+}
+.color0 #grid .major:hover h2 {
+  color: #0baadc;
+}
+.color0 #perma {
+  background-color: rgba(11,170,220,0.95);
+}
+.color0 #perma-content p a {
+  background-color: rgba(11,170,220,0.95);
+  outline: 0px solid rgba(11,170,220,0.95);
+}
+.color0 #perma-content p a:hover {
+  outline: 6px solid rgba(11,170,220,0.95);
+}
+.color1 #info .cover {
+  background-color: #ff585a;
+}
+.color1 #info:hover .cover {
+  background-color: #ff585a !important;
+}
+.color1 .cover {
+  color: #ff585a;
+}
+.color1 #meta .button {
+  background-color: #ff585a;
+}
+.color1 #grid .major:hover h2 {
+  color: #ff585a;
+}
+.color1 #perma {
+  background-color: rgba(255,88,90,0.95);
+}
+.color1 #perma-content p a {
+  background-color: rgba(255,88,90,0.95);
+  outline: 0px solid rgba(255,88,90,0.95);
+}
+.color1 #perma-content p a:hover {
+  outline: 6px solid rgba(255,88,90,0.95);
 }
 .color2 #info .cover {
   background-color: #df5a95;
