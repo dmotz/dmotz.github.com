@@ -1,0 +1,13 @@
+{
+  "name": "oxism.com",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmotz/dmotz.github.com.git"
+  },
+  "author": "Dan Motzenbecker",
+  "bugs": {
+    "url": "https://github.com/dmotz/dmotz.github.com/issues"
+  },
+  "homepage": "https://oxism.com"
+}
