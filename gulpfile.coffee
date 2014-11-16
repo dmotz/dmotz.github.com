@@ -30,9 +30,9 @@ gulp.task 'styles', ->
 
 
 gulp.task 'watch', ->
-  gulp.watch 'src/*.jade',   -> gulp.run 'templates'
-  gulp.watch 'src/*.coffee', -> gulp.run 'scripts'
-  gulp.watch 'src/*.styl',   -> gulp.run 'styles'
+  gulp.watch 'src/*.jade',   ['templates']
+  gulp.watch 'src/*.coffee', ['scripts']
+  gulp.watch 'src/*.styl',   ['styles']
 
 
 gulp.task 'default', ['templates', 'scripts', 'styles']
