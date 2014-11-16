@@ -5,6 +5,7 @@ jade   = require 'gulp-jade'
 coffee = require 'gulp-coffee'
 stylus = require 'gulp-stylus'
 uglify = require 'gulp-uglify'
+lr     = require 'gulp-livereload'
 nib    = require 'nib'
 
 
@@ -30,9 +31,12 @@ gulp.task 'styles', ->
 
 
 gulp.task 'watch', ->
+  lr.listen()
   gulp.watch 'src/*.jade',   ['templates']
   gulp.watch 'src/*.coffee', ['scripts']
   gulp.watch 'src/*.styl',   ['styles']
+  for path in ['index.html', 'js/oxism.js', 'css/oxism.css']
+    gulp.watch(path).on 'change', lr.changed
 
 
 gulp.task 'default', ['templates', 'scripts', 'styles']
