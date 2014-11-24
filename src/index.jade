@@ -42,6 +42,12 @@ html.no-js(lang='en')
             h2 Pozaic
           .image
 
+      a#exifexodus-link.major(href='#exifexodus')
+        div
+          .cover
+            h2 Exif<br>Exodus
+          .image
+
       a#chaincal-link.major(href='#chaincal')
         div
           .cover
@@ -143,6 +149,39 @@ html.no-js(lang='en')
             | captures a single second in time across geographic gaps.
 
           .tools Node.js, WebRTC, WebSockets, web workers
+
+
+        #content-exifexodus
+          h1 ExifExodus
+          h2 Remove EXIF / geotagging data from your photos before you upload them.
+
+          .buttons
+            a.button(href='http://exifexodus.com') exifexodus.com
+            a.button(href='https://github.com/dmotz/ExifExodus') github
+
+          p
+            | ExifExodus is a small piece of open-source code that runs directly
+            | in your browser and strips EXIF / geotagging data out of your photos
+            | before you upload them.
+
+          p
+            | You can run ExifExodus whenever you&rsquo;re uploading photos by using
+            | its bookmarklet.
+
+          p
+            | When ExifExodus encounters a JPG file, it will remove the EXIF data
+            | by copying the pixels to a new image file, similar to taking a
+            | screenshot of something.
+
+          p
+            | Alternatively, you can drop your files in the dropzone on the
+            | <a href="http://exifexodus.com">ExifExodus site</a>
+            | and receive versions free of EXIF data. You can then
+            | save these new files and upload them wherever you’d like.
+
+
+
+          .tools CoffeeScript / JavaScript, web workers
 
 
         #content-chaincal
