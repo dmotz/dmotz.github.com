@@ -9,417 +9,417 @@ $cycleSpeed = 1s
 
 
 @font-face
-  font-family: 'adv'
-  src: url('../fonts/adventor-bold.eot')
-  src: url('../fonts/adventor-bold.eot?#iefix') format('embedded-opentype'),
-       url('../fonts/adventor-bold.woff') format('woff'),
-       url('../fonts/adventor-bold.ttf') format('truetype'),
-       url('../fonts/adventor-bold.svg#texgyreadventorbold') format('svg')
-  font-weight: bold
-  font-style: normal
+  font-family 'adv'
+  src url('../fonts/adventor-bold.eot')
+  src url('../fonts/adventor-bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/adventor-bold.woff') format('woff'),
+      url('../fonts/adventor-bold.ttf') format('truetype'),
+      url('../fonts/adventor-bold.svg#texgyreadventorbold') format('svg')
+  font-weight bold
+  font-style normal
 
 
 ::-moz-selection
-  background: #444
-  color: #fff
-  text-shadow: none
+  background #444
+  color #fff
+  text-shadow none
 
 
 ::selection
-  background: #444
-  color: #fff
-  text-shadow: none
+  background #444
+  color #fff
+  text-shadow none
 
 
 *
-  margin: 0
-  padding: 0
-  box-sizing: border-box
-  -webkit-tap-highlight-color: rgba(#000, 0)
+  margin 0
+  padding 0
+  box-sizing border-box
+  -webkit-tap-highlight-color rgba(#000, 0)
 
 
 html
-  font-size: 10px
-  font-family: $helv
-  text-rendering: optimizeLegibility
-  font-smoothing: antialiased
+  font-size 10px
+  font-family $helv
+  text-rendering optimizeLegibility
+  font-smoothing antialiased
 
 
 body
-  background-color: $bgColor
-  padding: 3%
+  background-color $bgColor
+  padding 3%
 
 
 a
-  outline: none
+  outline none
 
 
 h1, h2
-  font-family: $advBold
-  letter-spacing: -0.2rem
-  transition: color .1s
+  font-family $advBold
+  letter-spacing -0.2rem
+  transition color .1s
 
 
 .button
-  display: inline-block
-  background-color: rgba(#000, .6)
-  color: $bgColor
-  font-size: 1.9rem
-  padding: 0.8rem
-  margin-right: 1rem
-  margin-bottom: 1rem
-  font-weight: bold
-  cursor: pointer
-  transition: background-color .3s
-  text-decoration: none
+  display inline-block
+  background-color rgba(#000, .6)
+  color $bgColor
+  font-size 1.9rem
+  padding 0.8rem
+  margin-right 1rem
+  margin-bottom 1rem
+  font-weight bold
+  cursor pointer
+  transition background-color .3s
+  text-decoration none
 
 
 #info, #meta
   .cover
-    background-size: cover
+    background-size cover
 
 
 #info
 
   h1, h2
-    color: #fff
-    font-size: 3.3rem
-    line-height: 1.1
-    font-family: $advBold
+    color #fff
+    font-size 3.3rem
+    line-height 1.1
+    font-family $advBold
 
   .cover
-    background-image: url('../images/d.svg')
-    color: #fff
+    background-image url('../images/d.svg')
+    color #fff
 
   &:hover
     h2
-      color: #fff !important
+      color #fff !important
 
 
 #meta
   .cover
-    background-image: url('../images/m.svg')
+    background-image url('../images/m.svg')
 
     > div
-      float: right
-      position: relative
-      top: 50%
-      transform: translateY(-50%)
+      float right
+      position relative
+      top 50%
+      transform translateY(-50%)
 
   &:hover
     .cover
-      background-color: rgba(#fff, .9) !important
+      background-color rgba(#fff, .9) !important
 
   .button
-    color: #fff
-    margin-bottom: 1rem
-    width: 50%
-    float: right
-    position: relative
-    font-size: 1.8rem
-    text-align: right
-    transition: transform .2s, background-color $cycleSpeed
+    color #fff
+    margin-bottom 1rem
+    width 50%
+    float right
+    position relative
+    font-size 1.8rem
+    text-align right
+    transition transform .2s, background-color $cycleSpeed
 
     &:last-child
-      margin-bottom: 0
+      margin-bottom 0
 
     &:hover
-      transform: translate3d(-1rem, 0, 0)
+      transform translate3d(-1rem, 0, 0)
 
 
 #grid
-  perspective: 1000px
-  text-align: center
+  perspective 1000px
+  text-align center
 
   > *
-    width: $boxSize
-    height: $boxSize
-    margin: 1rem
-    display: inline-block
-    perspective: 100rem
-    transition: transform, .3s
+    width $boxSize
+    height $boxSize
+    margin 1rem
+    display inline-block
+    perspective 100rem
+    transition transform, .3s
 
     > div
-      width: $boxSize
-      height: $boxSize
-      overflow: hidden
-      outline: 1px solid transparent
-      background-color: #fff
+      width $boxSize
+      height $boxSize
+      overflow hidden
+      outline 1px solid transparent
+      background-color #fff
 
     &:hover
-      transform: translate3d(0, 0, -1.2rem)
+      transform translate3d(0, 0, -1.2rem)
 
       .cover
-        background-color: rgba(#fff, .5)
-        transition-duration: .2s !important
+        background-color rgba(#fff, .5)
+        transition-duration .2s !important
 
       h2
-        color: #555
+        color #555
 
 
 .cover, .image
-  width: $boxSize
-  height: $boxSize
-  position: absolute
-  overflow: hidden
+  width $boxSize
+  height $boxSize
+  position absolute
+  overflow hidden
 
 
 .major
   > div
-    background-color: #fff !important
+    background-color #fff !important
 
   .cover
-    color: #555 !important
+    color #555 !important
 
 
 .cover
-  text-align: left
-  padding: 1rem
-  font-size: 3.2rem
-  line-height: 1
-  background-color: rgba(#fff, .8)
-  z-index: 1
-  text-transform: lowercase
+  text-align left
+  padding 1rem
+  font-size 3.2rem
+  line-height 1
+  background-color rgba(#fff, .8)
+  z-index 1
+  text-transform lowercase
 
 
 .image
-  background-size: cover
+  background-size cover
 
 
 #oridomi-link .image
-  background-image: url('../images/oridomi0.gif')
+  background-image url('../images/oridomi0.gif')
 
 #pozaic-link .image
-  background-image: url('../images/pozaic0.gif')
+  background-image url('../images/pozaic0.gif')
 
 #exifexodus-link .image
-  background-image: url('../images/exifexodus0.gif')
+  background-image url('../images/exifexodus0.gif')
 
 #chaincal-link .image
-  background-image: url('../images/chaincal0.gif')
+  background-image url('../images/chaincal0.gif')
 
 #hexaflip-link .image
-  background-image: url('../images/hexaflip0.gif')
+  background-image url('../images/hexaflip0.gif')
 
 #maskew-link .image
-  background-image: url('../images/maskew0.gif')
+  background-image url('../images/maskew0.gif')
 
 #turingtype-link .image
-  background-image: url('../images/turing0.gif')
+  background-image url('../images/turing0.gif')
 
 
 #perma
-  position: fixed
-  top: 0
-  left: 0
-  bottom: 0
-  width: 100%
-  pointer-events: none
-  color: #fff
-  padding: 0 1rem
-  overflow: auto
-  opacity: 0
+  position fixed
+  top 0
+  left 0
+  bottom 0
+  width 100%
+  pointer-events none
+  color #fff
+  padding 0 1rem
+  overflow auto
+  opacity 0
 
 
 .no-js #perma
-  transition: none !important
+  transition none !important
 
 
 body.perma
-  overflow: hidden !important
+  overflow hidden !important
 
   #perma
-    opacity: 1
-    pointer-events: auto
-    overflow-scrolling: touch
+    opacity 1
+    pointer-events auto
+    overflow-scrolling touch
 
   #grid
-    pointer-events: none
+    pointer-events none
 
 
 $permaDark = rgba(#000, .5)
 
 #x
-  text-decoration: none
-  height: 4.5rem
-  font-size: 9.8rem
-  line-height: .4
-  text-align: center
-  transition: color .2s
-  position: absolute
-  color: $permaDark
-  underline: none
-  transition: opacity .2s
-  top: 1.4rem
-  right: -0.7rem
+  text-decoration none
+  height 4.5rem
+  font-size 9.8rem
+  line-height .4
+  text-align center
+  transition color .2s
+  position absolute
+  color $permaDark
+  underline none
+  transition opacity .2s
+  top 1.4rem
+  right -0.7rem
 
   &:hover
-    opacity: .5
+    opacity .5
 
 
 #perma-content
-  margin: 0 auto
-  clear: both
-  max-width: 800px
-  padding: 1rem 0
-  padding-bottom: 7rem
-  position: relative
+  margin 0 auto
+  clear both
+  max-width 800px
+  padding 1rem 0
+  padding-bottom 7rem
+  position relative
 
   > div
-    display: none
+    display none
 
     &.active
-      display: block
+      display block
 
   h1
-    line-height: 1
-    margin-bottom: 1rem
-    font-size: 6rem
-    word-wrap: break-word
-    width: 81%
+    line-height 1
+    margin-bottom 1rem
+    font-size 6rem
+    word-wrap break-word
+    width 81%
 
   h2
-    font-size: 3.2rem
-    margin-bottom: 2.4rem
-    line-height: 1.1
-    color: $permaDark
-    letter-spacing: -0.1rem
-    max-width: 60rem
+    font-size 3.2rem
+    margin-bottom 2.4rem
+    line-height 1.1
+    color $permaDark
+    letter-spacing -0.1rem
+    max-width 60rem
 
   p
-    font-size: 2.4rem
-    font-weight: 200
-    line-height: 1.5
-    background-color: #fff
-    color: #444
-    padding: 1rem
-    font-family: $serif
-    background-color: rgba(#fff, .95)
-    margin: 2rem 0
-    float: left
+    font-size 2.4rem
+    font-weight 200
+    line-height 1.5
+    background-color #fff
+    color #444
+    padding 1rem
+    font-family $serif
+    background-color rgba(#fff, .95)
+    margin 2rem 0
+    float left
 
     a
-      color: rgba(#000, .7)
-      text-decoration: none
-      padding: 0 .3rem
+      color rgba(#000, .7)
+      text-decoration none
+      padding 0 .3rem
 
 
   .button
-    color: $permaDark
-    float: left
-    outline: .3rem solid $permaDark
-    background-color: rgba(#000, 0)
-    transition: color .2s, background-color .2s
-    margin-left: .3rem
-    margin-bottom: 1.3rem
+    color $permaDark
+    float left
+    outline .3rem solid $permaDark
+    background-color rgba(#000, 0)
+    transition color .2s, background-color .2s
+    margin-left .3rem
+    margin-bottom 1.3rem
 
     &:hover
-      background-color: $permaDark
-      color: #fff
+      background-color $permaDark
+      color #fff
 
 
 .images
-  margin-bottom: 2.6rem
+  margin-bottom 2.6rem
 
   img
-    width: 49%
-    padding: 1rem
-    background-color: #fff
+    width 49%
+    padding 1rem
+    background-color #fff
 
     &:first-child
-      margin-right: 2%
+      margin-right 2%
 
 
 .buttons
-  width: 100%
-  float: left
-  margin-top: .5rem
+  width 100%
+  float left
+  margin-top .5rem
 
   .button:first-child
-    margin-left: 0
+    margin-left 0
 
 
 .tools
-  margin: 2.5rem 0
-  font-family: monospace
-  line-height: 1
-  font-size: 1.8rem
-  letter-spacing: -0.1rem
+  margin 2.5rem 0
+  font-family monospace
+  line-height 1
+  font-size 1.8rem
+  letter-spacing -0.1rem
 
 
-@media only screen and (max-width: 600px)
+@media only screen and (max-width 600px)
   .images img
-    width: 100%
-    margin-bottom: 1rem
+    width 100%
+    margin-bottom 1rem
 
     &:last-child
-      margin-bottom: 0
+      margin-bottom 0
 
   #perma-content
-    padding-bottom: 15rem
+    padding-bottom 15rem
 
     h1
-      font-size: 5rem
+      font-size 5rem
 
   #x
-    font-size: 8.2rem
+    font-size 8.2rem
 
 
 .touch
   #grid > *:hover
-    transform: none
+    transform none
 
     .image
-      filter: $grayFilter !important
-      filter: gray !important
-      -webkit-filter: grayscale(100%) !important
+      filter $grayFilter !important
+      filter gray !important
+      -webkit-filter grayscale(100%) !important
 
   .cover
-    background-color: rgba(#fff, .6)
+    background-color rgba(#fff, .6)
 
 
 #perma
-  transition: background-color $cycleSpeed, opacity .15s
+  transition background-color $cycleSpeed, opacity .15s
 
 #info .cover, #info:hover .cover
-  transition: background-color $cycleSpeed
+  transition background-color $cycleSpeed
 
 .cover
-  transition: color $cycleSpeed, opacity .2s
+  transition color $cycleSpeed, opacity .2s
 
 #perma-content p a
-  transition: background-color $cycleSpeed, outline-color $cycleSpeed, outline-width .2s
+  transition background-color $cycleSpeed, outline-color $cycleSpeed, outline-width .2s
 
 
 colorSet($color)
 
   #info
     .cover
-      background-color: $color
+      background-color $color
 
     &:hover
       .cover
-        background-color: $color !important
+        background-color $color !important
 
   .cover
-    color: $color
+    color $color
 
   #meta .button
-    background-color: $color
+    background-color $color
 
   #grid .major:hover h2
-    color: $color
+    color $color
 
 
   #perma
-    background-color: rgba($color, 0.95)
+    background-color rgba($color, 0.95)
 
   #perma-content p a
-    background-color: rgba($color, .95)
-    outline: 0px solid  rgba($color, .95)
+    background-color rgba($color, .95)
+    outline 0px solid  rgba($color, .95)
 
     &:hover
-      outline: 6px solid  rgba($color, .95)
+      outline 6px solid  rgba($color, .95)
 
 //        blue    red     pink
 $colors = #0baadc #ff585a #df5a95
