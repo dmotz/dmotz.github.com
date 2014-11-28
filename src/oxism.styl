@@ -39,7 +39,7 @@ $cycleSpeed = 1s
 
 
 html
-  font-size 10px
+  font-size 9px
   font-family $helv
   text-rendering optimizeLegibility
   font-smoothing antialiased
@@ -219,6 +219,7 @@ h1, h2
   padding 0 1rem
   overflow auto
   opacity 0
+  background-color rgba(240, 240, 240, .97)
 
 
 .no-js #perma
@@ -289,19 +290,35 @@ $permaDark = rgba(#000, .5)
   p
     font-size 2.4rem
     font-weight 200
-    line-height 1.5
+    line-height 1.6
     background-color #fff
     color #444
-    padding 1rem
+    padding 0 2.5rem
     font-family $serif
-    background-color rgba(#fff, .95)
-    margin 2rem 0
+    width 100%
+    padding-bottom 3rem
     float left
 
+    &:first-of-type
+      padding-top 2rem
+
+    &:last-of-type
+      padding-bottom 2rem
+
     a
-      color rgba(#000, .7)
+      color #222
+      font-style italic
+      border-bottom 1px dashed #777
       text-decoration none
       padding 0 .3rem
+
+      &:hover
+        color #999 !important
+
+
+    code
+      background-color #efefef
+      padding .5rem
 
 
   .button
@@ -334,17 +351,20 @@ $permaDark = rgba(#000, .5)
   width 100%
   float left
   margin-top .5rem
+  margin-bottom 1.5rem
 
   .button:first-child
     margin-left 0
 
 
 .tools
-  margin 2.5rem 0
+  margin 3.5rem 0
   font-family monospace
   line-height 1
   font-size 1.8rem
   letter-spacing -0.1rem
+  float left
+  color #999
 
 
 @media only screen and (max-width 600px)
@@ -411,15 +431,11 @@ colorSet($color)
     color $color
 
 
-  #perma
-    background-color rgba($color, 0.95)
+  #perma h1
+    color $color
 
   #perma-content p a
-    background-color rgba($color, .95)
-    outline 0px solid  rgba($color, .95)
-
-    &:hover
-      outline 6px solid  rgba($color, .95)
+    color $color
 
 //        blue    red     pink
 $colors = #0baadc #ff585a #df5a95
