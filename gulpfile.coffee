@@ -7,12 +7,14 @@ stylus = require 'gulp-stylus'
 uglify = require 'gulp-uglify'
 lr     = require 'gulp-livereload'
 nib    = require 'nib'
+getMap = require './map'
 
 
 gulp.task 'templates', ->
-  gulp.src 'src/index.jade'
-    .pipe jade().on 'error', gutil.log
-    .pipe gulp.dest '.'
+  getMap (err, map) ->
+    gulp.src 'src/index.jade'
+      .pipe jade(locals: map).on 'error', gutil.log
+      .pipe gulp.dest '.'
 
 
 gulp.task 'scripts', ->
