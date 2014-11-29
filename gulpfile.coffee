@@ -1,19 +1,21 @@
-gulp   = require 'gulp'
-gutil  = require 'gulp-util'
-srcMap = require 'gulp-sourcemaps'
-jade   = require 'gulp-jade'
-coffee = require 'gulp-coffee'
-stylus = require 'gulp-stylus'
-uglify = require 'gulp-uglify'
-lr     = require 'gulp-livereload'
-nib    = require 'nib'
-getMap = require './map'
+gulp    = require 'gulp'
+gutil   = require 'gulp-util'
+srcMap  = require 'gulp-sourcemaps'
+jade    = require 'gulp-jade'
+coffee  = require 'gulp-coffee'
+stylus  = require 'gulp-stylus'
+uglify  = require 'gulp-uglify'
+htmlMin = require 'gulp-minify-html'
+lr      = require 'gulp-livereload'
+nib     = require 'nib'
+getMap  = require './map'
 
 
 gulp.task 'templates', ->
   getMap (err, map) ->
     gulp.src 'src/index.jade'
       .pipe jade(locals: map).on 'error', gutil.log
+      .pipe htmlMin quotes: true
       .pipe gulp.dest '.'
 
 
