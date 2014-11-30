@@ -10,6 +10,11 @@ lr      = require 'gulp-livereload'
 nib     = require 'nib'
 getMap  = require './map'
 
+onErr = (err) ->
+  gutil.log gutil.colors.red err
+  gutil.beep()
+  @emit 'end'
+
 
 gulp.task 'templates', ->
   getMap (err, map) ->
@@ -22,7 +27,7 @@ gulp.task 'templates', ->
 gulp.task 'scripts', ->
   gulp.src 'src/oxism.coffee'
     .pipe srcMap.init()
-    .pipe coffee().on 'error', gutil.log
+    .pipe coffee().on 'error', onErr
     .pipe uglify()
     .pipe srcMap.write '.'
     .pipe gulp.dest 'js/'
@@ -30,7 +35,7 @@ gulp.task 'scripts', ->
 
 gulp.task 'styles', ->
   gulp.src 'src/oxism.styl'
-    .pipe stylus(use: nib(), compress: true).on 'error', gutil.log
+    .pipe stylus(use: nib(), compress: true).on 'error', onErr
     .pipe gulp.dest 'css/'
 
 
