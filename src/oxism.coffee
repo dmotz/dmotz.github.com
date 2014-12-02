@@ -6,6 +6,7 @@ positions     = []
 vendor        = transform: 'transform'
 squares       = activeContent = permaDiv = null
 testEl        = document.createElement 'div'
+route         = '/works/'
 
 
 saveColor = do ->
@@ -22,18 +23,35 @@ capitalize = (s) ->
   s[0].toUpperCase() + s[1...]
 
 
-navHash = ->
-  hash = location.hash[1...]
-  if hash is ''
+getUrlTarget = ->
+  path = document.location.pathname
+  if path is '/'
+    null
+  else
+    path.split(route)[1].replace '/', ''
+
+
+onNav = ->
+  target = getUrlTarget()
+  unless target
     window.scrollTo 0, lastY
     return document.body.className = ''
 
   lastY = window.pageYOffset
   activeContent.className = '' if activeContent
-  activeContent = document.getElementById 'content-' + hash
+  console.log getUrlTarget()
+  activeContent = document.getElementById 'content-' + getUrlTarget()
   permaDiv.scrollTop      = 0
   activeContent.className = 'active'
   document.body.className = 'perma'
+
+
+handleLink = (link) ->
+  link.addEventListener 'click', (e) ->
+    e.preventDefault()
+    history.pushState null, null, link.href
+    onNav()
+  , true
 
 
 computePositions = ->
@@ -84,20 +102,30 @@ document.addEventListener 'DOMContentLoaded', ->
                                            's', 'm', '.', 'c', 'o', 'm'].join ''
 
   setInterval ->
+    return
     colorN = 0 if ++colorN > colors
     document.documentElement.className = 'color' + colorN + touchClass
     saveColor()
   , 8000
 
   unless isTouchScreen
-    document.addEventListener 'keydown', (e) -> location.hash = '' if e.keyCode is 27
+    document.addEventListener 'keydown', (e) ->
+      if e.keyCode is 27 and getUrlTarget()
+        history.pushState null, null, '/'
+        onNav()
+
     return unless vendor.transform
     computePositions()
     window.addEventListener 'resize', debouncer
     document.addEventListener 'mousemove', onMove, false
 
-  window.addEventListener 'hashchange', navHash
-  navHash()
+
+  if window.history.pushState
+    onNav()
+    handleLink link for link in document.querySelectorAll '#grid > a'
+    handleLink document.getElementById 'x'
+    addEventListener 'popstate', onNav
+
 
 
 , false
