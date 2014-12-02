@@ -102,7 +102,6 @@ document.addEventListener 'DOMContentLoaded', ->
                                            's', 'm', '.', 'c', 'o', 'm'].join ''
 
   setInterval ->
-    return
     colorN = 0 if ++colorN > colors
     document.documentElement.className = 'color' + colorN + touchClass
     saveColor()
