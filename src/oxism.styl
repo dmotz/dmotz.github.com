@@ -60,7 +60,7 @@ h1, h2
   transition color .1s
 
 
-.button
+.button, .buttons a
   display inline-block
   background-color rgba(#000, .6)
   color $bgColor
@@ -258,6 +258,87 @@ $permaDark = rgba(#000, .5)
     opacity .5
 
 
+.content
+  background-color #fff
+  padding 2.5rem
+  font-family $serif
+  width 100%
+  float left
+
+  hr
+    width 100%
+    margin-bottom 3rem
+    border 0
+    border-bottom 1px solid #999
+
+  p, pre, h2, h3, ul
+    float left
+    width 100%
+    margin-bottom 3rem
+    color #444 !important
+
+  ul
+    padding-left 5rem
+
+  li
+    float left
+    width 100%
+    font-size 2.4rem
+    line-height 1.6
+    text-indent 2rem
+
+  h2, h3
+    font-size 4rem
+    line-height 1.9
+    margin-bottom 1rem
+    font-family: 'Playfair Display', $serif
+
+  p
+    font-size 2.4rem
+    font-weight 200
+    line-height 1.6
+
+    &:last-of-type
+      margin-bottom 0
+
+    a
+      color #222
+      border-bottom 1px dashed #777
+      text-decoration none
+      padding 0 .3rem
+
+      &:hover
+        color #999 !important
+
+
+  code
+    background-color #efefef
+    padding .5rem
+
+
+pre
+  background #efefef
+  font-size 1.6rem
+  padding 1.5rem
+  line-height 1.5
+  overflow scroll
+
+  .hljs-keyword
+    color #d04444
+
+  .hljs-number
+    color #3b96b4
+
+  .hljs-string
+    color #3bb43b
+
+  .hljs-comment
+    color #888
+
+  .hljs-built_in
+    color #bb3d87
+
+
 #perma-content
   margin 0 auto
   clear both
@@ -287,41 +368,7 @@ $permaDark = rgba(#000, .5)
     letter-spacing -0.1rem
     max-width 60rem
 
-  p
-    font-size 2.4rem
-    font-weight 200
-    line-height 1.6
-    background-color #fff
-    color #444
-    padding 0 2.5rem
-    font-family $serif
-    width 100%
-    padding-bottom 3rem
-    float left
-
-    &:first-of-type
-      padding-top 2rem
-
-    &:last-of-type
-      padding-bottom 2rem
-
-    a
-      color #222
-      font-style italic
-      border-bottom 1px dashed #777
-      text-decoration none
-      padding 0 .3rem
-
-      &:hover
-        color #999 !important
-
-
-    code
-      background-color #efefef
-      padding .5rem
-
-
-  .button
+  .buttons a
     color $permaDark
     float left
     outline .3rem solid $permaDark
@@ -337,9 +384,11 @@ $permaDark = rgba(#000, .5)
 
 .images
   margin-bottom 2.6rem
+  float left
 
   img
     width 49%
+    float left
     padding 1rem
     background-color #fff
 
@@ -353,7 +402,7 @@ $permaDark = rgba(#000, .5)
   margin-top .5rem
   margin-bottom 1.5rem
 
-  .button:first-child
+  :first-child
     margin-left 0
 
 
@@ -384,6 +433,9 @@ $permaDark = rgba(#000, .5)
   #x
     font-size 8.2rem
 
+  .content
+    padding 1.5rem
+
 
 .touch
   #grid > *:hover
@@ -408,7 +460,7 @@ $permaDark = rgba(#000, .5)
   transition color $cycleSpeed, opacity .2s
 
 #perma-content p a
-  transition background-color $cycleSpeed, outline-color $cycleSpeed, outline-width .2s
+  transition background-color $cycleSpeed
 
 
 colorSet($color)
