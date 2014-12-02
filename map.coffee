@@ -1,6 +1,7 @@
 {readFile} = require 'fs'
 async      = require 'async'
 marked     = require 'marked'
+highlight  = require 'highlight.js'
 
 map =
   oridomi:
@@ -132,6 +133,11 @@ map =
     tags:    ['Node.js']
     links:
       github: 'https://github.com/dmotz/monocat'
+
+
+marked.setOptions
+  highlight:   (code) -> highlight.highlightAuto(code).value
+  smartypants: true
 
 
 module.exports = (cb) ->
