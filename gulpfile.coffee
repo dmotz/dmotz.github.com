@@ -18,10 +18,11 @@ onErr = (err) ->
 
 gulp.task 'templates', ->
   getMap (err, map) ->
-    gulp.src 'src/index.jade'
-      .pipe jade(locals: map).on 'error', gutil.log
-      .pipe htmlMin quotes: true
-      .pipe gulp.dest '.'
+    for key in Object.keys(map).concat null
+      gulp.src 'src/index.jade'
+        .pipe jade(locals: {map, target: key}).on 'error', onErr
+        .pipe htmlMin quotes: true
+        .pipe gulp.dest if key then "./works/#{ key }" else '.'
 
 
 gulp.task 'scripts', ->
@@ -41,9 +42,10 @@ gulp.task 'styles', ->
 
 gulp.task 'watch', ->
   lr.listen()
-  gulp.watch 'src/*.jade',   ['templates']
+  gulp.watch 'src/*.jade', ['templates']
+  gulp.watch 'src/content/*.md', ['templates']
   gulp.watch 'src/*.coffee', ['scripts']
-  gulp.watch 'src/*.styl',   ['styles']
+  gulp.watch 'src/*.styl', ['styles']
   for path in ['index.html', 'js/oxism.js', 'css/oxism.css']
     gulp.watch(path).on 'change', lr.changed
 
