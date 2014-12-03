@@ -48,6 +48,7 @@ html
 body
   background-color $bgColor
   padding 3%
+  position relative
 
 
 a
@@ -212,6 +213,7 @@ h1, h2
   position fixed
   top 0
   left 0
+  right 0
   bottom 0
   width 100%
   pointer-events none
@@ -233,6 +235,7 @@ body.perma
     opacity 1
     pointer-events auto
     overflow-scrolling touch
+    z-index 99
 
   #grid
     pointer-events none
@@ -452,6 +455,7 @@ pre
 
 #perma
   transition background-color $cycleSpeed, opacity .15s
+  z-index 0
 
 #info .cover, #info:hover .cover
   transition background-color $cycleSpeed
