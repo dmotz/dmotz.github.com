@@ -31,13 +31,13 @@ gulp.task 'scripts', ->
     .pipe coffee().on 'error', onErr
     .pipe uglify()
     .pipe srcMap.write '.'
-    .pipe gulp.dest 'js/'
+    .pipe gulp.dest 'assets/js/'
 
 
 gulp.task 'styles', ->
   gulp.src 'src/oxism.styl'
     .pipe stylus(use: nib(), compress: true).on 'error', onErr
-    .pipe gulp.dest 'css/'
+    .pipe gulp.dest 'assets/css/'
 
 
 gulp.task 'watch', ->
@@ -46,7 +46,7 @@ gulp.task 'watch', ->
   gulp.watch 'src/content/*.md', ['templates']
   gulp.watch 'src/*.coffee', ['scripts']
   gulp.watch 'src/*.styl', ['styles']
-  for path in ['index.html', 'js/oxism.js', 'css/oxism.css']
+  for path in ['index.html', 'assets/js/oxism.js', 'assets/css/oxism.css']
     gulp.watch(path).on 'change', lr.changed
 
 
