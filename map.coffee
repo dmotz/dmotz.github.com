@@ -119,7 +119,7 @@ map =
 
 
   'express-spa-router':
-    display: 'Express Spa Router'
+    display: 'Express SPA Router'
     line:    'Internally reroute non-AJAX requests to your client-side single page app router.'
     tags:    ['Node.js']
     links:
