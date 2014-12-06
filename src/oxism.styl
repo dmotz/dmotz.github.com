@@ -1,11 +1,17 @@
 @import 'nib'
 
 $helv       = 'Helvetica Neue', Helvetica, Arial, sans-serif
-$boxSize    = 26rem
 $serif      = Georgia, Times, 'Times New Roman', serif
+$mono       = Consolas, 'Lucida Console', 'DejaVu Sans Mono', Monaco, 'Courier New', monospace
 $advBold    = 'adv', $helv
+$boxSize    = 26rem
 $bgColor    = #eee
 $cycleSpeed = 1s
+$gold       = #e3ba7a
+$teal       = #35d2d8
+$blue       = #0baadc
+$red        = #ff585a
+$pink       = #df5a95
 
 
 @font-face
@@ -90,6 +96,7 @@ h1, h2
 
   .cover
     background-image url('../images/d.svg')
+    background-color #35D2D8 !important
     color #fff
 
   &:hover
@@ -119,7 +126,8 @@ h1, h2
     position relative
     font-size 1.8rem
     text-align right
-    transition transform .2s, background-color $cycleSpeed
+    transition transform .2s
+    background-color $gold
 
     &:last-child
       margin-bottom 0
@@ -139,6 +147,7 @@ h1, h2
     display inline-block
     perspective 100rem
     transition transform, .3s
+    color $gold
 
     > div
       width $boxSize
@@ -167,10 +176,11 @@ h1, h2
 
 .major
   > div
-    background-color #fff !important
+    background-color #fff
+    color #555
 
-  .cover
-    color #555 !important
+  &:hover h2
+    color transparent !important
 
 
 .cover
@@ -305,26 +315,28 @@ $permaDark = rgba(#000, .5)
       margin-bottom 0
 
     a
-      color #222
+      color $gold
       border-bottom 1px dashed #777
       text-decoration none
       padding 0 .3rem
 
       &:hover
-        color #999 !important
+        color $teal !important
 
 
   code
     background-color #efefef
     padding .5rem
+    font-family $mono
+    font-size 1.8rem
 
 
 pre
   background #efefef
-  font-size 1.6rem
   padding 1.5rem
   line-height 1.5
   overflow scroll
+  font-family $mono
 
 
 #perma-content
@@ -347,6 +359,7 @@ pre
     font-size 6rem
     word-wrap break-word
     width 81%
+    color $gold
 
   h2
     font-size 3.2rem
@@ -357,16 +370,17 @@ pre
     max-width 60rem
 
   .buttons a
-    color $permaDark
+    color $gold
     float left
-    outline .3rem solid $permaDark
+    outline .3rem solid $gold
     background-color rgba(#000, 0)
     transition color .2s, background-color .2s
     margin-left .3rem
     margin-bottom 1.3rem
 
+
     &:hover
-      background-color $permaDark
+      background-color $gold
       color #fff
 
 
@@ -396,7 +410,7 @@ pre
 
 .tools
   margin 3.5rem 0
-  font-family monospace
+  font-family $mono
   line-height 1
   font-size 1.8rem
   letter-spacing -0.1rem
@@ -429,63 +443,15 @@ pre
   #grid > *:hover
     transform none
 
-    .image
-      filter $grayFilter !important
-      filter gray !important
-      -webkit-filter grayscale(100%) !important
-
   .cover
     background-color rgba(#fff, .6)
 
 
 #perma
-  transition background-color $cycleSpeed, opacity .15s
+  transition opacity .15s
   z-index 0
-
-#info .cover, #info:hover .cover
-  transition background-color $cycleSpeed
 
 .cover
   transition color $cycleSpeed, opacity .2s
 
-#perma-content p a
-  transition background-color $cycleSpeed
-
-
-colorSet($color)
-
-  #info
-    .cover
-      background-color $color
-
-    &:hover
-      .cover
-        background-color $color !important
-
-  .cover
-    color $color
-
-  #meta .button
-    background-color $color
-
-  #grid .major:hover h2
-    color $color
-
-
-  #perma h1
-    color $color
-
-  #perma-content p a
-    color $color
-
-//        blue    red     pink
-$colors = #0baadc #ff585a #df5a95
-
-
-body
-  colorSet($colors[0])
-
-for $color, $n in $colors
-  .color{$n}
-    colorSet($color)
 

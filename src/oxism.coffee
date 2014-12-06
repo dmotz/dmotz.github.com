@@ -1,22 +1,11 @@
 {abs, sqrt}   = Math
 isTouchScreen = 'ontouchstart' of window
-colors        = 2
-lastY         = colorN = w = h = 0
+lastY         = w = h = 0
 positions     = []
 vendor        = transform: 'transform'
 squares       = activeContent = permaDiv = null
 testEl        = document.createElement 'div'
 route         = '/works/'
-
-
-saveColor = do ->
-  if window.localStorage
-    colorN = localStorage.getItem('n') or 0
-    document.documentElement.className = 'color' + colorN
-    ->
-      localStorage.setItem 'n', colorN
-  else
-    ->
 
 
 capitalize = (s) ->
@@ -39,7 +28,6 @@ onNav = ->
 
   lastY = window.pageYOffset
   activeContent.className = '' if activeContent
-  console.log getUrlTarget()
   activeContent = document.getElementById 'content-' + getUrlTarget()
   permaDiv.scrollTop      = 0
   activeContent.className = 'active'
@@ -91,8 +79,10 @@ for key, val of vendor
 
 
 document.addEventListener 'DOMContentLoaded', ->
-  touchClass = if isTouchScreen then ' touch' else ''
-  setTimeout (-> document.documentElement.className = 'color' + colorN + touchClass), 0
+  setTimeout ->
+    document.documentElement.className = if isTouchScreen then 'touch' else ''
+  , 0
+
   squares  = document.getElementById('grid').children
   permaDiv = document.getElementById 'perma'
   w    = h = parseInt window.getComputedStyle(squares[0]).width, 10
@@ -101,11 +91,6 @@ document.addEventListener 'DOMContentLoaded', ->
                                            'd', 'a', 'n', '@', 'o', 'x', 'i',
                                            's', 'm', '.', 'c', 'o', 'm'].join ''
 
-  setInterval ->
-    colorN = 0 if ++colorN > colors
-    document.documentElement.className = 'color' + colorN + touchClass
-    saveColor()
-  , 8000
 
   unless isTouchScreen
     document.addEventListener 'keydown', (e) ->
@@ -124,7 +109,6 @@ document.addEventListener 'DOMContentLoaded', ->
     handleLink link for link in document.querySelectorAll '#grid > a'
     handleLink document.getElementById 'x'
     addEventListener 'popstate', onNav
-
 
 
 , false
