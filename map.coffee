@@ -1,7 +1,6 @@
 {readFile} = require 'fs'
 async      = require 'async'
 marked     = require 'marked'
-highlight  = require 'highlight.js'
 
 map =
   oridomi:
@@ -136,7 +135,6 @@ map =
 
 
 marked.setOptions
-  highlight:   (code) -> highlight.highlightAuto(code).value
   smartypants: true
 
 
