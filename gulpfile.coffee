@@ -8,6 +8,9 @@ uglify  = require 'gulp-uglify'
 htmlMin = require 'gulp-minify-html'
 lr      = require 'gulp-livereload'
 nib     = require 'nib'
+http    = require 'http'
+connect = require 'connect'
+staticS = require 'serve-static'
 getMap  = require './map'
 
 onErr = (err) ->
@@ -40,7 +43,11 @@ gulp.task 'styles', ->
     .pipe gulp.dest 'assets/css/'
 
 
-gulp.task 'watch', ->
+gulp.task 'server', ->
+  http.createServer(connect().use staticS '.').listen 3333
+
+
+gulp.task 'watch', ['server'], ->
   lr.listen()
   gulp.watch 'src/*.jade', ['templates']
   gulp.watch 'src/content/*.md', ['templates']
