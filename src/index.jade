@@ -9,7 +9,7 @@ html.no-js(lang='en')
     link(href='/assets/images/favicon.png', rel='icon', type='image/png')
     link(href='/assets/images/favicon-152.png', rel='apple-touch-icon-precomposed')
     link(href='http://fonts.googleapis.com/css?family=Playfair+Display:700', rel='stylesheet', type='text/css')
-    title Dan Motzenbecker
+    title= locals.target ? locals.map[locals.target].display : 'Dan Motzenbecker'
 
   body(class=locals.target ? 'perma' : '')
 
@@ -71,6 +71,8 @@ html.no-js(lang='en')
               .tools= val.tags.join(', ')
 
 
+    script.
+      var jsonMap = !{ locals.jsonMap };
     script(src='/assets/js/oxism.js')
     script.
       var _gaq = _gaq || [];

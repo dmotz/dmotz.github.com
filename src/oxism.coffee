@@ -24,14 +24,16 @@ onNav = ->
   target = getUrlTarget()
   unless target
     window.scrollTo 0, lastY
+    document.title = 'Dan Motzenbecker'
     return document.body.className = ''
 
   lastY = window.pageYOffset
   activeContent.className = '' if activeContent
-  activeContent = document.getElementById 'content-' + getUrlTarget()
+  activeContent = document.getElementById 'content-' + target
   permaDiv.scrollTop      = 0
   activeContent.className = 'active'
   document.body.className = 'perma'
+  document.title          = jsonMap[target]
 
 
 handleLink = (link) ->

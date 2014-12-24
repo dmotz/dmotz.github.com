@@ -21,9 +21,13 @@ onErr = (err) ->
 
 gulp.task 'templates', ->
   getMap (err, map) ->
+    jsonMap = JSON.stringify new ->
+      @[key] = val.display for key, val of map
+      @
+
     for key in Object.keys(map).concat null
       gulp.src 'src/index.jade'
-        .pipe jade(locals: {map, target: key}).on 'error', onErr
+        .pipe jade(locals: {map, jsonMap, target: key}).on 'error', onErr
         .pipe htmlMin quotes: true
         .pipe gulp.dest if key then "./works/#{ key }" else '.'
 
