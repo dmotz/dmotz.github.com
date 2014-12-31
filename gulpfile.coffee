@@ -55,6 +55,7 @@ gulp.task 'watch', ['server'], ->
   lr.listen()
   gulp.watch 'src/*.jade', ['templates']
   gulp.watch 'src/content/*.md', ['templates']
+  gulp.watch './map.coffee', ['templates']
   gulp.watch 'src/*.coffee', ['scripts']
   gulp.watch 'src/*.styl', ['styles']
   for path in ['index.html', 'assets/js/oxism.js', 'assets/css/oxism.css']
