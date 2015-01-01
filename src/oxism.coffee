@@ -21,19 +21,20 @@ getUrlTarget = ->
 
 
 onNav = ->
-  target = getUrlTarget()
-  unless target
+  if target = getUrlTarget()
+    lastY = window.pageYOffset
+    activeContent.className = '' if activeContent
+    activeContent = document.getElementById 'content-' + target
+    permaDiv.scrollTop      = 0
+    activeContent.className = 'active'
+    document.body.className = 'perma'
+    document.title          = jsonMap[target]
+  else
     window.scrollTo 0, lastY
     document.title = 'Dan Motzenbecker'
-    return document.body.className = ''
+    document.body.className = ''
 
-  lastY = window.pageYOffset
-  activeContent.className = '' if activeContent
-  activeContent = document.getElementById 'content-' + target
-  permaDiv.scrollTop      = 0
-  activeContent.className = 'active'
-  document.body.className = 'perma'
-  document.title          = jsonMap[target]
+  ga 'send', 'pageview'
 
 
 handleLink = (link) ->
