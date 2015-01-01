@@ -79,9 +79,10 @@ map =
 
 
   taxa:
-    display: 'Taxa'
-    line:    'A tiny language inside JavaScript to enforce type signatures.'
-    tags:    ['CoffeeScript / JavaScript']
+    display:  'Taxa'
+    gridName: 'ταξα'
+    line:     'A tiny language inside JavaScript to enforce type signatures.'
+    tags:     ['CoffeeScript / JavaScript']
     links:
       github: 'https://github.com/dmotz/taxa'
 
