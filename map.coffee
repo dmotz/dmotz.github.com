@@ -26,10 +26,11 @@ map =
 
 
   exifexodus:
-    display: 'Exif Exodus'
-    isMajor: true
-    line:    'Remove EXIF / GPS data from your photos before you upload them.'
-    tags:    ['CoffeeScript / JavaScript', 'web workers']
+    display:  'ExifExodus'
+    gridName: 'Exif Exodus'
+    isMajor:  true
+    line:     'Remove GPS data from your photos before you upload them.'
+    tags:     ['CoffeeScript / JavaScript', 'web workers']
     links:
       'exifexodus.com': 'http://exifexodus.com'
       github:           'https://github.com/dmotz/ExifExodus'
