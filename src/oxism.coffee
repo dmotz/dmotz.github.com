@@ -1,4 +1,4 @@
-{abs, sqrt}   = Math
+{sqrt}        = Math
 isTouchScreen = 'ontouchstart' of window
 lastY         = w = h = 0
 positions     = []
@@ -65,9 +65,9 @@ onMove = (e) ->
   for square, i in squares
     dX   = e.pageX - positions[i][0] - w / 2
     dY   = e.pageY - positions[i][1] - h / 2
-    dist = sqrt abs(dX) ** 2 + abs(dY) ** 2
-    rY   =  dX / ((dist or 1) / dampen)
-    rX   = -dY / ((dist or 1) / dampen)
+    dist = (sqrt(dX ** 2 + dY ** 2) or 1) / dampen
+    rY   =  dX / dist
+    rX   = -dY / dist
     square.children[0].style[vendor.transform] = "rotateX(#{ rX }deg) rotateY(#{ rY }deg)"
 
   null
