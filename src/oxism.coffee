@@ -66,9 +66,8 @@ onMove = (e) ->
     dX   = e.pageX - positions[i][0] - w / 2
     dY   = e.pageY - positions[i][1] - h / 2
     dist = (sqrt(dX ** 2 + dY ** 2) or 1) / dampen
-    rY   =  dX / dist
-    rX   = -dY / dist
-    square.children[0].style[vendor.transform] = "rotateX(#{ rX }deg) rotateY(#{ rY }deg)"
+    square.children[0].style[vendor.transform] =
+      "rotateX(#{ -dY / dist }deg) rotateY(#{ dX / dist }deg)"
 
   null
 
