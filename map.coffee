@@ -43,7 +43,8 @@ map =
     images:  ['chaincal1.jpg', 'chaincal2.jpg']
     tags:    ['CoffeeScript / JavaScript', 'Apache Cordova', 'CSS3', 'Objective-C']
     links:
-      'chaincalapp.com': 'http://chaincalapp.com'
+      'chaincalapp.com':       'http://chaincalapp.com'
+      'download on app store': 'http://itunes.apple.com/us/app/chaincal/id499195302'
 
 
   hexaflip:
