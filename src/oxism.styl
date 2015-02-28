@@ -257,18 +257,22 @@ $permaDark = rgba(#000, .5)
   text-decoration none
   font-size 9.8rem
   line-height .4
-  transform-origin 50% 80%
   text-align center
   transition color .2s
   position absolute
   color $permaDark
-  transition opacity .2s, transform .2s
   top 1.4rem
   right -0.7rem
 
+  span
+    display inline-block
+    transform-origin 50% 80%
+    transition opacity .2s, transform .2s
+
   &:hover
-    opacity .5
-    transform rotate(-90deg)
+    span
+      opacity .5
+      transform rotate(-90deg)
 
 
 .content

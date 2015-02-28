@@ -48,7 +48,8 @@ html.no-js(lang='en')
 
     section#perma
       #perma-content
-        a#x(href='/') &times;
+        a#x(href='/')
+          span &times;
 
         each val, key in locals.map
           div(id='content-' + key, class=locals.target === key ? 'active' : '')
