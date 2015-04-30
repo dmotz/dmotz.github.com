@@ -12,6 +12,7 @@ http    = require 'http'
 connect = require 'connect'
 staticS = require 'serve-static'
 getMap  = require './map'
+port    = 3333
 
 onErr = (err) ->
   gutil.log gutil.colors.red err
@@ -48,7 +49,8 @@ gulp.task 'styles', ->
 
 
 gulp.task 'server', ->
-  http.createServer(connect().use staticS '.').listen 3333
+  http.createServer(connect().use staticS '.').listen port
+  console.log "\nlistening on port #{ port }\n"
 
 
 gulp.task 'watch', ['server'], ->
