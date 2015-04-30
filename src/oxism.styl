@@ -66,6 +66,8 @@ h1, h2
   letter-spacing -0.2rem
   transition color .1s
 
+.clear
+  clear both
 
 .button, .buttons a
   display inline-block
@@ -453,8 +455,9 @@ pre
 
 
 #perma
+  transform translate3d(0, 0, 0)
   transition opacity .15s
-  z-index 0
+  z-index 1
 
 .cover
   transition color $cycleSpeed, opacity .2s
