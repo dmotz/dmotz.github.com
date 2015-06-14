@@ -36,6 +36,16 @@ map =
       github:           'https://github.com/dmotz/ExifExodus'
 
 
+  cellf:
+    display:  'Cellf'
+    isMajor:  true
+    line:     'A game of reflection.'
+    tags:     ['Clojure', 'React', 'Om', 'core.async']
+    links:
+      play:   'http://oxism.com/cellf'
+      github: 'https://github.com/dmotz/cellf'
+
+
   chaincal:
     display: 'ChainCal'
     isMajor: true
