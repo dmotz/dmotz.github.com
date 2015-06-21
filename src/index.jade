@@ -13,8 +13,7 @@ html.no-js(lang='en')
 
   body(class=locals.target ? 'perma' : '')
 
-    section#grid
-
+    nav#grid
       #info
         div
           .cover
@@ -50,27 +49,17 @@ html.no-js(lang='en')
       #perma-content
         a#x(href='/') &times;
 
+        - var key = locals.target
+        - var val = locals.map[key]
+
+        if locals.target
+          main(id='content-' + key, role='main', class='active')
+            include  ./article.jade
+
         each val, key in locals.map
-          div(id='content-' + key, class=locals.target === key ? 'active' : '')
-            h1= val.display
-            h2= val.line
-
-            if val.images
-              .images
-                each image in val.images
-                  img(src='/assets/images/' + image)
-
-            if val.links
-              .buttons
-                each url, linkTitle in val.links
-                  a.button(href=url)= linkTitle
-
-            .content!= val.md
-
-            if val.tags
-              .tools= val.tags.join(', ')
-
-            br.clear
+          if locals.target !== key
+            article(id='content-' + key)
+              include ./article.jade
 
     script.
       var jsonMap = !{ locals.jsonMap };
