@@ -1,0 +1,19 @@
+h1= val.display
+h2= val.line
+
+if val.images
+  .images
+    each image in val.images
+      img(src='/assets/images/' + image)
+
+if val.links
+  .buttons
+    each url, linkTitle in val.links
+      a.button(href=url)= linkTitle
+
+.content!= val.md
+
+if val.tags
+  .tools= val.tags.join(', ')
+
+br.clear
