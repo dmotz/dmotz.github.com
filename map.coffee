@@ -90,6 +90,14 @@ map =
       github:        'https://github.com/dmotz/TuringType'
 
 
+  natal:
+    display: 'Natal'
+    line:    'Bootstrap ClojureScript-based React Native apps'
+    tags:    ['ClojureScript']
+    links:
+      github: 'https://github.com/dmotz/natal'
+
+
   taxa:
     display:  'Taxa'
     gridName: 'ταξα'
