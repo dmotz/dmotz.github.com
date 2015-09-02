@@ -6,7 +6,7 @@ map =
   oridomi:
     display: 'OriDomi'
     isMajor: true
-    line:    'Fold the DOM up like paper.'
+    line:    'Fold the DOM up like paper'
     images:  ['oridomi1.jpg', 'oridomi2.jpg']
     tags:    ['CoffeeScript / JavaScript', 'CSS3']
     links:
@@ -18,7 +18,7 @@ map =
   pozaic:
     display: 'Pozaic'
     isMajor: true
-    line:    'Capture one second moments as animated gif mosaics.'
+    line:    'Capture one second moments as animated gif mosaics'
     images:  ['pozaic1.jpg', 'pozaic2.gif']
     tags:    ['Node.js', 'WebRTC', 'WebSockets', 'web workers']
     links:
@@ -29,7 +29,7 @@ map =
     display:  'ExifExodus'
     gridName: 'Exif Exodus'
     isMajor:  true
-    line:     'Remove GPS data from your photos before you upload them.'
+    line:     'Remove GPS data from your photos before you upload them'
     tags:     ['CoffeeScript / JavaScript', 'web workers']
     links:
       'exifexodus.com': 'http://exifexodus.com'
@@ -39,7 +39,7 @@ map =
   cellf:
     display:  'Cellf'
     isMajor:  true
-    line:     'A game of reflection.'
+    line:     'A game of reflection'
     tags:     ['Clojure', 'React', 'Om', 'core.async']
     links:
       play:   'http://oxism.com/cellf'
@@ -49,7 +49,7 @@ map =
   chaincal:
     display: 'ChainCal'
     isMajor: true
-    line:    'The simple habit building app for iPhone.'
+    line:    'The simple habit building app for iPhone'
     images:  ['chaincal1.jpg', 'chaincal2.jpg']
     tags:    ['CoffeeScript / JavaScript', 'Apache Cordova', 'CSS3', 'Objective-C']
     links:
@@ -60,7 +60,7 @@ map =
   hexaflip:
     display: 'HexaFlip'
     isMajor: true
-    line:    'Visualize arrays as cubes.'
+    line:    'Visualize arrays as cubes'
     images:  ['hexaflip1.jpg', 'hexaflip2.jpg']
     tags:    ['CoffeeScript / JavaScript', 'CSS3']
     links:
@@ -72,7 +72,7 @@ map =
   maskew:
     display: 'Maskew'
     isMajor: true
-    line:    'Add some diagonal rhythm to your elements.'
+    line:    'Add some diagonal rhythm to your elements'
     images:  ['maskew1.jpg', 'maskew2.jpg']
     tags:    ['CoffeeScript / JavaScript', 'CSS3']
     links:
@@ -83,7 +83,7 @@ map =
   turingtype:
     display: 'TuringType'
     isMajor: true
-    line:    'A naïve human typing simulation effect.'
+    line:    'A naïve human typing simulation effect'
     tags:    ['CoffeeScript / JavaScript']
     links:
       'demo / docs': 'http://oxism.com/TuringType'
@@ -101,7 +101,7 @@ map =
   taxa:
     display:  'Taxa'
     gridName: 'ταξα'
-    line:     'A tiny language inside JavaScript to enforce type signatures.'
+    line:     'A tiny language inside JavaScript to enforce type signatures'
     tags:     ['CoffeeScript / JavaScript']
     links:
       github: 'https://github.com/dmotz/taxa'
@@ -109,7 +109,7 @@ map =
 
   'stream-snitch':
     display: 'stream-snitch'
-    line:    'Event emitter for watching text streams with regex patterns.'
+    line:    'Event emitter for watching text streams with regex patterns'
     tags:    ['Node.js']
     links:
       github: 'https://github.com/dmotz/stream-snitch'
@@ -117,7 +117,7 @@ map =
 
   'ear-pipe':
     display: 'ear-pipe'
-    line:    'Pipe audio streams to your ears.'
+    line:    'Pipe audio streams to your ears'
     tags:    ['Node.js']
     links:
       github: 'https://github.com/dmotz/ear-pipe'
@@ -125,7 +125,7 @@ map =
 
   statmap:
     display: 'statmap'
-    line:    'Output recursive directory stats as JSON for visualization and analysis.'
+    line:    'Output recursive directory stats as JSON for visualization and analysis'
     tags:    ['Node.js']
     links:
       github: 'https://github.com/dmotz/statmap'
@@ -133,7 +133,7 @@ map =
 
   commune:
     display: 'Commune'
-    line:    'Web workers lose their chains: Easy threads without separate function files.'
+    line:    'Web workers lose their chains: Easy threads without separate function files'
     tags:    ['CoffeeScript / JavaScript', 'web workers']
     links:
       github: 'https://github.com/dmotz/commune.js'
@@ -141,7 +141,7 @@ map =
 
   'express-spa-router':
     display: 'Express SPA Router'
-    line:    'Internally reroute non-AJAX requests to your client-side single page app router.'
+    line:    'Internally reroute non-AJAX requests to your client-side single page app router'
     tags:    ['Node.js']
     links:
       github: 'https://github.com/dmotz/express-spa-router'
@@ -149,7 +149,7 @@ map =
 
   monocat:
     display: 'Monocat'
-    line:    'Automated asset inlining.'
+    line:    'Automated asset inlining'
     tags:    ['Node.js']
     links:
       github: 'https://github.com/dmotz/monocat'
