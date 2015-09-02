@@ -23,14 +23,13 @@ preprocessing is required.
 
 ## Grammar
 
-Taxa type signatures are intended to be quick to type and to occupy few
-additional columns in your code.
+Taxa type signatures are intended to be quick to type and to occupy few additional
+columns in your code.
 
-Following this spirit of brevity, examples are also shown in CoffeeScript as
-it's a natural fit to Taxa's style.
+Following this spirit of brevity, examples are also shown in CoffeeScript as it's
+a natural fit to Taxa's style.
 
-In the following, Taxa is aliased as `t` (though `$` or `taxa` feel natural as
-well):
+In the following, Taxa is aliased as `t` (though `$` or `taxa` feel natural as well):
 
 ```coffeescript
 t = require 'taxa'
@@ -122,14 +121,13 @@ var add = t('n,n n', function(a, b) {
 });
 ```
 
-The above function is expected to take two numbers as arguments and return a
-third.
+The above function is expected to take two numbers as arguments and return a third.
 
 
 ### Ignores
 
-Occasionally you may want to ignore type checking on a particular argument. Use
-the `_` character to mark it as ignored in the signature. For example, you may
+Occasionally you may want to ignore type checking on a particular argument.
+Use the `_` character to mark it as ignored in the signature. For example, you may
 have a method that produces effects without returning a value:
 
 ```coffeescript
@@ -205,7 +203,6 @@ var makeDiv = t('_ HTMLDivElement', function() {
 });
 ```
 ***
-
 ```coffeescript
 makeBuffer = t 'n Buffer', (n) -> new Buffer n
 ```
@@ -216,10 +213,10 @@ var makeBuffer = t('n Buffer', function(n) {
 });
 ```
 
-Since all non-primitive types are objects, specifying `o` in your signatures
-will of course match complex types as well. However, passing a plain object or
-an object of another type to a function that expects a specific type (e.g.
-`WeakMap`)  will correctly throw an error.
+Since all non-primitive types are objects, specifying `o` in your signatures will
+of course match complex types as well. However, passing a plain object or an
+object of another type to a function that expects a specific type (e.g. `WeakMap`)
+will correctly throw an error.
 
 Keep in mind that Taxa is strict with these signatures and will not walk up an
 object's inheritance chain to match ancestral types.
@@ -251,12 +248,34 @@ add2(3);
 Under the covers, `add2`'s type signature was changed to `n n`.
 
 
+## Aliases
+
+You can add your own custom shorthand aliases like this:
+
+```coffeescript
+t.addAlias 'i8', 'Int8Array'
+```
+
+```javascript
+t.addAlias('i8', 'Int8Array');
+```
+
+And remove them as well:
+
+```coffeescript
+t.removeAlias 'i8'
+```
+
+```javascript
+t.removeAlias('i8');
+```
+
+
 ## Disabling
 
-You can disable Taxa's type enforcement behavior globally by calling
-`t.disable()` (where `t` is whatever you've aliased Taxa as). This will cause
-calls to `t()` to perform a no-op wherein the original function is returned
-unmodified.
+You can disable Taxa's type enforcement behavior globally by calling `t.disable()`
+(where `t` is whatever you've aliased Taxa as). This will cause calls to `t()` to
+perform a no-op wherein the original function is returned unmodified.
 
 This is convenient for switching between environments without modifying code.
 
@@ -273,9 +292,9 @@ Taxa signatures.
 
 When a function is modified by Taxa, its arity is not preserved as most JS
 environments don't allow modifying a function's length property. Workarounds to
-this problem would involve using the `Function` constructor which would
-introduce its own problems. This only has implications if you're working with
-higher order functions that work by inspecting arity.
+this problem would involve using the `Function` constructor which would introduce
+its own problems. This only has implications if you're working with higher order
+functions that work by inspecting arity.
 
 It should go without saying, but this library is experimental and has obvious
 performance implications.
