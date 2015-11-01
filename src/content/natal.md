@@ -28,6 +28,17 @@ $ natal init FutureApp
 If your app's name is more than a single word, be sure to type it in CamelCase.
 A corresponding hyphenated Clojure namespace will be created.
 
+By default Natal will create a simple skeleton based on the current stable
+version of [Om](http://omcljs.org) (aka Om Now). If you'd like to base your app
+upon Om Next, you can specify a React interface template during init:
+
+```
+$ natal init FutureApp --interface om-next
+```
+
+Keep in mind your app isn't limited to the React interfaces Natal provides
+templates for; these are just for convenience.
+
 If all goes well your app should compile and boot in the simulator.
 
 From there you can begin an interactive workflow by starting the REPL.
@@ -105,10 +116,11 @@ tools.
 
 ## Aspirations
 - `[x]` Xcode-free workflow with CLI tools
+- `[x]` Templates for other ClojureScript React wrappers
 - `[ ]` Automatic wrapping of all React Native component functions for ClojureScript
 - `[ ]` Automatically run React packager in background
 - `[ ]` Automatically tail cljs build log and report compile errors
-- `[ ]` Templates for other ClojureScript React wrappers
+- `[ ]` Working dev tools
 - `[ ]` Automatic bundling for offline device usage and App Store distribution
 - `[ ]` Android support
 
