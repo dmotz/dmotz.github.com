@@ -67,7 +67,7 @@ onMove = (e) ->
     dY   = e.pageY - positions[i][1] - h / 2
     dist = (sqrt(dX ** 2 + dY ** 2) or 1) / dampen
     square.children[0].style[vendor.transform] =
-      "rotateX(#{ -dY / dist }deg) rotateY(#{ dX / dist }deg)"
+      "rotateX(#{-dY / dist}deg) rotateY(#{dX / dist}deg)"
 
   null
 
@@ -82,7 +82,15 @@ for key, val of vendor
 
 document.addEventListener 'DOMContentLoaded', ->
   setTimeout ->
-    document.documentElement.className = if isTouchScreen then 'touch' else ''
+    hasPointerEvents = do ->
+      el = document.createElement 'div'
+      el.style.cssText = 'pointer-events:auto'
+      el.style.pointerEvents is 'auto'
+
+    document.documentElement.className = [
+      if isTouchScreen then 'touch' else ''
+      if hasPointerEvents then '' else 'no-pe'
+    ].join ' '
   , 0
 
   squares  = document.getElementById('grid').children
@@ -114,4 +122,3 @@ document.addEventListener 'DOMContentLoaded', ->
 
 
 , false
-
