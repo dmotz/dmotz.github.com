@@ -93,9 +93,17 @@ map =
   natal:
     display: 'Natal'
     line:    'Bootstrap ClojureScript-based React Native apps'
-    tags:    ['ClojureScript']
+    tags:    ['Clojure', 'CoffeeScript / JavaScript']
     links:
       github: 'https://github.com/dmotz/natal'
+
+
+  'natal-shell':
+    display: 'Natal Shell'
+    line:    'A thin ClojureScript wrapper around the React Native API'
+    tags:    ['Clojure']
+    links:
+      github: 'https://github.com/dmotz/natal-shell'
 
 
   taxa:
@@ -167,4 +175,3 @@ module.exports = (cb) ->
         cb err
 
   async.parallel fns, (err) -> cb err, map
-
