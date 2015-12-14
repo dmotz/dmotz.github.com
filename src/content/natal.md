@@ -96,6 +96,9 @@ index of the device on the list.
 - The Xcode-free workflow is for convenience. If you're encountering app crashes,
 you should open the Xcode project and run it from there to view errors.
 
+- You can run any command with `--verbose` or `-v` to see output that may be
+helpful in diagnosing errors.
+
 
 ## Dependencies
 As Natal is the orchestration of many individual tools, there are quite a few dependencies.
@@ -113,6 +116,7 @@ tools.
     - [OS X](http://www.apple.com/osx) `>=10.10`
 - [Watchman](https://facebook.github.io/watchman) `>=3.7.0`
 - [rlwrap](http://utopia.knoware.nl/~hlub/uck/rlwrap/) `>=0.42` (optional but recommended for REPL use)
+- [react-native-cli](https://www.npmjs.com/package/react-native-cli) `>=0.1.7` (install with `npm install -g react-native-cli`)
 
 ## Updating Natal
 You can get the latest version of Natal by running `npm install -g natal` again.
