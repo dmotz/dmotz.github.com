@@ -42,7 +42,7 @@ map =
     line:     'A game of reflection'
     tags:     ['Clojure', 'React', 'Om', 'core.async']
     links:
-      play:   'http://oxism.com/cellf'
+      play:   'https://rawgit.com/dmotz/cellf/gh-pages/index.html'
       github: 'https://github.com/dmotz/cellf'
 
 
