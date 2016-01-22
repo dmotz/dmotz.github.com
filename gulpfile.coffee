@@ -5,7 +5,7 @@ jade    = require 'gulp-jade'
 coffee  = require 'gulp-coffee'
 stylus  = require 'gulp-stylus'
 uglify  = require 'gulp-uglify'
-htmlMin = require 'gulp-minify-html'
+htmlMin = require 'gulp-htmlmin'
 lr      = require 'gulp-livereload'
 nib     = require 'nib'
 http    = require 'http'
@@ -67,4 +67,3 @@ gulp.task 'watch', ['server'], ->
 
 
 gulp.task 'default', ['templates', 'scripts', 'styles']
-
