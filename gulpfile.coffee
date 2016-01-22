@@ -31,7 +31,7 @@ gulp.task 'templates', ->
     for key in Object.keys(map).concat null
       gulp.src 'src/index.jade'
         .pipe jade(locals: {map, jsonMap, target: key, title: titleMap[key]}).on 'error', onErr
-        .pipe htmlMin quotes: true
+        .pipe htmlMin quotes: true, removeComments: true
         .pipe gulp.dest if key then "./works/#{ key }" else '.'
 
 
