@@ -22,7 +22,7 @@ map =
     images:  ['pozaic1.jpg', 'pozaic2.gif']
     tags:    ['Node.js', 'WebRTC', 'WebSockets', 'web workers']
     links:
-      'pozaic.com': 'http://pozaic.com'
+      'pozaic.com': 'https://pozaic.com'
 
 
   exifexodus:
