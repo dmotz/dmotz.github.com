@@ -48,7 +48,7 @@ handleLink = (link) ->
 computePositions = ->
   for square, i in squares
     {left, top}  = square.getBoundingClientRect()
-    positions[i] = [left, top]
+    positions[i] = [left, top + scrollY]
   null
 
 
