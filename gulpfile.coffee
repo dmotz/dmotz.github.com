@@ -9,6 +9,9 @@ htmlMin = require 'gulp-htmlmin'
 lr      = require 'gulp-livereload'
 nib     = require 'nib'
 http    = require 'http'
+crypto  = require 'crypto'
+fs      = require 'fs'
+async   = require 'async'
 connect = require 'connect'
 staticS = require 'serve-static'
 getMap  = require './map'
@@ -20,6 +23,12 @@ onErr = (err) ->
   @emit 'end'
 
 
+hash = (file, cb) ->
+  fs.readFile file, (err, data) ->
+    return cb err if err
+    cb null, crypto.createHash('md5').update(data).digest 'hex'
+
+
 gulp.task 'templates', ->
   getMap (err, map) ->
     titleMap = new ->
@@ -28,11 +37,16 @@ gulp.task 'templates', ->
 
     jsonMap = JSON.stringify titleMap
 
-    for key in Object.keys(map).concat null
-      gulp.src 'src/index.jade'
-        .pipe jade(locals: {map, jsonMap, target: key, title: titleMap[key]}).on 'error', onErr
-        .pipe htmlMin quotes: true, removeComments: true
-        .pipe gulp.dest if key then "./works/#{ key }" else '.'
+    async.parallel
+      script: hash.bind @, './src/oxism.coffee'
+      style:  hash.bind @, './src/oxism.styl'
+    , (err, hashes) ->
+      throw err if err
+      for key in Object.keys(map).concat null
+        gulp.src 'src/index.jade'
+          .pipe jade(locals: {map, jsonMap, hashes, target: key, title: titleMap[key]}).on 'error', onErr
+          .pipe htmlMin quotes: true, removeComments: true
+          .pipe gulp.dest if key then "./works/#{ key }" else '.'
 
 
 gulp.task 'scripts', ->

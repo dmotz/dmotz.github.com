@@ -5,7 +5,7 @@ html.no-js(lang='en')
     meta(name='description', content='Dan Motzenbecker :: recent works')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
     meta(name='author', content='Dan Motzenbecker')
-    link(href='/assets/css/oxism.css', rel='stylesheet', type='text/css')
+    link(href='/assets/css/oxism.css?v=' + hashes.style, rel='stylesheet', type='text/css')
     link(href='/assets/images/favicon.png', rel='icon', type='image/png')
     link(href='/assets/images/favicon-152.png', rel='apple-touch-icon-precomposed')
     link(href='//fonts.googleapis.com/css?family=Playfair+Display:700', rel='stylesheet', type='text/css')
@@ -63,7 +63,7 @@ html.no-js(lang='en')
 
     script.
       var jsonMap = !{ locals.jsonMap };
-    script(src='/assets/js/oxism.js')
+    script(src='/assets/js/oxism.js?v=' + hashes.script)
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
