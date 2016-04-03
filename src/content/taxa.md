@@ -7,8 +7,6 @@ add('3', '7');
 // => Taxa: Expected number as argument 0, given string (3) instead.
 ```
 
-## Brief
-
 Taxa is a small metaprogramming experiment that introduces a minimal grammar for
 type annotations to JavaScript (and by extension, CoffeeScript).
 
@@ -304,4 +302,3 @@ Taxa is young and open to suggestions / contributors.
 
 ## Name
 From the Ancient Greek τάξις (arrangement, order).
-

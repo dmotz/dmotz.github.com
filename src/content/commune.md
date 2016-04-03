@@ -1,4 +1,3 @@
-### Intro
 Commune.js makes it easy to run computationally heavy functions in a separate
 thread and retrieve the results asynchronously. By delegating these functions
 to a separate thread, you can avoid slowing down the main thread that affects
@@ -137,4 +136,3 @@ modified version of their input.
 Also, since this is an abstraction designed for ease-of-use and flexibility,
 it does not work exactly as web workers do -- namely you can't have multiple
 return events from a single worker.
-

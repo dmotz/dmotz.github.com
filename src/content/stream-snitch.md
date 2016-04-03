@@ -1,5 +1,3 @@
-### Intro
-
 stream-snitch is a tiny Node module that allows you to match streaming data
 patterns with regular expressions. It's much like `... | grep`, but for Node
 streams using native events and regular expression objects. It's also a good
@@ -135,4 +133,3 @@ patterns if you're using the `$` operator for looking at endings on a line by
 line basis. If you're legitimately looking for a pattern at the end of a
 document, stream-snitch only offers some advantage over buffering the entire
 response, in that it periodically discards chunks from memory.
-

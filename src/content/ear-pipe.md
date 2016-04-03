@@ -7,6 +7,7 @@ and pipe the output stream somewhere else.
 
 
 ### Installation
+
 ear-pipe relies on the cross-platform audio utility
 [SoX](http://sox.sourceforge.net), so make sure that's installed first.
 
@@ -101,4 +102,3 @@ epTrans.pipe(anotherStreamingAudioConsumer);
 
 Kill an ear-pipe instance by calling its `kill()` method. If you're interested
 in the underlying SoX process, access an instance's `.process` property.
-
