@@ -4,7 +4,10 @@ h2= val.line + '.'
 if val.images
   .images
     each image in val.images
-      img(src='/assets/images/' + image)
+      if /\.mp4$/.test(image)
+        video(autoplay, loop, src='/assets/images/' + image)
+      else
+        img(src='/assets/images/' + image)
 
 if val.links
   .buttons
