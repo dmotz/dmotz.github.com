@@ -19,7 +19,7 @@ map =
     display: 'Gilded Gauge'
     isMajor: true
     line:    'Visualize relative wealth in graspable terms'
-    images:  ['gildedgauge1.png', 'gildedgauge2.mp4']
+    images:  ['gildedgauge1.jpg', 'gildedgauge2.mp4']
     tags:    ['Clojure', 'React', 'Om']
     links:
       'gildedgauge.club': 'http://gildedgauge.club'
