@@ -399,7 +399,7 @@ pre
   margin-bottom 2.6rem
   float left
 
-  img
+  img, video
     width 49%
     float left
     padding 1rem
@@ -430,12 +430,13 @@ pre
 
 
 @media only screen and (max-width 600px)
-  .images img
-    width 100%
-    margin-bottom 1rem
+  .images
+    img, video
+      width 100%
+      margin-bottom 1rem
 
-    &:last-child
-      margin-bottom 0
+      &:last-child
+        margin-bottom 0
 
   #perma-content
     padding-bottom 15rem
