@@ -15,6 +15,17 @@ map =
       'annotated source': 'http://oridomi.com/docs/oridomi.html'
 
 
+  gildedgauge:
+    display: 'Gilded Gauge'
+    isMajor: true
+    line:    'Visualize relative wealth in graspable terms'
+    images:  ['gildedgauge1.png', 'gildedgauge2.mp4']
+    tags:    ['Clojure', 'React', 'Om']
+    links:
+      'gildedgauge.club': 'http://gildedgauge.club'
+      github:             'https://github.com/dmotz/GildedGauge'
+
+
   pozaic:
     display: 'Pozaic'
     isMajor: true
