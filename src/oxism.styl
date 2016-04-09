@@ -11,7 +11,7 @@ $gold       = #e3ba7a
 $teal       = #35d2d8
 $blue       = #0baadc
 $red        = #ff585a
-
+$black      = #333
 
 @font-face
   font-family 'adv'
@@ -165,7 +165,7 @@ h1, h2
         transition-duration .2s !important
 
       h2
-        color #555
+        color $black
 
 
 .cover, .image
@@ -178,7 +178,7 @@ h1, h2
 .major
   > div
     background-color #fff
-    color #555
+    color $black
 
   &:hover h2
     color transparent !important
@@ -266,7 +266,7 @@ $permaDark = rgba(#000, .5)
   line-height .4
   text-align center
   position absolute
-  color $permaDark
+  color $black
   top 1.4rem
   right -0.7rem
   width 6rem
@@ -365,17 +365,17 @@ pre
 
   h1
     line-height 1
-    margin-bottom 1rem
+    margin-bottom 1.5rem
     font-size 6rem
     word-wrap break-word
     width 81%
     color $gold
 
   h2
-    font-size 3.2rem
-    margin-bottom 2.4rem
+    font-size 3.3rem
+    margin-bottom 2.45rem
     line-height 1.1
-    color $permaDark
+    color $black
     letter-spacing -0.1rem
     max-width 60rem
 
