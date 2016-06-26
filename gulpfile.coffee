@@ -6,14 +6,12 @@ coffee  = require 'gulp-coffee'
 stylus  = require 'gulp-stylus'
 uglify  = require 'gulp-uglify'
 htmlMin = require 'gulp-htmlmin'
-lr      = require 'gulp-livereload'
 nib     = require 'nib'
 http    = require 'http'
 crypto  = require 'crypto'
 fs      = require 'fs'
 async   = require 'async'
-connect = require 'connect'
-staticS = require 'serve-static'
+ls      = require 'live-server'
 getMap  = require './map'
 port    = 3333
 
@@ -65,19 +63,15 @@ gulp.task 'styles', ->
 
 
 gulp.task 'server', ->
-  http.createServer(connect().use staticS '.').listen port
-  console.log "\nlistening on port #{ port }\n"
+  ls.start {port, open: false}
 
 
 gulp.task 'watch', ['server'], ->
-  lr.listen()
   gulp.watch 'src/*.jade', ['templates']
   gulp.watch 'src/content/*.md', ['templates']
   gulp.watch 'map.coffee', ['templates']
   gulp.watch 'src/*.coffee', ['scripts']
   gulp.watch 'src/*.styl', ['styles']
-  for path in ['index.html', 'assets/js/oxism.js', 'assets/css/oxism.css']
-    gulp.watch(path).on 'change', lr.changed
 
 
 gulp.task 'default', ['templates', 'scripts', 'styles']
