@@ -110,6 +110,15 @@ map =
       github: 'https://github.com/dmotz/natal'
 
 
+  tasseographer:
+    display:  'Tasseographer'
+    gridName: 'tasseo-\ngrapher'
+    line:     'Divine auspices from Git log hashes'
+    tags:     ['Clojure']
+    links:
+      github: 'https://github.com/dmotz/tasseographer'
+
+
   'natal-shell':
     display: 'Natal Shell'
     line:    'A thin ClojureScript wrapper around the React Native API'
