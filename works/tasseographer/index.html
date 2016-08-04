@@ -1,108 +1,16 @@
-<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="utf-8"><meta name="description" content="Dan Motzenbecker :: recent works"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><meta name="author" content="Dan Motzenbecker"><link href="/assets/css/oxism.css?v=7fae240b8218766ca9f0fc47d605c787" rel="stylesheet" type="text/css"><link href="/assets/images/favicon.png" rel="icon" type="image/png"><link href="/assets/images/favicon-152.png" rel="apple-touch-icon-precomposed"><link href="//fonts.googleapis.com/css?family=Playfair+Display:700" rel="stylesheet" type="text/css"><title>statmap - Output recursive directory stats as JSON for visualization and analysis</title></head><body class="perma"><nav id="grid"><div id="info"><div><div class="cover"><h1>Dan<br>Motzenbecker</h1><br><h2>recent<br>works</h2></div><div class="image"></div></div></div><div id="meta"><div><div class="cover"><div><a id="email" class="button">email</a><a href="https://twitter.com/dcmotz" class="button">twitter</a><a href="https://github.com/dmotz" class="button">github</a></div></div></div></div><a id="oridomi-link" href="/works/oridomi" class="major"><div><div class="cover"><h2>OriDomi</h2></div><div class="image"></div></div></a><a id="gildedgauge-link" href="/works/gildedgauge" class="major"><div><div class="cover"><h2>Gilded Gauge</h2></div><div class="image"></div></div></a><a id="pozaic-link" href="/works/pozaic" class="major"><div><div class="cover"><h2>Pozaic</h2></div><div class="image"></div></div></a><a id="exifexodus-link" href="/works/exifexodus" class="major"><div><div class="cover"><h2>Exif Exodus</h2></div><div class="image"></div></div></a><a id="cellf-link" href="/works/cellf" class="major"><div><div class="cover"><h2>Cellf</h2></div><div class="image"></div></div></a><a id="chaincal-link" href="/works/chaincal" class="major"><div><div class="cover"><h2>ChainCal</h2></div><div class="image"></div></div></a><a id="hexaflip-link" href="/works/hexaflip" class="major"><div><div class="cover"><h2>HexaFlip</h2></div><div class="image"></div></div></a><a id="maskew-link" href="/works/maskew" class="major"><div><div class="cover"><h2>Maskew</h2></div><div class="image"></div></div></a><a id="turingtype-link" href="/works/turingtype" class="major"><div><div class="cover"><h2>TuringType</h2></div><div class="image"></div></div></a><a id="natal-link" href="/works/natal"><div><div class="cover"><h2>Natal</h2></div></div></a><a id="tasseographer-link" href="/works/tasseographer"><div><div class="cover"><h2>tasseo-
-grapher</h2></div></div></a><a id="natal-shell-link" href="/works/natal-shell"><div><div class="cover"><h2>Natal Shell</h2></div></div></a><a id="taxa-link" href="/works/taxa"><div><div class="cover"><h2>ταξα</h2></div></div></a><a id="stream-snitch-link" href="/works/stream-snitch"><div><div class="cover"><h2>stream-snitch</h2></div></div></a><a id="ear-pipe-link" href="/works/ear-pipe"><div><div class="cover"><h2>ear-pipe</h2></div></div></a><a id="statmap-link" href="/works/statmap"><div><div class="cover"><h2>statmap</h2></div></div></a><a id="commune-link" href="/works/commune"><div><div class="cover"><h2>Commune</h2></div></div></a><a id="express-spa-router-link" href="/works/express-spa-router"><div><div class="cover"><h2>Express SPA Router</h2></div></div></a><a id="monocat-link" href="/works/monocat"><div><div class="cover"><h2>Monocat</h2></div></div></a></nav><section id="perma"><div id="perma-content"><a id="x" href="/">&times;</a><main id="content-statmap" role="main" class="active"><h1>statmap</h1><h2>Output recursive directory stats as JSON for visualization and analysis.</h2><div class="buttons"><a href="https://github.com/dmotz/statmap" class="button">github</a></div><div class="content"><h3 id="installation-and-usage">Installation and Usage</h3>
-<p><strong>As a system executable:</strong></p>
-<pre><code>$ npm install -g statmap
-</code></pre><p>When used as an executable, statmap returns JSON over stdout.</p>
-<p>To map the current directory:</p>
-<pre><code>$ statmap &gt; stats.json
-</code></pre><p>Pass an optional argument for a different directory:</p>
-<pre><code>$ statmap .. &gt; parent.json
-</code></pre><p>The JSON will contain a recursive representation of the directory and all
-children. Each key is a file or directory name with a corresponding value
-containing a <code>stats</code> object and a <code>children</code> object if it is a directory.
-Directories also are also given a <code>sum</code> property which reflects the size of all
-children recursively, unlike the typical <code>size</code> property of directory’s <code>stats</code>
-object.</p>
-<p>Here’s an excerpt of the output for the package itself:</p>
-<pre><code class="lang-javascript">{
-  &quot;statmap&quot;: {
-    &quot;stats&quot;: {
-      &quot;dev&quot;: 16777220,
-      &quot;mode&quot;: 16877,
-      &quot;nlink&quot;: 9,
-      &quot;uid&quot;: 501,
-      &quot;gid&quot;: 80,
-      &quot;rdev&quot;: 0,
-      &quot;blksize&quot;: 4096,
-      &quot;ino&quot;: 141035615,
-      &quot;size&quot;: 306,
-      &quot;blocks&quot;: 0,
-      &quot;atime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;,
-      &quot;mtime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;,
-      &quot;ctime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;
-    },
-    &quot;sum&quot;: 165329,
-    &quot;children&quot;: {
-      &quot;README.md&quot;: {
-        &quot;stats&quot;: {
-          &quot;dev&quot;: 16777220,
-          &quot;mode&quot;: 33188,
-          &quot;nlink&quot;: 1,
-          &quot;uid&quot;: 501,
-          &quot;gid&quot;: 80,
-          &quot;rdev&quot;: 0,
-          &quot;blksize&quot;: 4096,
-          &quot;ino&quot;: 141057002,
-          &quot;size&quot;: 550,
-          &quot;blocks&quot;: 8,
-          &quot;atime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;,
-          &quot;mtime&quot;: &quot;2013-11-25T01:01:52.000Z&quot;,
-          &quot;ctime&quot;: &quot;2013-11-25T01:01:54.000Z&quot;
-        }
-      },
-      &quot;index.js&quot;: {
-        &quot;stats&quot;: {
-          &quot;dev&quot;: 16777220,
-          &quot;mode&quot;: 33188,
-          &quot;nlink&quot;: 1,
-          &quot;uid&quot;: 501,
-          &quot;gid&quot;: 80,
-          &quot;rdev&quot;: 0,
-          &quot;blksize&quot;: 4096,
-          &quot;ino&quot;: 141035626,
-          &quot;size&quot;: 1180,
-          &quot;blocks&quot;: 8,
-          &quot;atime&quot;: &quot;2013-11-25T01:02:06.000Z&quot;,
-          &quot;mtime&quot;: &quot;2013-11-25T00:51:31.000Z&quot;,
-          &quot;ctime&quot;: &quot;2013-11-25T00:51:31.000Z&quot;
-        }
-      },
-      &quot;node_modules&quot;: {
-        &quot;stats&quot;: {
-          &quot;dev&quot;: 16777220,
-          &quot;mode&quot;: 16877,
-          &quot;nlink&quot;: 3,
-          &quot;uid&quot;: 501,
-          &quot;gid&quot;: 20,
-          &quot;rdev&quot;: 0,
-          &quot;blksize&quot;: 4096,
-          &quot;ino&quot;: 141036545,
-          &quot;size&quot;: 102,
-          &quot;blocks&quot;: 0,
-          &quot;atime&quot;: &quot;2013-11-25T00:53:55.000Z&quot;,
-          &quot;mtime&quot;: &quot;2013-11-24T23:00:54.000Z&quot;,
-          &quot;ctime&quot;: &quot;2013-11-24T23:00:54.000Z&quot;
-        },
-        &quot;sum&quot;: 124651,
-        &quot;children&quot;: {
-          &quot;async&quot;: {
-            &quot;stats&quot;: {
-        //...
-</code></pre>
-<p>Using this data, you could create something like a
-<a href="http://mbostock.github.io/d3/talk/20111018/treemap.html">D3 zoomable treemap</a>
-of your hard drive.</p>
-<p><strong>As a library:</strong></p>
-<pre><code>$ npm install --save statmap
-</code></pre><p>Pass a path and a callback:</p>
-<pre><code class="lang-javascript">var statmap = require(&#39;statmap&#39;);
-
-statmap(&#39;./spells&#39;, function(err, stats) {
-  console.log(utils.inspect(stats, { color: true, depth: null }));
-});
-</code></pre>
-<p>When used as a library, a live object is returned rather than a JSON string.</p>
-</div><div class="tools">Node.js</div><br class="clear"></main><article id="content-oridomi"><h1>OriDomi</h1><h2>Fold the DOM up like paper.</h2><div class="images"><img src="/assets/images/oridomi1.jpg"><img src="/assets/images/oridomi2.jpg"></div><div class="buttons"><a href="http://oridomi.com" class="button">oridomi.com</a><a href="https://github.com/dmotz/oriDomi" class="button">github</a><a href="http://oridomi.com/docs/oridomi.html" class="button">annotated source</a></div><div class="content"><p>The web is flat, but with OriDomi you can fold it up. OriDomi is an open-source
+<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="utf-8"><meta name="description" content="Dan Motzenbecker :: recent works"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><meta name="author" content="Dan Motzenbecker"><link href="/assets/css/oxism.css?v=7fae240b8218766ca9f0fc47d605c787" rel="stylesheet" type="text/css"><link href="/assets/images/favicon.png" rel="icon" type="image/png"><link href="/assets/images/favicon-152.png" rel="apple-touch-icon-precomposed"><link href="//fonts.googleapis.com/css?family=Playfair+Display:700" rel="stylesheet" type="text/css"><title>Tasseographer - Divine auspices from Git log hashes</title></head><body class="perma"><nav id="grid"><div id="info"><div><div class="cover"><h1>Dan<br>Motzenbecker</h1><br><h2>recent<br>works</h2></div><div class="image"></div></div></div><div id="meta"><div><div class="cover"><div><a id="email" class="button">email</a><a href="https://twitter.com/dcmotz" class="button">twitter</a><a href="https://github.com/dmotz" class="button">github</a></div></div></div></div><a id="oridomi-link" href="/works/oridomi" class="major"><div><div class="cover"><h2>OriDomi</h2></div><div class="image"></div></div></a><a id="gildedgauge-link" href="/works/gildedgauge" class="major"><div><div class="cover"><h2>Gilded Gauge</h2></div><div class="image"></div></div></a><a id="pozaic-link" href="/works/pozaic" class="major"><div><div class="cover"><h2>Pozaic</h2></div><div class="image"></div></div></a><a id="exifexodus-link" href="/works/exifexodus" class="major"><div><div class="cover"><h2>Exif Exodus</h2></div><div class="image"></div></div></a><a id="cellf-link" href="/works/cellf" class="major"><div><div class="cover"><h2>Cellf</h2></div><div class="image"></div></div></a><a id="chaincal-link" href="/works/chaincal" class="major"><div><div class="cover"><h2>ChainCal</h2></div><div class="image"></div></div></a><a id="hexaflip-link" href="/works/hexaflip" class="major"><div><div class="cover"><h2>HexaFlip</h2></div><div class="image"></div></div></a><a id="maskew-link" href="/works/maskew" class="major"><div><div class="cover"><h2>Maskew</h2></div><div class="image"></div></div></a><a id="turingtype-link" href="/works/turingtype" class="major"><div><div class="cover"><h2>TuringType</h2></div><div class="image"></div></div></a><a id="natal-link" href="/works/natal"><div><div class="cover"><h2>Natal</h2></div></div></a><a id="tasseographer-link" href="/works/tasseographer"><div><div class="cover"><h2>tasseo-
+grapher</h2></div></div></a><a id="natal-shell-link" href="/works/natal-shell"><div><div class="cover"><h2>Natal Shell</h2></div></div></a><a id="taxa-link" href="/works/taxa"><div><div class="cover"><h2>ταξα</h2></div></div></a><a id="stream-snitch-link" href="/works/stream-snitch"><div><div class="cover"><h2>stream-snitch</h2></div></div></a><a id="ear-pipe-link" href="/works/ear-pipe"><div><div class="cover"><h2>ear-pipe</h2></div></div></a><a id="statmap-link" href="/works/statmap"><div><div class="cover"><h2>statmap</h2></div></div></a><a id="commune-link" href="/works/commune"><div><div class="cover"><h2>Commune</h2></div></div></a><a id="express-spa-router-link" href="/works/express-spa-router"><div><div class="cover"><h2>Express SPA Router</h2></div></div></a><a id="monocat-link" href="/works/monocat"><div><div class="cover"><h2>Monocat</h2></div></div></a></nav><section id="perma"><div id="perma-content"><a id="x" href="/">&times;</a><main id="content-tasseographer" role="main" class="active"><h1>Tasseographer</h1><h2>Divine auspices from Git log hashes.</h2><div class="buttons"><a href="https://github.com/dmotz/tasseographer" class="button">github</a></div><div class="content"><p>Every Git repository is full of latent omens waiting to be divined through
+complex Lisp augury.</p>
+<p>Tasseographer scours commit log hashes and cross references words in
+<code>/usr/share/dict/words</code>.</p>
+<h3 id="usage-">Usage:</h3>
+<p>Target any Git repository:</p>
+<pre><code>$ tasseographer [dir]
+</code></pre><h3 id="example-output-">Example output:</h3>
+<p><img src="https://dmotz.github.io/tasseographer/1.png" width="360"></p>
+<p><img src="https://dmotz.github.io/tasseographer/2.png" width="360"></p>
+<p><img src="https://dmotz.github.io/tasseographer/3.png" width="360"></p>
+</div><div class="tools">Clojure</div><br class="clear"></main><article id="content-oridomi"><h1>OriDomi</h1><h2>Fold the DOM up like paper.</h2><div class="images"><img src="/assets/images/oridomi1.jpg"><img src="/assets/images/oridomi2.jpg"></div><div class="buttons"><a href="http://oridomi.com" class="button">oridomi.com</a><a href="https://github.com/dmotz/oriDomi" class="button">github</a><a href="http://oridomi.com/docs/oridomi.html" class="button">annotated source</a></div><div class="content"><p>The web is flat, but with OriDomi you can fold it up. OriDomi is an open-source
 paper-folding library with animation queueing, touch support, and zero dependencies.</p>
 </div><div class="tools">CoffeeScript / JavaScript, CSS3</div><br class="clear"></article><article id="content-gildedgauge"><h1>Gilded Gauge</h1><h2>Visualize relative wealth in graspable terms.</h2><div class="images"><img src="/assets/images/gildedgauge1.jpg"><video autoplay loop src="/assets/images/gildedgauge2.mp4"></video></div><div class="buttons"><a href="http://gildedgauge.club" class="button">gildedgauge.club</a><a href="https://github.com/dmotz/GildedGauge" class="button">github</a><a href="http://thecreatorsproject.vice.com/blog/your-wealth-vs-billionaires-emojis" class="button">vice article</a></div><div class="content"><p><em>Gilded Gauge</em> is an experiment in visualizing relative wealth in terms viewers
 may find more natural to grasp.</p>
@@ -309,18 +217,7 @@ by Jearvon Dharrie, demonstrated in
 <p>If you’re looking for a simple ClojureScript wrapper around the React Native API,
 check out the companion library <a href="https://github.com/dmotz/natal-shell">Natal Shell</a>.
 It is included by default in projects generated by Natal.</p>
-</div><div class="tools">Clojure, CoffeeScript / JavaScript</div><br class="clear"></article><article id="content-tasseographer"><h1>Tasseographer</h1><h2>Divine auspices from Git log hashes.</h2><div class="buttons"><a href="https://github.com/dmotz/tasseographer" class="button">github</a></div><div class="content"><p>Every Git repository is full of latent omens waiting to be divined through
-complex Lisp augury.</p>
-<p>Tasseographer scours commit log hashes and cross references words in
-<code>/usr/share/dict/words</code>.</p>
-<h3 id="usage-">Usage:</h3>
-<p>Target any Git repository:</p>
-<pre><code>$ tasseographer [dir]
-</code></pre><h3 id="example-output-">Example output:</h3>
-<p><img src="https://dmotz.github.io/tasseographer/1.png" width="360"></p>
-<p><img src="https://dmotz.github.io/tasseographer/2.png" width="360"></p>
-<p><img src="https://dmotz.github.io/tasseographer/3.png" width="360"></p>
-</div><div class="tools">Clojure</div><br class="clear"></article><article id="content-natal-shell"><h1>Natal Shell</h1><h2>A thin ClojureScript wrapper around the React Native API.</h2><div class="buttons"><a href="https://github.com/dmotz/natal-shell" class="button">github</a></div><div class="content"><p>Natal Shell is a simple convenience wrapper around the React Native API,
+</div><div class="tools">Clojure, CoffeeScript / JavaScript</div><br class="clear"></article><article id="content-natal-shell"><h1>Natal Shell</h1><h2>A thin ClojureScript wrapper around the React Native API.</h2><div class="buttons"><a href="https://github.com/dmotz/natal-shell" class="button">github</a></div><div class="content"><p>Natal Shell is a simple convenience wrapper around the React Native API,
 offering a simple Clojure-ready interface out of the box.</p>
 <p>It is designed as a companion library to <a href="https://github.com/dmotz/natal">Natal</a>
 (a command line utility for quickly bootstrapping React Native projects in
@@ -727,6 +624,109 @@ epTrans.pipe(anotherStreamingAudioConsumer);
 <h3 id="killing">Killing</h3>
 <p>Kill an ear-pipe instance by calling its <code>kill()</code> method. If you’re interested
 in the underlying SoX process, access an instance’s <code>.process</code> property.</p>
+</div><div class="tools">Node.js</div><br class="clear"></article><article id="content-statmap"><h1>statmap</h1><h2>Output recursive directory stats as JSON for visualization and analysis.</h2><div class="buttons"><a href="https://github.com/dmotz/statmap" class="button">github</a></div><div class="content"><h3 id="installation-and-usage">Installation and Usage</h3>
+<p><strong>As a system executable:</strong></p>
+<pre><code>$ npm install -g statmap
+</code></pre><p>When used as an executable, statmap returns JSON over stdout.</p>
+<p>To map the current directory:</p>
+<pre><code>$ statmap &gt; stats.json
+</code></pre><p>Pass an optional argument for a different directory:</p>
+<pre><code>$ statmap .. &gt; parent.json
+</code></pre><p>The JSON will contain a recursive representation of the directory and all
+children. Each key is a file or directory name with a corresponding value
+containing a <code>stats</code> object and a <code>children</code> object if it is a directory.
+Directories also are also given a <code>sum</code> property which reflects the size of all
+children recursively, unlike the typical <code>size</code> property of directory’s <code>stats</code>
+object.</p>
+<p>Here’s an excerpt of the output for the package itself:</p>
+<pre><code class="lang-javascript">{
+  &quot;statmap&quot;: {
+    &quot;stats&quot;: {
+      &quot;dev&quot;: 16777220,
+      &quot;mode&quot;: 16877,
+      &quot;nlink&quot;: 9,
+      &quot;uid&quot;: 501,
+      &quot;gid&quot;: 80,
+      &quot;rdev&quot;: 0,
+      &quot;blksize&quot;: 4096,
+      &quot;ino&quot;: 141035615,
+      &quot;size&quot;: 306,
+      &quot;blocks&quot;: 0,
+      &quot;atime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;,
+      &quot;mtime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;,
+      &quot;ctime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;
+    },
+    &quot;sum&quot;: 165329,
+    &quot;children&quot;: {
+      &quot;README.md&quot;: {
+        &quot;stats&quot;: {
+          &quot;dev&quot;: 16777220,
+          &quot;mode&quot;: 33188,
+          &quot;nlink&quot;: 1,
+          &quot;uid&quot;: 501,
+          &quot;gid&quot;: 80,
+          &quot;rdev&quot;: 0,
+          &quot;blksize&quot;: 4096,
+          &quot;ino&quot;: 141057002,
+          &quot;size&quot;: 550,
+          &quot;blocks&quot;: 8,
+          &quot;atime&quot;: &quot;2013-11-25T01:02:05.000Z&quot;,
+          &quot;mtime&quot;: &quot;2013-11-25T01:01:52.000Z&quot;,
+          &quot;ctime&quot;: &quot;2013-11-25T01:01:54.000Z&quot;
+        }
+      },
+      &quot;index.js&quot;: {
+        &quot;stats&quot;: {
+          &quot;dev&quot;: 16777220,
+          &quot;mode&quot;: 33188,
+          &quot;nlink&quot;: 1,
+          &quot;uid&quot;: 501,
+          &quot;gid&quot;: 80,
+          &quot;rdev&quot;: 0,
+          &quot;blksize&quot;: 4096,
+          &quot;ino&quot;: 141035626,
+          &quot;size&quot;: 1180,
+          &quot;blocks&quot;: 8,
+          &quot;atime&quot;: &quot;2013-11-25T01:02:06.000Z&quot;,
+          &quot;mtime&quot;: &quot;2013-11-25T00:51:31.000Z&quot;,
+          &quot;ctime&quot;: &quot;2013-11-25T00:51:31.000Z&quot;
+        }
+      },
+      &quot;node_modules&quot;: {
+        &quot;stats&quot;: {
+          &quot;dev&quot;: 16777220,
+          &quot;mode&quot;: 16877,
+          &quot;nlink&quot;: 3,
+          &quot;uid&quot;: 501,
+          &quot;gid&quot;: 20,
+          &quot;rdev&quot;: 0,
+          &quot;blksize&quot;: 4096,
+          &quot;ino&quot;: 141036545,
+          &quot;size&quot;: 102,
+          &quot;blocks&quot;: 0,
+          &quot;atime&quot;: &quot;2013-11-25T00:53:55.000Z&quot;,
+          &quot;mtime&quot;: &quot;2013-11-24T23:00:54.000Z&quot;,
+          &quot;ctime&quot;: &quot;2013-11-24T23:00:54.000Z&quot;
+        },
+        &quot;sum&quot;: 124651,
+        &quot;children&quot;: {
+          &quot;async&quot;: {
+            &quot;stats&quot;: {
+        //...
+</code></pre>
+<p>Using this data, you could create something like a
+<a href="http://mbostock.github.io/d3/talk/20111018/treemap.html">D3 zoomable treemap</a>
+of your hard drive.</p>
+<p><strong>As a library:</strong></p>
+<pre><code>$ npm install --save statmap
+</code></pre><p>Pass a path and a callback:</p>
+<pre><code class="lang-javascript">var statmap = require(&#39;statmap&#39;);
+
+statmap(&#39;./spells&#39;, function(err, stats) {
+  console.log(utils.inspect(stats, { color: true, depth: null }));
+});
+</code></pre>
+<p>When used as a library, a live object is returned rather than a JSON string.</p>
 </div><div class="tools">Node.js</div><br class="clear"></article><article id="content-commune"><h1>Commune</h1><h2>Web workers lose their chains: Easy threads without separate function files.</h2><div class="buttons"><a href="https://github.com/dmotz/commune.js" class="button">github</a></div><div class="content"><p>Commune.js makes it easy to run computationally heavy functions in a separate
 thread and retrieve the results asynchronously. By delegating these functions
 to a separate thread, you can avoid slowing down the main thread that affects
