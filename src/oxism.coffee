@@ -6,7 +6,8 @@ vendor        = transform: 'transform'
 squares       = activeContent = permaDiv = null
 testEl        = document.createElement 'div'
 route         = '/works/'
-
+byId          = document.getElementById.bind document
+docOn         = document.addEventListener.bind document
 
 capitalize = (s) ->
   s[0].toUpperCase() + s[1...]
@@ -24,13 +25,13 @@ onNav = ->
   if target = getUrlTarget()
     lastY = window.pageYOffset
     activeContent.className = '' if activeContent
-    activeContent = document.getElementById 'content-' + target
+    activeContent = byId 'content-' + target
     permaDiv.scrollTop      = 0
     activeContent.className = 'active'
     document.body.className = 'perma'
     document.title          = jsonMap[target]
   else
-    window.scrollTo 0, lastY
+    scrollTo 0, lastY
     document.title = 'Dan Motzenbecker'
     document.body.className = ''
 
@@ -80,7 +81,7 @@ for key, val of vendor
     null
 
 
-document.addEventListener 'DOMContentLoaded', ->
+docOn 'DOMContentLoaded', ->
   setTimeout ->
     hasPointerEvents = do ->
       el = document.createElement 'div'
@@ -93,32 +94,31 @@ document.addEventListener 'DOMContentLoaded', ->
     ].join ' '
   , 0
 
-  squares  = document.getElementById('grid').children
-  permaDiv = document.getElementById 'perma'
-  w    = h = parseInt window.getComputedStyle(squares[0]).width, 10
+  squares  = byId('grid').children
+  permaDiv = byId 'perma'
+  w    = h = parseInt getComputedStyle(squares[0]).width, 10
 
-  document.getElementById('email').href = ['m', 'a', 'i', 'l', 't', 'o', ':',
-                                           'd', 'a', 'n', '@', 'o', 'x', 'i',
-                                           's', 'm', '.', 'c', 'o', 'm'].join ''
+  byId('email').href = ['m', 'a', 'i', 'l', 't', 'o', ':',
+                        'd', 'a', 'n', '@', 'o', 'x', 'i',
+                        's', 'm', '.', 'c', 'o', 'm'].join ''
 
 
   unless isTouchScreen
-    document.addEventListener 'keydown', (e) ->
+    docOn 'keydown', (e) ->
       if e.keyCode is 27 and getUrlTarget()
         history.pushState null, null, '/'
         onNav()
 
     return unless vendor.transform
     computePositions()
-    window.addEventListener 'resize', debouncer
-    document.addEventListener 'mousemove', onMove, false
+    addEventListener 'resize', debouncer
+    docOn 'mousemove', onMove, false
 
 
   if window.history.pushState
     onNav()
     handleLink link for link in document.querySelectorAll '#grid > a'
-    handleLink document.getElementById 'x'
+    handleLink byId 'x'
     addEventListener 'popstate', onNav
-
 
 , false
