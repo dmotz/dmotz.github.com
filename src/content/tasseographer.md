@@ -15,8 +15,8 @@ $ tasseographer [dir]
 
 ### Example output:
 
-<img src="https://dmotz.github.io/tasseographer/1.png" width="360">
+<img src="/tasseographer/1.png" width="360">
 
-<img src="https://dmotz.github.io/tasseographer/2.png" width="360">
+<img src="/tasseographer/2.png" width="360">
 
-<img src="https://dmotz.github.io/tasseographer/3.png" width="360">
+<img src="/tasseographer/3.png" width="360">
