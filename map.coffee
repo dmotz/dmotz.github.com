@@ -54,7 +54,7 @@ map =
     line:     'A game of reflection'
     tags:     ['Clojure', 'React', 'Om', 'core.async']
     links:
-      play:   'https://rawgit.com/dmotz/cellf/gh-pages/index.html'
+      play:   '/cellf'
       github: 'https://github.com/dmotz/cellf'
 
 
