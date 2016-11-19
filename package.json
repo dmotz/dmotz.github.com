@@ -7,9 +7,6 @@
   },
   "private": true,
   "author": "Dan Motzenbecker",
-  "bugs": {
-    "url": "https://github.com/dmotz/dmotz.github.com/issues"
-  },
   "homepage": "http://oxism.com",
   "dependencies": {
     "async": "^2.0.0-rc.1",
