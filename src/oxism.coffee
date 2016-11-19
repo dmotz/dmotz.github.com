@@ -1,12 +1,16 @@
 {sqrt}        = Math
-isTouchScreen = 'ontouchstart' of window
+doc           = document
+win           = window
+{body}        = doc
+isTouchScreen = 'ontouchstart' of win
 lastY         = w = h = 0
 positions     = []
 vendor        = transform: 'transform'
 squares       = activeContent = permaDiv = null
-testEl        = document.createElement 'div'
-byId          = document.getElementById.bind document
-docOn         = document.addEventListener.bind document
+testEl        = doc.createElement 'div'
+byId          = doc.getElementById.bind doc
+docOn         = doc.addEventListener.bind doc
+winOn         = win.addEventListener.bind win
 route         = '/works/'
 defaultTitle  = 'Dan Motzenbecker'
 bendStrength  = 10
@@ -17,7 +21,7 @@ capitalize = (s) ->
 
 
 getUrlTarget = ->
-  path = document.location.pathname
+  path = doc.location.pathname
   if path is '/'
     null
   else
@@ -26,17 +30,17 @@ getUrlTarget = ->
 
 onNav = ->
   if target = getUrlTarget()
-    lastY = window.pageYOffset
+    lastY = win.pageYOffset
     activeContent.className = '' if activeContent
-    activeContent = byId 'content-' + target
+    activeContent           = byId 'content-' + target
     permaDiv.scrollTop      = 0
     activeContent.className = 'active'
-    document.body.className = 'perma'
-    document.title          = jsonMap[target]
+    body.className          = 'perma'
+    doc.title               = jsonMap[target]
   else
     scrollTo 0, lastY
-    document.title = defaultTitle
-    document.body.className = ''
+    doc.title      = defaultTitle
+    body.className = ''
 
   ga 'send', 'pageview'
 
@@ -85,11 +89,11 @@ for key, val of vendor
 docOn 'DOMContentLoaded', ->
   setTimeout ->
     hasPointerEvents = do ->
-      el = document.createElement 'div'
+      el               = doc.createElement 'div'
       el.style.cssText = 'pointer-events:auto'
       el.style.pointerEvents is 'auto'
 
-    document.documentElement.className = [
+    doc.documentElement.className = [
       if isTouchScreen then 'touch' else ''
       if hasPointerEvents then '' else 'no-pe'
     ].join ' '
@@ -112,14 +116,14 @@ docOn 'DOMContentLoaded', ->
 
     return unless vendor.transform
     computePositions()
-    addEventListener 'resize', debouncer
+    winOn 'resize', debouncer
     docOn 'mousemove', onMove, false
 
 
-  if window.history.pushState
+  if win.history.pushState
     onNav()
-    handleLink link for link in document.querySelectorAll '#grid > a'
+    handleLink link for link in doc.querySelectorAll '#grid > a'
     handleLink byId 'x'
-    addEventListener 'popstate', onNav
+    winOn 'popstate', onNav
 
 , false
