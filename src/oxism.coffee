@@ -60,13 +60,13 @@ debouncer = do ->
     timer = setTimeout computePositions, 333
 
 
-dampen = 10
+strength = 10
 
 onMove = (e) ->
   for square, i in squares
     dX   = e.pageX - positions[i][0] - w / 2
     dY   = e.pageY - positions[i][1] - h / 2
-    dist = (sqrt(dX ** 2 + dY ** 2) or 1) / dampen
+    dist = (sqrt(dX ** 2 + dY ** 2) or 1) / strength
     square.children[0].style[vendor.transform] =
       "rotateX(#{-dY / dist}deg) rotateY(#{dX / dist}deg)"
 
