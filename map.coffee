@@ -34,7 +34,7 @@ pozaic:
 
 exifexodus:
   display:  'ExifExodus'
-  gridName: 'Exif Exodus'
+  gridName: 'Exif<br>Exodus'
   isMajor:  true
   line:     'Remove GPS data from your photos before you share them online'
   tags:     ['CoffeeScript / JavaScript', 'web workers']
@@ -61,7 +61,7 @@ chaincal:
   tags:    ['CoffeeScript / JavaScript', 'Apache Cordova', 'CSS3', 'Objective-C']
   links:
     'chaincalapp.com':       'http://chaincalapp.com'
-    'download on app store': 'http://itunes.apple.com/us/app/chaincal/id499195302'
+    'download on app store': 'https://itunes.apple.com/us/app/chaincal/id499195302'
 
 
 hexaflip:
@@ -107,7 +107,7 @@ natal:
 
 tasseographer:
   display:  'Tasseographer'
-  gridName: 'tasseo-\ngrapher'
+  gridName: 'tasseo-<br>grapher'
   line:     'Divine auspices from Git log hashes'
   tags:     ['Clojure']
   links:
