@@ -35,14 +35,14 @@ html.no-js(lang='en')
           a.major(id=key + '-link', href='/works/' + key)
             div
               .cover
-                h2= val.gridName || val.display
+                h2!= val.gridName || val.display
               .image
 
         else
           a(id=key + '-link', href='/works/' + key)
             div
               .cover
-                h2= val.gridName || val.display
+                h2!= val.gridName || val.display
 
 
     section#perma
