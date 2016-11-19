@@ -12,8 +12,11 @@ crypto  = require 'crypto'
 fs      = require 'fs'
 async   = require 'async'
 ls      = require 'live-server'
-getMap  = require './map'
+marked  = require 'marked'
+cson    = require 'cson'
 port    = 3333
+
+marked.setOptions smartypants: true
 
 onErr = (err) ->
   gutil.log gutil.colors.red err
@@ -27,8 +30,19 @@ hash = (file, cb) ->
     cb null, crypto.createHash('md5').update(data).digest 'hex'
 
 
+readMap = (cb) ->
+  map = cson.parseCSFile './map.coffee'
+  fns = for k, v of map then do (k, v) ->
+    (cb) ->
+      fs.readFile "./src/content/#{ k }.md", 'utf8', (err, md) ->
+        v.md = marked md
+        cb err
+
+  async.parallel fns, (err) -> cb err, map
+
+
 gulp.task 'templates', ->
-  getMap (err, map) ->
+  readMap (err, map) ->
     titleMap = new ->
       @[key] = val.display + ' - ' + val.line for key, val of map
       @
