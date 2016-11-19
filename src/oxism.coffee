@@ -5,9 +5,12 @@ positions     = []
 vendor        = transform: 'transform'
 squares       = activeContent = permaDiv = null
 testEl        = document.createElement 'div'
-route         = '/works/'
 byId          = document.getElementById.bind document
 docOn         = document.addEventListener.bind document
+route         = '/works/'
+defaultTitle  = 'Dan Motzenbecker'
+bendStrength  = 10
+
 
 capitalize = (s) ->
   s[0].toUpperCase() + s[1...]
@@ -32,7 +35,7 @@ onNav = ->
     document.title          = jsonMap[target]
   else
     scrollTo 0, lastY
-    document.title = 'Dan Motzenbecker'
+    document.title = defaultTitle
     document.body.className = ''
 
   ga 'send', 'pageview'
@@ -60,13 +63,11 @@ debouncer = do ->
     timer = setTimeout computePositions, 333
 
 
-strength = 10
-
 onMove = ({pageX, pageY}) ->
   for square, i in squares
     dX   = pageX - positions[i][0] - w / 2
     dY   = pageY - positions[i][1] - h / 2
-    dist = (sqrt(dX ** 2 + dY ** 2) or 1) / strength
+    dist = (sqrt(dX ** 2 + dY ** 2) or 1) / bendStrength
     square.children[0].style[vendor.transform] =
       "rotateX(#{-dY / dist}deg) rotateY(#{dX / dist}deg)"
 
