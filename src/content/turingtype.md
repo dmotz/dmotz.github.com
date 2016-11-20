@@ -17,4 +17,3 @@ new TuringType(domElement, 'Terrible but fast typist.', {
 ```
 
 Have fun.
-

@@ -130,4 +130,3 @@ statmap('./spells', function(err, stats) {
 ```
 
 When used as a library, a live object is returned rather than a JSON string.
-

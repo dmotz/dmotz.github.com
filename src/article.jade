@@ -5,7 +5,7 @@ if val.images
   .images
     each image in val.images
       if /\.mp4$/.test(image)
-        video(autoplay, loop, src='/assets/images/' + image)
+        video(autoplay, loop, playsinline, src='/assets/images/' + image)
       else
         img(src='/assets/images/' + image)
 
