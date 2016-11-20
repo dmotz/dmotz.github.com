@@ -1,3 +1,15 @@
+'thing-translator':
+  display: 'Thing Translator'
+  isMajor: true
+  line:    'Point your camera at things to hear how to say them in a different language'
+  images:  ['thing-translator1.jpg', 'thing-translator2.mp4']
+  tags:    ['machine learning', 'JavaScript']
+  links:
+    'live demo':        '/thing-translator'
+    github:             'https://github.com/dmotz/thing-translator'
+    'A.I. Experiments': 'https://aiexperiments.withgoogle.com'
+
+
 oridomi:
   display: 'OriDomi'
   isMajor: true
