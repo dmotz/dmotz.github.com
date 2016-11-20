@@ -60,6 +60,11 @@ gulp.task 'templates', ->
           .pipe htmlMin quotes: true, removeComments: true
           .pipe gulp.dest if key then "./works/#{ key }" else '.'
 
+      gulp.src 'src/404.jade'
+        .pipe jade(locals: {hashes}).on 'error', onErr
+        .pipe htmlMin quotes: true, removeComments: true
+        .pipe gulp.dest '.'
+
 
 gulp.task 'scripts', ->
   gulp.src 'src/oxism.coffee'
