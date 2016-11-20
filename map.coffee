@@ -51,8 +51,8 @@ exifexodus:
   line:     'Remove GPS data from your photos before you share them online'
   tags:     ['CoffeeScript / JavaScript', 'web workers']
   links:
-    'exifexodus.com': 'http://exifexodus.com'
-    github:           'https://github.com/dmotz/ExifExodus'
+    'try it': '/ExifExodus'
+    github:   'https://github.com/dmotz/ExifExodus'
 
 
 cellf:
@@ -83,7 +83,7 @@ hexaflip:
   images:  ['hexaflip1.jpg', 'hexaflip2.jpg']
   tags:    ['CoffeeScript / JavaScript', 'CSS3']
   links:
-    'demo / docs':     'http://oxism.com/hexaflip'
+    'demo / docs':     '/hexaflip'
     github:            'https://github.com/dmotz/hexaflip'
     'codrops article': 'http://tympanus.net/codrops/2013/03/07/hexaflip-a-flexible-3d-cube-plugin/'
 
@@ -95,7 +95,7 @@ maskew:
   images:  ['maskew1.jpg', 'maskew2.jpg']
   tags:    ['CoffeeScript / JavaScript', 'CSS3']
   links:
-    'demo / docs': 'http://oxism.com/maskew'
+    'demo / docs': '/maskew'
     github:        'https://github.com/dmotz/maskew'
 
 
@@ -105,7 +105,7 @@ turingtype:
   line:    'A naïve human typing simulation effect'
   tags:    ['CoffeeScript / JavaScript']
   links:
-    'demo / docs': 'http://oxism.com/TuringType'
+    'demo / docs': '/TuringType'
     github:        'https://github.com/dmotz/TuringType'
 
 
