@@ -1,19 +1,20 @@
-{sqrt}        = Math
-doc           = document
-win           = window
-{body}        = doc
-isTouchScreen = 'ontouchstart' of win
-lastY         = w = h = 0
-positions     = []
-vendor        = transform: 'transform'
-squares       = activeContent = permaDiv = null
-testEl        = doc.createElement 'div'
-byId          = doc.getElementById.bind doc
-docOn         = doc.addEventListener.bind doc
-winOn         = win.addEventListener.bind win
-route         = '/works/'
-defaultTitle  = 'Dan Motzenbecker'
-bendStrength  = 10
+{sqrt, min, max} = Math
+doc              = document
+win              = window
+{body}           = doc
+isTouchScreen    = 'ontouchstart' of win
+lastY            = w = h = 0
+positions        = []
+vendor           = transform: 'transform'
+squares          = activeContent = permaDiv = null
+testEl           = doc.createElement 'div'
+byId             = doc.getElementById.bind doc
+docOn            = doc.addEventListener.bind doc
+winOn            = win.addEventListener.bind win
+route            = '/works/'
+defaultTitle     = 'Dan Motzenbecker'
+bendStrength     = 10
+motionDampen     = 2
 
 
 capitalize = (s) ->
@@ -66,13 +67,33 @@ debouncer = do ->
     timer = setTimeout computePositions, 333
 
 
+transformSquare = (square, x, y) ->
+  square.children[0].style[vendor.transform] = "rotateX(#{x}deg) rotateY(#{y}deg)"
+
+
 onMove = ({pageX, pageY}) ->
   for square, i in squares
     dX   = pageX - positions[i][0] - w / 2
     dY   = pageY - positions[i][1] - h / 2
     dist = (sqrt(dX ** 2 + dY ** 2) or 1) / bendStrength
-    square.children[0].style[vendor.transform] =
-      "rotateX(#{-dY / dist}deg) rotateY(#{dX / dist}deg)"
+    transformSquare square, -dY / dist, dX / dist
+
+  null
+
+
+constrain = (range, n) ->
+  max min(n, range), -range
+
+
+onMotion = ({beta, gamma}) ->
+  return if beta is null
+  x = constrain(12, beta / motionDampen / 2) - 10
+  y = constrain 12, -gamma / motionDampen
+
+  [x, y] = [y, x] if win.innerWidth > win. innerHeight
+
+  for square in squares
+    transformSquare square, x, y
 
   null
 
@@ -106,8 +127,9 @@ docOn 'DOMContentLoaded', ->
                         'd', 'a', 'n', '@', 'o', 'x', 'i',
                         's', 'm', '.', 'c', 'o', 'm'].join ''
 
-
-  unless isTouchScreen
+  if isTouchScreen
+    winOn 'deviceorientation', onMotion
+  else
     docOn 'keydown', (e) ->
       if e.keyCode is 27 and getUrlTarget()
         history.pushState null, null, '/'
