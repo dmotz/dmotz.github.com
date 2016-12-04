@@ -50,7 +50,6 @@ handleLink = (link) ->
     e.preventDefault()
     history.pushState null, null, link.href
     onNav()
-  , true
 
 
 computePositions = ->
@@ -117,7 +116,7 @@ docOn 'DOMContentLoaded', ->
     return unless vendor.transform
     computePositions()
     winOn 'resize', debouncer
-    docOn 'mousemove', onMove, false
+    docOn 'mousemove', onMove
 
 
   if win.history.pushState
@@ -125,5 +124,3 @@ docOn 'DOMContentLoaded', ->
     handleLink link for link in doc.querySelectorAll '#grid > a'
     handleLink byId 'x'
     winOn 'popstate', onNav
-
-, false
