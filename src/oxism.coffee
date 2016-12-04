@@ -2,7 +2,7 @@
 doc              = document
 win              = window
 {body}           = doc
-isTouchScreen    = 'ontouchstart' of win
+isTouchScreen    = 'ontouchstart' of win and win.screen.availWidth < 1400
 lastY            = w = h = 0
 positions        = []
 vendor           = transform: 'transform'
