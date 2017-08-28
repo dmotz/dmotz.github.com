@@ -90,7 +90,7 @@ onMotion = ({beta, gamma}) ->
   x = constrain(12, beta / motionDampen / 2) - 10
   y = constrain 12, -gamma / motionDampen
 
-  [x, y] = [y, x] if win.innerWidth > win. innerHeight
+  [x, y] = [y, x] if win.innerWidth > win.innerHeight
 
   for square in squares
     transformSquare square, x, y
