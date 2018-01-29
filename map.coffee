@@ -5,7 +5,7 @@
   images:  ['thing-translator1.jpg', 'thing-translator2.mp4']
   tags:    ['machine learning', 'JavaScript']
   links:
-    'live demo':        '/thing-translator'
+    'live demo':        'https://thing-translator.appspot.com/'
     github:             'https://github.com/dmotz/thing-translator'
     'A.I. Experiments': 'https://aiexperiments.withgoogle.com'
 
