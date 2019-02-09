@@ -31,7 +31,7 @@ gildedgauge:
   links:
     'gildedgauge.club': 'http://gildedgauge.club'
     github:             'https://github.com/dmotz/GildedGauge'
-    'vice article':     'http://thecreatorsproject.vice.com/blog/your-wealth-vs-billionaires-emojis'
+    'vice article':     'https://www.vice.com/en_us/article/53wegq/your-wealth-vs-billionaires-emojis'
 
 
 pozaic:
