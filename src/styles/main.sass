@@ -1,0 +1,182 @@
+$colorBody: #000
+$colorBg: #fff
+$colorAccent: #0000ff
+$bodySize: 1.6rem
+
+@mixin mobile
+  @media (max-width: 700px)
+    @content
+
+@mixin touch
+  @media (hover: none)
+    @content
+
+@mixin mouse
+  @media (hover: hover)
+    @content
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  -webkit-tap-highlight-color: transparent
+
+::selection
+  background: $colorBody
+  color: $colorBg
+
+html
+  font-family: 'Space Mono', monospace
+  font-size: 10px
+  font-variant-ligatures: no-common-ligatures
+  color: $colorBody
+
+body
+  max-width: 1200px
+  margin: 0 auto
+
+main
+  height: 0
+  margin-top: 2rem
+
+main, header
+  padding: 3rem
+
+a
+  color: inherit
+
+  &:hover
+    color: $colorAccent
+
+button
+  appearance: none
+  color: $colorBody
+  border: none
+  background: none
+  cursor: pointer
+
+  &:focus-visible
+    outline: none
+
+    h3
+      color: $colorAccent
+      opacity: 1 !important
+
+header
+  *
+    font-size: $bodySize
+    font-weight: 100
+
+.project
+  padding-bottom: 100vh
+  transition: transform .333s
+  background: #fff
+
+  &:last-child
+    padding-bottom: 80vh
+
+  h2
+    font-family: 'Space Grotesk', sans-serif
+    font-size: clamp(3rem, 10vw, 15rem)
+    letter-spacing: -.4vw
+    display: inline-block
+    margin-right: 2vw
+    will-change: font-weight, opacity
+    white-space: nowrap
+
+    @include mobile
+      font-size: clamp(3rem, 14vw, 15rem)
+
+    &.active
+      @include touch
+        color: $colorAccent
+
+    &.tween
+      transition: all .3s
+
+  h3
+    font-weight: 100
+    font-size: clamp(2rem, 2.1vw, 3rem)
+    max-width: 70rem
+    margin-bottom: 4rem
+
+  > button
+    width: 100%
+    text-align: left
+
+    @include mouse
+      &:hover
+        h2
+          color: $colorAccent
+          opacity: 1
+
+  p
+    font-size: $bodySize
+    max-width: 60rem
+    line-height: 1.8
+
+    + p
+      margin-top: 2.2rem
+
+.isResizing .project
+  transition: none
+
+.content
+  position: absolute
+  font-size: 1.5rem
+  width: 100%
+  opacity: 0
+  overflow: hidden
+  transition: opacity .333s
+  padding: 0vw 0.5vw
+  padding-bottom: 4vw
+
+  &.active
+    opacity: 1
+
+    hr
+      width: 100%
+
+  hr
+    width: 0
+    will-change: width
+    transition: width .333s
+    transition-delay: .2s
+    background: none
+    border: none
+    border-bottom: 1px dotted $colorBody
+    margin-top: 8vw
+
+  img, video
+    width: 100%
+    max-width: 50rem
+    border: 1px solid #eee
+
+.images
+  margin-top: 2rem
+  margin-bottom: 5rem
+  display: flex
+  flex-wrap: wrap
+  gap: 2rem
+
+.links
+  margin-top: 2rem
+  font-size: inherit
+  margin-top: 5rem
+  display: flex
+  flex-wrap: wrap
+  gap: 1.4rem
+
+  a
+    background: $colorAccent
+    color: #fff
+    text-decoration: none
+    padding: 0.6rem 1rem
+    white-space: nowrap
+
+    &:hover
+      background: $colorBody
+
+.fontCache
+  font-family: 'Space Grotesk'
+  visibility: hidden

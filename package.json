@@ -1,32 +1,26 @@
 {
   "name": "oxism.com",
   "version": "0.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dmotz/dmotz.github.com.git"
-  },
   "private": true,
-  "author": "Dan Motzenbecker",
-  "homepage": "http://oxism.com",
-  "dependencies": {
-    "async": "^2.0.0-rc.1",
-    "coffee-script": "^1.8.0",
-    "cson": "^4.0.0",
-    "gulp": "^3.8.10",
-    "gulp-coffee": "^2.2.0",
-    "gulp-htmlmin": "^3.0.0",
-    "gulp-jade": "^1.0.0",
-    "gulp-livereload": "^3.8.0",
-    "gulp-sourcemaps": "^2.0.0",
-    "gulp-stylus": "^2.0.1",
-    "gulp-uglify": "^2.0.0",
-    "gulp-util": "^3.0.1",
-    "live-server": "^1.0.0",
-    "marked": "^0.3.2",
-    "nib": "^1.0.4"
-  },
+  "type": "module",
   "scripts": {
-    "build": "gulp",
-    "dev": "gulp watch"
+    "dev": "vite dev --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/adapter-static": "^2.0.2",
+    "@sveltejs/kit": "^1.5.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-svelte": "^2.26.0",
+    "prettier": "^2.8.0",
+    "prettier-plugin-svelte": "^2.8.1",
+    "sass": "^1.63.4",
+    "svelte": "^4.0.0",
+    "svelte-preprocess-import-assets": "^1.0.1",
+    "vite": "^4.3.0",
+    "vite-plugin-markdown": "^2.1.0"
   }
 }
