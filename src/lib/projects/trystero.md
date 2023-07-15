@@ -2,7 +2,7 @@
 name: Trystero
 headline: Make any site multiplayer in a few lines of code — no server required
 links:
-  demos / intro: /trystero
+  demo / intro: /trystero
   source code: https://github.com/dmotz/trystero
 images:
   - trystero1.mp4

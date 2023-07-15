@@ -2,7 +2,7 @@
 name: OriDomi
 headline: Fold up web elements like paper
 links:
-  demos / docs: https://oridomi.com
+  demo / docs: https://oridomi.com
   source code: https://github.com/dmotz/oriDomi
   annotated source: https://oridomi.com/docs/oridomi.html
 images:

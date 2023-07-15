@@ -2,7 +2,7 @@
 name: Maskew
 headline: Add some oblique rhythm to your layout
 links:
-  demos / docs: /maskew
+  demo / docs: /maskew
   source code: https://github.com/dmotz/maskew
 images:
   - maskew1.png
