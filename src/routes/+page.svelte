@@ -40,6 +40,7 @@
   }
 
   onMount(() => {
+    window.scrollTo(0, 0)
     didMount = true
     mail = 'moc.msixo@nad'.split('').reverse().join('')
   })
