@@ -3,7 +3,7 @@ import {importAssets} from 'svelte-preprocess-import-assets'
 
 const config = {
   kit: {
-    adapter: adapter({pages: 'docs'})
+    adapter: adapter()
   },
   preprocess: [importAssets()]
 }
