@@ -123,7 +123,7 @@
           {#if src.endsWith('.mp4')}
             <video src="/images/{src}" loop muted autoplay playsinline />
           {:else}
-            <img src="/images/{src}" alt="" />
+            <img src="/images/{src}" alt={name} />
           {/if}
         {/each}
       </div>
