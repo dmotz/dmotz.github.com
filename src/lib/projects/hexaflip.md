@@ -12,7 +12,7 @@ images:
 You have arrays of things, right? Text, numbers, images...
 
 Hexaflip manifests them compactly as spinnable cubes with some trickery that
-grants them enough sides to accomodate everything.
+grants them enough sides to accommodate everything.
 
 Use it to build novel, tactile UI: timepickers, photo galleries, maybe even
 password inputs.
