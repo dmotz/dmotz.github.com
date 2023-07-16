@@ -99,7 +99,7 @@
     <h2
       style:font-weight={active ? weight : weight}
       style:opacity={active ? 1 : opacity}
-      style:transition-delay="{didMount ? 0 : index * 0.2}s"
+      style:transition-delay="{didMount ? 0 : (index * 0.2).toFixed(1)}s"
       class:active
       class:tween={!didMount}
       bind:this={titleEl}
