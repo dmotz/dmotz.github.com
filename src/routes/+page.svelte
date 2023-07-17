@@ -24,13 +24,13 @@
   }
 
   const updateOffsets = () =>
-    (yOffsets = heights.reduce(
+    ([yOffsets] = heights.reduce(
       ([xs, a], _, i) => {
         const next = a + (opened[i - 1] ? heights[i - 1] : 0)
         return [[...xs, next], next]
       },
       [[], 0]
-    )[0])
+    ))
 
   const onResize = () => {
     isResizing = true
