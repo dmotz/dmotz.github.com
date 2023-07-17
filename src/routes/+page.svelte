@@ -12,7 +12,6 @@
 
   let yOffsets = Array(projects.length).fill(0)
   let isResizing = false
-  let didMount = false
   let transMs = 333
   let mail = ''
   let resizeTimeout
@@ -41,7 +40,6 @@
 
   onMount(() => {
     window.scrollTo(0, 0)
-    didMount = true
     mail = 'moc.msixo@nad'.split('').reverse().join('')
   })
 </script>
@@ -79,7 +77,7 @@
   {/each}
 </main>
 
-{#if didMount}
+{#if browser}
   <div class="fontCache" aria-hidden="true">
     {Object.values(chars)[0].join('')}
   </div>
