@@ -2,6 +2,10 @@
   import '../styles/main.sass'
 </script>
 
+<svelte:head>
+  <title>4️⃣0️⃣4️⃣</title>
+</svelte:head>
+
 <section class="e404">
   <h1>
     {#each '404'.split('') as char, i}
