@@ -71,7 +71,7 @@
   const onMove = () => {
     const slices = (transMs / frameTime) * 2
 
-    new Array(Math.ceil(slices))
+    Array(Math.ceil(slices))
       .fill()
       .forEach((_, i) => setTimeout(calcAndUpdate, slices * (i + 1)))
   }
