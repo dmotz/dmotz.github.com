@@ -97,7 +97,7 @@
 >
   <button on:click={() => onOpen(index)}>
     <h2
-      style:font-weight={active ? weight : weight}
+      style:font-weight={weight}
       style:opacity={active ? 1 : opacity}
       style:transition-delay="{didMount ? 0 : (index * 0.2).toFixed(1)}s"
       class:active
