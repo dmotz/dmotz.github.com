@@ -98,7 +98,6 @@ header
     font-weight: 100
     font-size: clamp(2rem, 2.1vw, 3rem)
     max-width: 70rem
-    margin-bottom: 4rem
 
   > button
     width: 100%
@@ -160,9 +159,9 @@ header
   gap: 2rem
 
 .links
-  margin-top: 2rem
+  margin: 3rem 0
+  margin-bottom: 4rem
   font-size: inherit
-  margin-top: 5rem
   display: flex
   flex-wrap: wrap
   gap: 1.4rem
@@ -170,12 +169,13 @@ header
   a
     background: $colorAccent
     color: #fff
-    text-decoration: none
     padding: 0.6rem 1rem
     white-space: nowrap
+    transition: transform .333s
 
     &:hover
       background: $colorBody
+      transform: translateY(-2px)
 
 .fontCache
   font-family: 'Space Grotesk'

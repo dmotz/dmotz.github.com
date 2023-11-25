@@ -117,6 +117,14 @@
   <div bind:this={contentEl} class="content" class:active inert={!active}>
     <h3>{info.headline || ''}</h3>
 
+    {#if info.links}
+      <div class="links">
+        {#each Object.entries(info.links) as [title, href]}
+          <a {href} rel="external" target="_blank">{title}</a>
+        {/each}
+      </div>
+    {/if}
+
     {#if info.images}
       <div class="images">
         {#each info.images as src (src)}
@@ -131,14 +139,6 @@
 
     <!-- eslint-disable svelte/no-at-html-tags -->
     {@html body}
-
-    {#if info.links}
-      <div class="links">
-        {#each Object.entries(info.links) as [title, href]}
-          <a {href} rel="external" target="_blank">{title}</a>
-        {/each}
-      </div>
-    {/if}
 
     <hr />
   </div>
