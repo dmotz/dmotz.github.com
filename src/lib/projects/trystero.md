@@ -5,7 +5,7 @@ links:
   demo / intro: /trystero
   source code: https://github.com/dmotz/trystero
 images:
-  - trystero1.mp4
+  - trystero1
 ---
 
 Trystero manages a clandestine courier network that lets your appʼs users talk

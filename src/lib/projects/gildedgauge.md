@@ -5,7 +5,7 @@ links:
   gildedgauge.club: https://gildedgauge.club
   source code: https://github.com/dmotz/GildedGauge
 images:
-  - gilded1.mp4
+  - gilded1
 ---
 
 Gilded Gauge is an experiment in visualizing relative wealth in terms viewers

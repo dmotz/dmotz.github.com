@@ -5,8 +5,8 @@ links:
   demo / docs: /hexaflip
   source code: https://github.com/dmotz/hexaflip
 images:
-  - hexaflip1.mp4
-  - hexaflip2.jpg
+  - hexaflip1
+  - hexaflip2
 ---
 
 You have arrays of things, right? Text, numbers, images...

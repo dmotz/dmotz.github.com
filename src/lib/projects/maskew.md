@@ -5,8 +5,8 @@ links:
   demo / docs: /maskew
   source code: https://github.com/dmotz/maskew
 images:
-  - maskew1.png
-  - maskew2.jpg
+  - maskew1
+  - maskew2
 ---
 
 With Maskew you can make the shapes of web elements oblique without distorting
