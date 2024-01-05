@@ -1,5 +1,6 @@
 <script>
   import chars from '$lib/chars'
+  import * as media from '$lib/media'
 
   export let height = 0
   export let info
@@ -128,11 +129,13 @@
     {#if info.images}
       <div class="images">
         {#each info.images as src (src)}
-          {#if src.endsWith('.mp4')}
-            <video src="/images/{src}" loop muted autoplay playsinline />
-          {:else}
-            <img src="/images/{src}" alt={name} />
-          {/if}
+          <div>
+            {#if typeof media[src] === 'string'}
+              <video src={media[src]} loop muted autoplay playsinline />
+            {:else}
+              <enhanced:img src={media[src]} alt={name} />
+            {/if}
+          </div>
         {/each}
       </div>
     {/if}
