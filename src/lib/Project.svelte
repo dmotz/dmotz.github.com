@@ -93,7 +93,7 @@
 <section
   class="project"
   style:transform="translateY(calc({index * -100}vh + {yOffset}px))"
-  style:transition-duration="{transMs}ms"
+  style:transition-duration="{didMount ? transMs : 0}ms"
   on:transitionstart={onMove}
 >
   <button on:click={() => onOpen(index)}>
