@@ -22,6 +22,7 @@ jobs:
 
       - name: build
         run: |
+          npx envinfo --system --binaries --browsers --npmPackages "{svelte,@sveltejs/*,vite}"
           npm run build
           touch build/.nojekyll
 
