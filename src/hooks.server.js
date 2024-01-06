@@ -13,12 +13,9 @@ export async function handle({event, resolve}) {
           ? minify(page, {
               collapseBooleanAttributes: true,
               collapseWhitespace: true,
-              conservativeCollapse: false,
               decodeEntities: true,
-              html5: true,
               minifyCSS: true,
               minifyJS: true,
-              removeAttributeQuotes: false,
               removeComments: true,
               removeOptionalTags: true,
               removeRedundantAttributes: true,
