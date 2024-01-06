@@ -31,6 +31,7 @@
     "vite-plugin-markdown": "^2.1.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.6.1"
+    "@rollup/rollup-linux-x64-gnu": "4.6.1",
+    "vite-imagetools": "^6.2.9"
   }
 }
