@@ -33,5 +33,8 @@
   "overrides": {
     "sharp": "^0.32.6",
     "vite": "^5.0.5"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.6.1"
   }
 }
