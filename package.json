@@ -29,5 +29,8 @@
     "svelte-preprocess-import-assets": "^1.0.1",
     "vite": "^5.0.5",
     "vite-plugin-markdown": "^2.1.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.6.1"
   }
 }
