@@ -2,7 +2,7 @@
 name: Gilded Gauge
 headline: Relative wealth in more tangible terms
 links:
-  gildedgauge.club: https://gildedgauge.club
+  Gilded Gauge: https://oxism.com/GildedGauge
   source code: https://github.com/dmotz/GildedGauge
 images:
   - gilded1
