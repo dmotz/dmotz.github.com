@@ -131,10 +131,10 @@
       <div class="images">
         {#each info.images as src (src)}
           <div>
-            {#if media[src].endsWith('.mp4')}
-              <video src={media[src]} loop muted autoplay playsinline />
+            {#if media[src].sources}
+              <enhanced:img src={media[src]} alt={name} />
             {:else}
-              <img src={media[src]} alt={name} />
+              <video src={media[src]} loop muted autoplay playsinline />
             {/if}
           </div>
         {/each}
