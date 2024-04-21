@@ -1,5 +1,5 @@
 <script>
-  import chars from '$lib/chars'
+  import glyphs from '$lib/glyphs'
   import * as media from '$lib/media'
 
   export let height = 0
@@ -55,12 +55,12 @@
   }
 
   const decoChar = i => {
-    if (!chars[name[i]]) {
+    if (!glyphs[name[i]]) {
       return
     }
 
     const newChar =
-      chars[name[i]][Math.floor(Math.random() * chars[name[i]].length)]
+      glyphs[name[i]][Math.floor(Math.random() * glyphs[name[i]].length)]
 
     if (displayName[i] === newChar) {
       return decoChar(i)

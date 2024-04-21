@@ -2,7 +2,7 @@
   import {onMount} from 'svelte'
   import {browser} from '$app/environment'
   import projects from '$lib/projects'
-  import chars from '$lib/chars'
+  import glyphs from '$lib/glyphs'
   import Project from '$lib/Project.svelte'
   import '../styles/main.sass'
 
@@ -79,6 +79,6 @@
 
 {#if browser}
   <div class="fontCache" aria-hidden="true">
-    {Object.values(chars)[0].join('')}
+    {Object.values(glyphs)[0].join('')}
   </div>
 {/if}
