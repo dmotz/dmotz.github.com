@@ -20,6 +20,7 @@ jobs:
       - name: install dependencies
         run: |
           npm i @rollup/rollup-linux-x64-gnu
+          npm i --cpu=x64 --os=linux sharp
           npm i
 
       - name: build
