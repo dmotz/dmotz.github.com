@@ -86,6 +86,7 @@
 
 <svelte:window
   on:resize={calcPos}
+  on:focus={calcPos}
   on:mousemove={!isTouch && onMouseMove}
   on:scroll={onScroll}
 />
