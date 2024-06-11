@@ -1,7 +1,7 @@
 import {minify} from 'html-minifier'
 import {building} from '$app/environment'
 
-export async function handle({event, resolve}) {
+export function handle({event, resolve}) {
   let page = ''
 
   return resolve(event, {
