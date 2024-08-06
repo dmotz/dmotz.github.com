@@ -68,7 +68,7 @@
       body={html}
       index={i}
       active={opened[i]}
-      onOpen={onOpen.bind(null, i)}
+      onOpen={() => onOpen(i)}
       yOffset={yOffsets[i]}
       bind:height={heights[i]}
       {transMs}

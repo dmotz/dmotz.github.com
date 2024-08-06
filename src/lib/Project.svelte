@@ -82,6 +82,24 @@
     onScroll()
     setTimeout(() => (didMount = true), 333)
   }
+
+  onMount(() =>
+    displayName.forEach((_, i) => {
+      let n = 0
+
+      const f = () => {
+        decoChar(i)
+
+        if (n++ < 3) {
+          setTimeout(f, Math.random() * 333)
+        } else {
+          displayName[i] = name[i]
+        }
+      }
+
+      f()
+    })
+  )
 </script>
 
 <svelte:window
