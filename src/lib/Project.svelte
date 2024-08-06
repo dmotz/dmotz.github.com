@@ -1,4 +1,5 @@
 <script>
+  import {onMount} from 'svelte'
   import glyphs from '$lib/glyphs'
   import * as media from '$lib/media'
 
