@@ -40,7 +40,7 @@
 
   onMount(() => {
     window.scrollTo(0, 0)
-    mail = 'moc.msixo@nad'.split('').reverse().join('')
+    mail = [...'moc.msixo@nad'].reverse().join('')
   })
 </script>
 

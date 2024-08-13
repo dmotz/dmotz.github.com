@@ -14,7 +14,7 @@ export function handle({event, resolve}) {
               collapseBooleanAttributes: true,
               collapseWhitespace: true,
               decodeEntities: true,
-              minifyCSS: true,
+              minifyCSS: false,
               minifyJS: true,
               removeComments: true,
               removeOptionalTags: true,
