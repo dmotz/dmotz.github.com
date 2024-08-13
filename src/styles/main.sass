@@ -1,7 +1,9 @@
 $colorBody: #000
-$colorBg: #fff
+$colorBg: #d8d8d8
 $colorAccent: #0000ff
 $bodySize: 1.6rem
+$headerFont: 'Space Grotesk', sans-serif
+$bodyFont: 'Space Mono', monospace
 
 @mixin mobile
   @media (max-width: 700px)
@@ -26,10 +28,11 @@ $bodySize: 1.6rem
   color: $colorBg
 
 html
-  font-family: 'Space Mono', monospace
+  font-family: $bodyFont
   font-size: 10px
   font-variant-ligatures: no-common-ligatures
   color: $colorBody
+  background: $colorBg
 
 body
   max-width: 1200px
@@ -70,13 +73,12 @@ header
 .project
   padding-bottom: 100vh
   transition: transform .333s
-  background: #fff
 
   &:last-child
     padding-bottom: 80vh
 
   h2
-    font-family: 'Space Grotesk', sans-serif
+    font-family: $headerFont
     font-size: clamp(3rem, 10vw, 15rem)
     letter-spacing: -.05em
     display: inline-block
@@ -143,7 +145,7 @@ header
     transition-delay: .2s
     background: none
     border: none
-    border-bottom: 1px dotted $colorBody
+    border-bottom: 1px dashed $colorBody
     margin-top: 8vw
 
 .images
@@ -156,8 +158,8 @@ header
   div
     width: 100%
     max-width: 50rem
-    border: 1px solid #eee
     font-size: 0
+    background: #fff
 
   img, video
     width: 100%
@@ -166,24 +168,31 @@ header
 .links
   margin: 3rem 0
   margin-bottom: 4rem
-  font-size: inherit
   display: flex
   flex-wrap: wrap
   gap: 1.4rem
 
   a
     background: $colorAccent
-    color: #fff
-    padding: 0.6rem 1rem
+    color: $colorBg
+    text-decoration: none
+    font-size: 1.2em
+    padding: 0.6em 1em
     white-space: nowrap
     transition: transform .333s
+
+    &::after
+      content: '↗'
+      margin-left: 0.5em
+      position: relative
+      top: -0.1em
 
     &:hover
       background: $colorBody
       transform: translateY(-2px)
 
 .fontCache
-  font-family: 'Space Grotesk'
+  font-family: $headerFont
   visibility: hidden
 
 .e404
@@ -196,7 +205,7 @@ header
   h1
     font-size: 20vw
     font-weight: 300
-    font-family: 'Space Grotesk', sans-serif
+    font-family: $headerFont
 
   span
     animation: pulse 1.2s infinite alternate
