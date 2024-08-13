@@ -2,7 +2,7 @@
 name: TuringType
 headline: A simple human-like typing effect
 links:
-  demo / docs: /TuringType
+  demo site: /TuringType
   source code: https://github.com/dmotz/TuringType
 images:
   - turingtype1

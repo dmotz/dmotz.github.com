@@ -2,7 +2,7 @@
 name: Hexaflip
 headline: Reify lists as cubes with infinite sides
 links:
-  demo / docs: /hexaflip
+  demo site: /hexaflip
   source code: https://github.com/dmotz/hexaflip
 images:
   - hexaflip1
