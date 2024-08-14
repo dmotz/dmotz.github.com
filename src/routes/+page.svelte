@@ -48,20 +48,29 @@
   <title>Dan Motzenbecker</title>
   <noscript>
     <style>
-      .content {
-        position: static;
-        opacity: 1;
-      }
-
       h2 {
         opacity: 1 !important;
-        transition-delay: 0s !important;
+        transition-delay: 1ms !important;
         font-weight: bold !important;
+      }
+
+      .project {
+        transform: none !important;
+        padding-bottom: 0;
+      }
+
+      .project:last-child {
+        padding-bottom: 33vh;
       }
 
       .project > button {
         cursor: default;
         user-select: text;
+      }
+
+      .content {
+        position: static;
+        opacity: 1;
       }
 
       .content hr {
