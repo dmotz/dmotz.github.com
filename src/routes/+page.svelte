@@ -46,6 +46,29 @@
 
 <svelte:head>
   <title>Dan Motzenbecker</title>
+  <noscript>
+    <style>
+      .content {
+        position: static;
+        opacity: 1;
+      }
+
+      h2 {
+        opacity: 1 !important;
+        transition-delay: 0s !important;
+        font-weight: bold !important;
+      }
+
+      .project > button {
+        cursor: default;
+        user-select: text;
+      }
+
+      .content hr {
+        width: 100%;
+      }
+    </style>
+  </noscript>
 </svelte:head>
 
 <svelte:window on:resize={onResize} />
