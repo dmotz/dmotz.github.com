@@ -135,7 +135,12 @@
     </h2>
   </button>
 
-  <div bind:this={contentEl} class="content" class:active inert={!active}>
+  <div
+    bind:this={contentEl}
+    class="content"
+    class:active
+    inert={didMount && !active}
+  >
     <h3>{info.headline || ''}</h3>
 
     {#if info.links}
