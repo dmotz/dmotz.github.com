@@ -39,7 +39,7 @@
   }
 
   onMount(() => {
-    window.scrollTo(0, 0)
+    scrollTo(0, 0)
     mail = [...'moc.msixo@nad'].reverse().join('')
   })
 </script>

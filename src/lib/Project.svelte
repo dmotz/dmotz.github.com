@@ -32,16 +32,16 @@
 
   const calcPos = () => {
     const box = titleEl.getBoundingClientRect()
-    domY = box.y + window.scrollY + box.height / 2
+    domY = box.y + scrollY + box.height / 2
     height = contentEl.getBoundingClientRect().height
   }
 
   const onMouseMove = ({clientY}) => {
-    updateStyle(clientY + window.scrollY)
+    updateStyle(clientY + scrollY)
     lastMouseY = clientY
   }
 
-  const onScroll = () => updateStyle(lastMouseY + window.scrollY)
+  const onScroll = () => updateStyle(lastMouseY + scrollY)
 
   const updateStyle = mouseY => {
     const dY = Math.abs(mouseY - domY) * (isTouch ? 3 : 1.2)
@@ -52,7 +52,7 @@
 
   const calcAndUpdate = () => {
     calcPos()
-    updateStyle(lastMouseY + window.scrollY)
+    updateStyle(lastMouseY + scrollY)
   }
 
   const decoChar = i => {
