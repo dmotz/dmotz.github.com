@@ -158,7 +158,7 @@
             {#if media[src].sources}
               <enhanced:img src={media[src]} alt={name} />
             {:else}
-              <video src={media[src]} loop muted autoplay playsinline />
+              <video src={media[src]} loop muted autoplay playsinline></video>
             {/if}
           </div>
         {/each}
