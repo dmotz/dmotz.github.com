@@ -17,7 +17,7 @@
     "@eslint/js": "^9.4.0",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/enhanced-img": "^0.3.0",
-    "@sveltejs/kit": "^2.4.3",
+    "@sveltejs/kit": "^2.7.3",
     "eslint": "^9.4.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-svelte": "^2.43.0",
@@ -26,7 +26,6 @@
     "prettier": "^3.1.0",
     "prettier-plugin-svelte": "^3.1.2",
     "sass": "^1.63.4",
-    "svelte": "^4.2.19",
     "vite": "^5.0.13",
     "vite-plugin-markdown": "^2.2.0"
   }
