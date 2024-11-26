@@ -80,7 +80,7 @@
   </noscript>
 </svelte:head>
 
-<svelte:window on:resize={onResize} />
+<svelte:window on:resize|passive={onResize} />
 
 <header>
   <h1>Dan Motzenbecker</h1>

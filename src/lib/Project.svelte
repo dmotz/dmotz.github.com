@@ -104,10 +104,10 @@
 </script>
 
 <svelte:window
-  on:resize={calcPos}
   on:focus={calcPos}
-  on:mousemove={!isTouch && onMouseMove}
-  on:scroll={onScroll}
+  on:resize|passive={calcPos}
+  on:mousemove|passive={!isTouch && onMouseMove}
+  on:scroll|passive={onScroll}
 />
 
 <section
