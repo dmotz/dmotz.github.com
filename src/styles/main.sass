@@ -14,12 +14,16 @@ $bodyFont: 'Space Mono', monospace
   @media (hover: hover)
     @content
 
+@mixin dark
+  @media (prefers-color-scheme: dark)
+    @content
+
 :root
   --color-body: #000
   --color-bg: #d8d8d8
   --color-accent: #0000ff
 
-  @media (prefers-color-scheme: dark)
+  @include dark
     --color-body: #fff
     --color-bg: #0e0e0e
     --color-accent: #6400ff
@@ -190,7 +194,7 @@ video::-webkit-media-controls-enclosure
     white-space: nowrap
     transition: transform .333s
 
-    @media (prefers-color-scheme: dark)
+    @include dark
       color: var(--color-body)
 
     &::after
@@ -203,7 +207,7 @@ video::-webkit-media-controls-enclosure
       background: var(--color-body)
       transform: translateY(-2px)
 
-      @media (prefers-color-scheme: dark)
+      @include dark
         color: var(--color-bg)
 
 .fontCache
