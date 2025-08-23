@@ -125,7 +125,7 @@
       class:tween={!didMount}
       bind:this={titleEl}
     >
-      {#each displayName as char, i}
+      {#each displayName as char, i (i)}
         <span
           on:mouseover={() => decoChar(i)}
           on:focus={() => {}}
@@ -145,7 +145,7 @@
 
     {#if info.links}
       <div class="links">
-        {#each Object.entries(info.links) as [title, href]}
+        {#each Object.entries(info.links) as [title, href] (href)}
           <a {href} rel="external" target="_blank">{title}</a>
         {/each}
       </div>
