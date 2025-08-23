@@ -148,6 +148,9 @@ header
     hr
       width: 100%
 
+    .links ::after
+      animation: blink .1s steps(2, start) 5
+
   hr
     width: 0
     will-change: width
@@ -238,3 +241,7 @@ video::-webkit-media-controls-enclosure
 
   to
     font-weight: 700
+
+@keyframes blink
+  to
+    visibility: hidden
