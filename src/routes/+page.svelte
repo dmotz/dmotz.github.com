@@ -94,6 +94,16 @@
 </header>
 
 <main class:isResizing>
+  <p class="bio">
+    Dan Motzenbecker is a creative engineer and designer who has specializes in
+    rapidly prototyping AI-powered applications and finding novel modes of UX.
+    He has worked as a technical lead at Google Creative Lab where he built
+    early AI experiments like AutoDraw, prototypes with early LLMs like Google
+    LaMDA, and more recent Gemini-powered apps like Astra. He’s also built
+    popular open-source libraries like oriDomi, a library for manipulating web
+    elements like paper, and Trystero, a library that makes it easy to build
+    instant p2p web apps.
+  </p>
   {#each projects as { attributes, html }, i (attributes.name)}
     <Project
       info={attributes}
