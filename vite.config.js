@@ -5,6 +5,5 @@ import md from 'vite-plugin-markdown'
 
 export default defineConfig({
   server: {port: 3333},
-  plugins: [enhancedImages(), md.plugin({mode: 'html'}), sveltekit()],
-  css: {preprocessorOptions: {sass: {api: 'modern'}}}
+  plugins: [enhancedImages(), md.plugin({mode: 'html'}), sveltekit()]
 })
