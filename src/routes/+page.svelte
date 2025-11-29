@@ -4,7 +4,7 @@
   import projects from '$lib/projects'
   import glyphs from '$lib/glyphs'
   import Project from '$lib/Project.svelte'
-  import '../styles/main.sass'
+  import '../styles/main.css'
 
   const isTouch = browser && 'ontouchstart' in window
   const opened = Array(projects.length).fill(false)

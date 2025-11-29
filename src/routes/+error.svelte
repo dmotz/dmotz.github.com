@@ -1,5 +1,5 @@
 <script>
-  import '../styles/main.sass'
+  import '../styles/main.css'
 </script>
 
 <svelte:head>
