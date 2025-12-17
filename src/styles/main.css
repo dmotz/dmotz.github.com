@@ -1,5 +1,5 @@
 :root {
-  --body-size: 1.6rem;
+  --body-size: 1.5rem;
   --header-font: 'Space Grotesk', sans-serif;
   --body-font: 'Space Mono', monospace;
   --color-body: #000;
@@ -42,7 +42,6 @@ body {
 
 main {
   height: 0;
-  margin-top: 2rem;
 }
 
 main,
@@ -92,14 +91,14 @@ header {
 
   h2 {
     font-family: var(--header-font);
-    font-size: clamp(3rem, 10vw, 15rem);
+    font-size: clamp(2.8rem, 10vw, 10rem);
     letter-spacing: -0.05em;
     margin-right: 2vw;
     will-change: font-weight, opacity;
     white-space: nowrap;
 
     @media (max-width: 700px) {
-      font-size: clamp(3rem, 14vw, 15rem);
+      font-size: clamp(2rem, 14vw, 10rem);
     }
 
     &.active {
@@ -115,13 +114,14 @@ header {
 
   h3 {
     font-weight: 100;
-    font-size: clamp(2rem, 2.1vw, 3rem);
-    max-width: 70rem;
+    font-size: clamp(1.6rem, 1.8vw, 2.4rem);
+    max-width: 55rem;
   }
 
   > button {
     width: 100%;
     text-align: left;
+
 
     @media (hover: hover) {
       &:hover {
@@ -161,24 +161,9 @@ header {
   &.active {
     opacity: 1;
 
-    hr {
-      width: 100%;
-    }
-
     .links ::after {
       animation: blink 0.1s steps(2, start) 5;
     }
-  }
-
-  hr {
-    width: 0;
-    will-change: width;
-    transition: width 0.333s;
-    transition-delay: 0.2s;
-    background: none;
-    border: none;
-    border-bottom: 1px dashed var(--color-body);
-    margin-top: 8vw;
   }
 }
 
@@ -218,7 +203,7 @@ video::-webkit-media-controls-enclosure {
     background: var(--color-accent);
     color: var(--color-bg);
     text-decoration: none;
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 0.6em 1em;
     white-space: nowrap;
     transition: transform 0.333s;
@@ -265,7 +250,7 @@ video::-webkit-media-controls-enclosure {
   flex-direction: column;
 
   h1 {
-    font-size: 20vw;
+    font-size: 16vw;
     font-weight: 300;
     font-family: var(--header-font);
   }

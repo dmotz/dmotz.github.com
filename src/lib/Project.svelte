@@ -167,7 +167,5 @@
 
     <!-- eslint-disable svelte/no-at-html-tags -->
     {@html body}
-
-    <hr />
   </div>
 </section>
