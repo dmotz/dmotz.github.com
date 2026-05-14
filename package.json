@@ -29,6 +29,6 @@
     "vite-plugin-markdown": "^2.2.0"
   },
   "dependencies": {
-    "svelte": "^5.53.6"
+    "svelte": "^5.55.7"
   }
 }
