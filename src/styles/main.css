@@ -1,5 +1,5 @@
 :root {
-  --body-size: 1.5rem;
+  --body-size: 1.4rem;
   --header-font: 'Space Grotesk', sans-serif;
   --body-font: 'Space Mono', monospace;
   --color-body: #000;
@@ -82,7 +82,7 @@ header {
 }
 
 .project {
-  padding-bottom: 100vh;
+  padding-bottom: calc(100vh + 1rem);
   transition: transform 0.333s;
 
   &:last-child {
@@ -91,14 +91,14 @@ header {
 
   h2 {
     font-family: var(--header-font);
-    font-size: clamp(2.8rem, 10vw, 10rem);
+    font-size: clamp(2.8rem, 8vw, 8rem);
     letter-spacing: -0.05em;
     margin-right: 2vw;
     will-change: font-weight, opacity;
     white-space: nowrap;
 
     @media (max-width: 700px) {
-      font-size: clamp(2rem, 14vw, 10rem);
+      font-size: clamp(2rem, 12vw, 8rem);
     }
 
     &.active {
@@ -114,8 +114,9 @@ header {
 
   h3 {
     font-weight: 100;
-    font-size: clamp(1.6rem, 1.8vw, 2.4rem);
-    max-width: 55rem;
+    font-size: clamp(1.6rem, 1.6vw, 2rem);
+    max-width: 58rem;
+    text-wrap: pretty;
   }
 
   > button {
@@ -168,15 +169,14 @@ header {
 }
 
 .images {
-  margin-top: 2rem;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
 
   div {
     width: 100%;
-    max-width: 50rem;
+    max-width: 40rem;
     font-size: 0;
     background: var(--color-bg);
   }
@@ -193,7 +193,7 @@ video::-webkit-media-controls-enclosure {
 }
 
 .links {
-  margin: 3rem 0;
+  margin: 2rem 0;
   margin-bottom: 4rem;
   display: flex;
   flex-wrap: wrap;
@@ -203,8 +203,8 @@ video::-webkit-media-controls-enclosure {
     background: var(--color-accent);
     color: var(--color-bg);
     text-decoration: none;
-    font-size: 1em;
-    padding: 0.6em 1em;
+    font-size: var(--body-size);
+    padding: 0.5em 0.9em;
     white-space: nowrap;
     transition: transform 0.333s;
 
