@@ -2,7 +2,7 @@
 name: Emdash
 headline: Use AI to organize text snippets so you can actually remember and learn from what you read
 links:
-  emdash.ai: https://emdash.ai
+  emdash: https://emdash.oxism.com
   source code: https://github.com/dmotz/emdash
 images:
   - emdash1

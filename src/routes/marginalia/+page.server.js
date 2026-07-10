@@ -1,5 +1,5 @@
 import {redirect} from '@sveltejs/kit'
 
 export function load() {
-  throw redirect(308, 'https://emdash.ai')
+  throw redirect(308, 'https://emdash.oxism.com')
 }
