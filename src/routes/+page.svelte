@@ -95,7 +95,7 @@
 
 <main class:isResizing>
   <p class="bio">
-    Dan Motzenbecker is a creative engineer and designer who has specializes in
+    Dan Motzenbecker is a creative engineer and designer who specializes in
     rapidly prototyping AI-powered applications and finding novel modes of UX.
     He has worked as a technical lead at Google Creative Lab where he built
     early AI experiments like AutoDraw, prototypes with early LLMs like Google
