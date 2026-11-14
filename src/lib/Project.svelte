@@ -1,7 +1,7 @@
 <script>
   import {onMount} from 'svelte'
-  import glyphs from '$lib/glyphs'
-  import * as media from '$lib/media'
+  import glyphs from '#lib/glyphs'
+  import * as media from '#lib/media'
 
   export let height = 0
   export let info

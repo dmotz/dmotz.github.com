@@ -1,9 +1,9 @@
 <script>
   import {onMount} from 'svelte'
   import {browser} from '$app/environment'
-  import projects from '$lib/projects'
-  import glyphs from '$lib/glyphs'
-  import Project from '$lib/Project.svelte'
+  import projects from '#lib/projects'
+  import glyphs from '#lib/glyphs'
+  import Project from '#lib/Project.svelte'
   import '../styles/main.css'
 
   const isTouch = browser && 'ontouchstart' in window
