@@ -19,10 +19,7 @@ export function handle({event, resolve}) {
               removeComments: true,
               removeOptionalTags: true,
               removeRedundantAttributes: true,
-              removeScriptTypeAttributes: true,
-              removeStyleLinkTypeAttributes: true,
-              sortAttributes: true,
-              sortClassName: true
+              sortAttributes: true
             })
           : page
       }
