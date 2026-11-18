@@ -37,7 +37,7 @@ export const projects = {
   },
   oridomi: {
     id: 'oridomi',
-    name: 'oriDomi',
+    name: 'OriDomi',
     media: oridomi1,
     alt: 'oriDomi paper folding demo',
     aspect: 1,
@@ -45,7 +45,7 @@ export const projects = {
     details:
       'A library for folding, bending, and slicing web elements like paper',
     links: [
-      {label: 'demo site', href: '/oriDomi'},
+      {label: 'demo site', href: '/oriDomi', external: true},
       {label: 'source code', href: 'https://github.com/dmotz/oriDomi'}
     ]
   },
