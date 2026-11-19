@@ -14,7 +14,8 @@
     "prebuild": "node scripts/optimize-media.js",
     "build": "node scripts/build.js",
     "preview": "vite preview",
-    "lint": "eslint .",
+    "lint": "oxlint .",
+    "format": "oxfmt",
     "media": "node scripts/optimize-media.js",
     "fonts": "node scripts/subset-fonts.js"
   },
@@ -24,14 +25,10 @@
     "url": "https://oxism.com"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
-    "eslint": "^10.15.0",
-    "eslint-plugin-svelte": "^3.24.1",
-    "globals": "17.14.0",
     "html-minifier": "^5.2.0",
-    "prettier": "^3.10.1",
-    "prettier-plugin-svelte": "^4.1.1",
+    "oxfmt": "^0.79.0",
+    "oxlint": "^1.94.0",
     "svelte": "^5.57.3",
     "vite": "^8.3.8"
   }

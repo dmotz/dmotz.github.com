@@ -20,9 +20,7 @@ const buildPrintableAscii = () => {
 }
 
 const uniqueSortedChars = str =>
-  [...new Set([...str])]
-    .sort((a, b) => a.codePointAt(0) - b.codePointAt(0))
-    .join('')
+  [...new Set(str)].sort((a, b) => a.codePointAt(0) - b.codePointAt(0)).join('')
 
 const fetchSubsetWoff2 = async (spec, text) => {
   const cssUrl = `https://fonts.googleapis.com/css2?family=EB+Garamond:${spec}&text=${encodeURIComponent(text)}`

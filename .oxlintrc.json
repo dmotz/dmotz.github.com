@@ -1,0 +1,63 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error"
+  },
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "array-callback-return": "error",
+    "arrow-body-style": "error",
+    "curly": "error",
+    "eqeqeq": "error",
+    "no-duplicate-imports": "error",
+    "no-else-return": "error",
+    "no-labels": "error",
+    "no-lonely-if": "error",
+    "no-self-compare": "error",
+    "no-sequences": "error",
+    "no-template-curly-in-string": "error",
+    "no-throw-literal": "error",
+    "no-undef": "error",
+    "no-unneeded-ternary": "error",
+    "no-unreachable-loop": "error",
+    "no-use-before-define": ["error", {"variables": false}],
+    "no-useless-assignment": "error",
+    "no-useless-call": "error",
+    "no-useless-concat": "error",
+    "no-useless-constructor": "error",
+    "no-useless-return": "error",
+    "no-var": "error",
+    "one-var": ["error", "never"],
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "prefer-exponentiation-operator": "error",
+    "prefer-object-spread": "error",
+    "prefer-regex-literals": "error",
+    "prefer-rest-params": "error",
+    "prefer-spread": "error",
+    "require-await": "error",
+    "unicorn/no-new-array": "off"
+  },
+  "overrides": [
+    {
+      "files": ["scripts/**/*.js", "vite.config.js"],
+      "env": {
+        "node": true
+      }
+    },
+    {
+      "files": ["**/*.svelte"],
+      "globals": {
+        "$state": "readonly",
+        "$derived": "readonly",
+        "$effect": "readonly",
+        "$props": "readonly",
+        "$bindable": "readonly",
+        "$inspect": "readonly",
+        "$host": "readonly"
+      }
+    }
+  ]
+}
