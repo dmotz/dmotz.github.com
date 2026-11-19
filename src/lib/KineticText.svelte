@@ -79,6 +79,9 @@
   let isReflowing = $state(false)
   let reducedMotion = $state(false)
   let hoveredProjectId = $state(null)
+  let pressedKey = $state(null)
+  let pressedProjectId = $state(null)
+  let touchInput = $state(false)
 
   let measureCtx = null
   let cachedStyleKey = ''
@@ -121,6 +124,7 @@
   let pointerClientY = 0
   let touchOnly = false
   let activeTouchId = null
+  let pressedTouchId = null
   let lastToggleClickEvent = null
   let lastToggleBlockedBySelection = false
   let warmIdleHandle = null
@@ -2436,7 +2440,37 @@
     }
   }
 
+  const setTouchInput = value => {
+    if (touchInput === value) {
+      return
+    }
+
+    touchInput = value
+    document.documentElement.classList.toggle('touch-input', value)
+  }
+
+  const clearTouchPress = () => {
+    pressedTouchId = null
+    pressedKey = null
+    pressedProjectId = null
+  }
+
+  const handleTouchInterrupt = () => {
+    clearTouchPress()
+    hoveredProjectId = null
+  }
+
+  const handleVisibilityChange = () => {
+    if (document.hidden) {
+      handleTouchInterrupt()
+    }
+  }
+
   const handlePointerMove = event => {
+    if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
+      setTouchInput(false)
+    }
+
     if (touchOnly) {
       return
     }
@@ -2503,13 +2537,44 @@
   }
 
   const handleTouchStart = event => {
-    if (!touchOnly || !paragraphEl || reducedMotion || !hasLayout) {
-      return
-    }
+    setTouchInput(true)
+    hoveredProjectId = null
 
     const touch = event.changedTouches?.[0] || event.touches?.[0]
 
-    if (!touch) {
+    if (touch && paragraphEl) {
+      const targetEl =
+        event.target instanceof Element
+          ? event.target
+          : event.target?.parentElement
+      const interactiveEl = targetEl?.closest(
+        '[data-press-key], [data-project-id]'
+      )
+
+      if (
+        interactiveEl &&
+        paragraphEl.contains(interactiveEl) &&
+        !interactiveEl.closest('.section-exiting')
+      ) {
+        pressedTouchId = touch.identifier ?? 0
+
+        if (interactiveEl.dataset.projectId) {
+          pressedProjectId = interactiveEl.dataset.projectId
+          pressedKey = null
+        } else {
+          pressedKey = interactiveEl.dataset.pressKey ?? null
+          pressedProjectId = null
+        }
+      } else if (
+        pressedTouchId !== null &&
+        (event.touches.length <= 1 ||
+          !findTouchById(event.touches, pressedTouchId))
+      ) {
+        clearTouchPress()
+      }
+    }
+
+    if (!touchOnly || !paragraphEl || reducedMotion || !hasLayout || !touch) {
       return
     }
 
@@ -2536,6 +2601,15 @@
   }
 
   const handleTouchEnd = event => {
+    if (
+      pressedTouchId !== null &&
+      (event.type !== 'touchend' ||
+        event.touches.length === 0 ||
+        !findTouchById(event.touches, pressedTouchId))
+    ) {
+      clearTouchPress()
+    }
+
     if (!touchOnly) {
       return
     }
@@ -2619,6 +2693,7 @@
     underlineRuns = []
     prevToggleBottomById = Object.create(null)
     hoveredProjectId = null
+    clearTouchPress()
 
     if (fontsReady && paragraphEl) {
       computeLayout({animate: false, checkStyles: true})
@@ -2644,6 +2719,7 @@
       activeTouchId = null
       pointerActive = false
       hoveredProjectId = null
+      clearTouchPress()
       ensureAnimationLoop()
     }
 
@@ -2670,6 +2746,8 @@
     return () => {
       cancelled = true
       cancelCacheWarm()
+      clearTouchPress()
+      setTouchInput(false)
       motionQuery.removeEventListener('change', onMotionChange)
       touchOnlyQuery.removeEventListener('change', onTouchOnlyChange)
 
@@ -2690,12 +2768,18 @@
   ontouchmove={handleTouchMove}
   ontouchend={handleTouchEnd}
   ontouchcancel={handleTouchEnd}
+  onblur={handleTouchInterrupt}
+  onpagehide={handleTouchInterrupt}
+  oncontextmenu={clearTouchPress}
   onclick={handleClick}
   onscroll={handleScroll}
   onresize={handleResize}
 />
 
-<svelte:document onmouseleave={handlePointerLeave} />
+<svelte:document
+  onmouseleave={handlePointerLeave}
+  onvisibilitychange={handleVisibilityChange}
+/>
 
 {#snippet mediaContent(media, alt)}
   {#if media.sources}
@@ -2767,6 +2851,7 @@
       class:in-expanded={item.inExpanded}
       class:section-exiting={item.exiting}
       role="button"
+      data-project-id={item.exiting ? null : item.projectId}
       tabindex={item.exiting ? -1 : 0}
       aria-expanded={item.expanded}
       aria-hidden={item.exiting ? 'true' : null}
@@ -2776,8 +2861,15 @@
       style:height="{item.domHeight}px"
       onclick={event => toggleSection(item.projectId, event)}
       onkeydown={event => handleToggleKeydown(event, item.projectId)}
-      onmouseenter={() => (hoveredProjectId = item.projectId)}
-      onmouseleave={() => {
+      onpointerenter={event => {
+        if (event.pointerType === 'touch' || touchOnly) {
+          return
+        }
+
+        setTouchInput(false)
+        hoveredProjectId = item.projectId
+      }}
+      onpointerleave={() => {
         if (hoveredProjectId === item.projectId) {
           hoveredProjectId = null
         }
@@ -2829,9 +2921,13 @@
 {/snippet}
 
 {#snippet linkElement(token, exiting, bodySnippet, bodyArg)}
+  {@const pressKey = exiting ? null : (token.key ?? null)}
+  {@const isTouchActive = Boolean(pressKey) && pressedKey === pressKey}
   {#if isSvelteKitRoute(token)}
     <a
       href={resolve(token.href)}
+      data-press-key={pressKey}
+      class:touch-active={isTouchActive}
       class:section-exiting={exiting}
       tabindex={exiting ? -1 : null}
       aria-hidden={exiting ? 'true' : null}
@@ -2844,6 +2940,8 @@
       href={token.href}
       rel="external noopener noreferrer"
       target="_blank"
+      data-press-key={pressKey}
+      class:touch-active={isTouchActive}
       class:section-exiting={exiting}
       tabindex={exiting ? -1 : null}
       aria-hidden={exiting ? 'true' : null}
@@ -2855,6 +2953,8 @@
     <a
       href={token.href}
       rel="external"
+      data-press-key={pressKey}
+      class:touch-active={isTouchActive}
       class:section-exiting={exiting}
       tabindex={exiting ? -1 : null}
       aria-hidden={exiting ? 'true' : null}
@@ -2870,6 +2970,7 @@
   class:pretext-active={hasLayout}
   class:reflowing={isReflowing}
   class:has-expanded={expandedIds.size > 0}
+  class:touch-input={touchInput}
   style:height={hasLayout ? `${layoutHeight}px` : null}
 >
   <span class="detail-probe detail" aria-hidden="true" bind:this={detailProbeEl}
@@ -2902,6 +3003,8 @@
         <span
           role="button"
           tabindex="0"
+          data-press-key={group.key}
+          class:touch-active={pressedKey === group.key}
           onclick={event => handleButtonClick(group.token, event)}
           onkeydown={event => handleButtonKeydown(event, group.token)}
         >
@@ -2914,7 +3017,9 @@
           role="button"
           tabindex="0"
           class="section-toggle"
+          data-press-key={group.key}
           class:expanded={group.token.expanded}
+          class:touch-active={pressedKey === group.key}
           aria-expanded={group.token.expanded}
           onclick={event => toggleSection(group.token.sectionId, event)}
           onkeydown={event => handleToggleKeydown(event, group.token.sectionId)}
@@ -2928,8 +3033,12 @@
           role="button"
           tabindex={group.exiting ? -1 : 0}
           class="project-toggle"
+          data-project-id={group.exiting ? null : group.token.projectId}
           class:expanded={group.token.expanded}
-          class:hovered={hoveredProjectId === group.token.projectId}
+          class:hovered={!group.exiting &&
+            hoveredProjectId === group.token.projectId}
+          class:touch-active={!group.exiting &&
+            pressedProjectId === group.token.projectId}
           class:section-exiting={group.exiting}
           aria-expanded={group.token.expanded}
           aria-hidden={group.exiting ? 'true' : null}
@@ -2966,16 +3075,25 @@
         <span
           role="button"
           tabindex="0"
+          data-press-key={node.key}
+          class:touch-active={pressedKey === node.key}
           onclick={event => handleButtonClick(node, event)}
           onkeydown={event => handleButtonKeydown(event, node)}
           >{node.text}</span
         >
       {:else if node.kind === 'section'}
-        <span role="button">{node.text}</span>
+        <span
+          role="button"
+          data-press-key={node.key}
+          class:touch-active={pressedKey === node.key}>{node.text}</span
+        >
       {:else if node.kind === 'project'}
         {@const project = projects[node.projectId]}
         {#if project}
-          <span class="project-fallback"
+          <span
+            class="project-fallback"
+            data-project-id={node.projectId}
+            class:touch-active={pressedProjectId === node.projectId}
             ><span role="button">{project.name}</span>&nbsp;<span
               class="inline-media-fallback"
             >
@@ -3180,11 +3298,23 @@
     cursor: pointer;
   }
 
-  .section-toggle:hover .glyph,
-  .project-toggle:hover .glyph,
+  @media (hover: hover) and (pointer: fine) {
+    p:not(.touch-input) .section-toggle:hover .glyph,
+    p:not(.touch-input) .project-toggle:hover .glyph,
+    p.pretext-active:not(.touch-input) a:hover .glyph,
+    p:not(.touch-input) [role='button']:hover .glyph,
+    p:not(.touch-input)
+      .project-fallback:has(.inline-media-fallback:hover)
+      [role='button'] {
+      color: blue;
+    }
+  }
+
   .project-toggle.hovered .glyph,
-  p.pretext-active a:hover .glyph,
-  .project-fallback:has(.inline-media-fallback:hover) [role='button'] {
+  .touch-active .glyph,
+  p:not(.pretext-active) a.touch-active,
+  p:not(.pretext-active) [role='button'].touch-active,
+  .project-fallback.touch-active [role='button'] {
     color: blue;
   }
 
