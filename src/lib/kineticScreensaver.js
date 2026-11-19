@@ -2,7 +2,7 @@
 // Uses curvature-smoothed clothoid steering so arcs flow naturally across the
 // text body, gently swirling out past its margins and curving back in.
 
-export const idleDelayMs = 33000
+export const idleDelayMs = 12333
 export const screensaverExitDurationMs = 360
 export const screensaverSmoothing = 0.14
 export const screensaverExitMinSmoothing = 0.075
