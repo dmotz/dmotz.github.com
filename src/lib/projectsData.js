@@ -15,7 +15,7 @@ export const projects = {
     aspect: 1,
     expandedSize: defaultExpandedSize,
     details:
-      'Trystero turns any static site into a live multiplayer app. Import the library, join a room by name, and browsers discover each other instantly. No accounts, no API keys, no infra.',
+      'Turns any static site into a live multiplayer app. Import the library, join a room by name, and browsers discover each other instantly. No accounts, no API keys, no infra.',
     links: [
       {label: 'trystero.dev', href: 'https://trystero.dev'},
       {label: 'source code', href: 'https://github.com/dmotz/trystero'}

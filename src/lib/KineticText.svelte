@@ -5,6 +5,7 @@
   import {materializeRichInlineLineRange} from '@chenglou/pretext/rich-inline'
   import garamondGlyphs from '#lib/glyphs'
   import {
+    annotateCopyFootnotes,
     buildLayoutSegments,
     buildPrerenderSubsections,
     buildUnderlinePath,
@@ -16,9 +17,11 @@
     detailBottomGapRatio,
     detailLinksGapRatio,
     evalReflowEase,
+    externalLinkArrow,
     getMediaAspect,
     getParentSectionId,
     getStyleKey,
+    getSupGap,
     hasDescender,
     isInteractiveToken,
     isSvelteKitRoute,
@@ -35,6 +38,9 @@
   const {copy = [], projects = {}, sections = {}} = $props()
 
   const normalizedCopy = $derived(normalizeCopy(copy))
+  const fallbackCopy = $derived(
+    annotateCopyFootnotes(normalizedCopy, projects, sections)
+  )
   const prerenderSubsections = $derived(
     buildPrerenderSubsections(normalizedCopy, projects, sections)
   )
@@ -68,7 +74,11 @@
   let paragraphEl = $state(null)
   let detailProbeEl = $state(null)
   let detailLinkProbeEl = $state(null)
+  let bodySupProbeEl = $state(null)
+  let bodyArrowProbeEl = $state(null)
   let detailSupProbeEl = $state(null)
+  let detailLinkSupProbeEl = $state(null)
+  let olderProjectSupProbeEl = $state(null)
   let detailLinkGapProbeEl = $state(null)
   let olderProjectProbeEl = $state(null)
   let nameProbeEl = $state(null)
@@ -203,6 +213,7 @@
   const warmSegmentList = (planSegments, activeStyles, styleKey, maxWidth) => {
     const ctx = getMeasureContext()
     const placedFloats = []
+    const indentByOwner = Object.create(null)
     let currentY = 0
     let maxFloatBottom = 0
     let activeClearBottom = 0
@@ -230,14 +241,23 @@
         currentY += Math.round(activeStyles[seg.marginTopRole].fontSize * ratio)
       }
 
-      const {flowLines, nextY, nextLineIndex} = layoutFlowSegmentLines(
-        seg,
-        activeStyles,
-        maxWidth,
-        placedFloats,
-        currentY,
-        localLineIndex
-      )
+      const inheritedIndent =
+        seg.inheritIndent && seg.ownerId ? (indentByOwner[seg.ownerId] ?? 0) : 0
+      const {flowLines, nextY, nextLineIndex, hangingIndent} =
+        layoutFlowSegmentLines(
+          seg,
+          activeStyles,
+          maxWidth,
+          placedFloats,
+          currentY,
+          localLineIndex,
+          inheritedIndent
+        )
+
+      if (hangingIndent > 0 && seg.ownerId) {
+        indentByOwner[seg.ownerId] = hangingIndent
+      }
+
       currentY = nextY
       localLineIndex = nextLineIndex
 
@@ -359,7 +379,11 @@
       !paragraphEl ||
       !detailProbeEl ||
       !detailLinkProbeEl ||
+      !bodySupProbeEl ||
+      !bodyArrowProbeEl ||
       !detailSupProbeEl ||
+      !detailLinkSupProbeEl ||
+      !olderProjectSupProbeEl ||
       !detailLinkGapProbeEl ||
       !olderProjectProbeEl ||
       !nameProbeEl
@@ -384,7 +408,19 @@
         name: readTypography(nameProbeEl, ctx, bodyStyle.fontSize),
         detail: readTypography(detailProbeEl, ctx, bodyStyle.fontSize),
         detailLink: readTypography(detailLinkProbeEl, ctx, bodyStyle.fontSize),
+        bodySup: readTypography(bodySupProbeEl, ctx, bodyStyle.fontSize),
+        bodyArrow: readTypography(bodyArrowProbeEl, ctx, bodyStyle.fontSize),
         detailSup: readTypography(detailSupProbeEl, ctx, bodyStyle.fontSize),
+        detailLinkSup: readTypography(
+          detailLinkSupProbeEl,
+          ctx,
+          bodyStyle.fontSize
+        ),
+        olderProjectSup: readTypography(
+          olderProjectSupProbeEl,
+          ctx,
+          bodyStyle.fontSize
+        ),
         detailLinkGap: readTypography(
           detailLinkGapProbeEl,
           ctx,
@@ -568,6 +604,7 @@
       const localUnderlines = []
       const localGroups = []
       const placedFloats = []
+      const indentByOwner = Object.create(null)
       const toggleBottomById = Object.create(null)
       let currentY = 0
       let maxFloatBottom = 0
@@ -714,14 +751,25 @@
           return group
         })
         const runCountByGroup = new Array(seg.tokens.length).fill(0)
-        const {flowLines, nextY, nextLineIndex} = layoutFlowSegmentLines(
-          seg,
-          activeStyles,
-          maxWidth,
-          placedFloats,
-          currentY,
-          localLineIndex
-        )
+        const inheritedIndent =
+          seg.inheritIndent && seg.ownerId
+            ? (indentByOwner[seg.ownerId] ?? 0)
+            : 0
+        const {flowLines, nextY, nextLineIndex, hangingIndent} =
+          layoutFlowSegmentLines(
+            seg,
+            activeStyles,
+            maxWidth,
+            placedFloats,
+            currentY,
+            localLineIndex,
+            inheritedIndent
+          )
+
+        if (hangingIndent > 0 && seg.ownerId) {
+          indentByOwner[seg.ownerId] = hangingIndent
+        }
+
         currentY = nextY
         localLineIndex = nextLineIndex
 
@@ -860,6 +908,10 @@
               })
             }
 
+            const supBeforeGap =
+              token.kind === 'sup' && token.supPosition === 'trailing'
+                ? getSupGap(token, activeStyles)
+                : 0
             const glyphMetrics = getFragmentGlyphs(
               ctx,
               activeStyles,
@@ -880,7 +932,7 @@
               const wordSourceOffset =
                 (token.sourceOffset ?? 0) + fragment.sourceStart + firstGm.index
               const wordId = `${token.key}-w${wordSourceOffset}`
-              const wordX = cursorX + firstGm.relX
+              const wordX = cursorX + supBeforeGap + firstGm.relX
               const wordY = tokenY
               const wordWidth = Math.max(
                 1,
@@ -892,7 +944,7 @@
                 firstGm.index,
                 lastGm.index + lastGm.char.length
               )
-              const signature = `${styleKey}\0${tokenRole}\0${interactive ? 1 : 0}\0${wordText}`
+              const signature = `${styleKey}\0${tokenRole}\0${interactive ? 1 : 0}\0${token.baseAngle ?? 0}\0${wordText}`
               const prevWord = prevWordById[wordId]
               const glyphCount = endM - wordStartM + 1
               let children
@@ -966,7 +1018,10 @@
                     styleRole: tokenRole,
                     char: segment,
                     displayChar: segment,
-                    alts: garamondGlyphs[segment] || null,
+                    alts:
+                      token.kind === 'sup'
+                        ? null
+                        : garamondGlyphs[segment] || null,
                     nextFlipAt: 0,
                     localX,
                     localY: 0,
@@ -985,6 +1040,7 @@
                     wordIndex: currentWordIdx,
                     tx: 0,
                     ty: 0,
+                    baseAngle: token.baseAngle ?? 0,
                     angle: 0,
                     renderedTx: 0,
                     renderedTy: 0,
@@ -2805,7 +2861,11 @@
     class:name={item.styleRole === 'name'}
     class:detail={item.styleRole === 'detail'}
     class:detail-link={item.styleRole === 'detailLink'}
+    class:body-sup={item.styleRole === 'bodySup'}
+    class:body-arrow={item.styleRole === 'bodyArrow'}
     class:detail-sup={item.styleRole === 'detailSup'}
+    class:detail-link-sup={item.styleRole === 'detailLinkSup'}
+    class:older-project-sup={item.styleRole === 'olderProjectSup'}
     class:older-project={item.styleRole === 'olderProject'}
     style:left="{item.domX}px"
     style:top="{item.domY}px"
@@ -2835,7 +2895,11 @@
       class:name={item.styleRole === 'name'}
       class:detail={item.styleRole === 'detail'}
       class:detail-link={item.styleRole === 'detailLink'}
+      class:body-sup={item.styleRole === 'bodySup'}
+      class:body-arrow={item.styleRole === 'bodyArrow'}
       class:detail-sup={item.styleRole === 'detailSup'}
+      class:detail-link-sup={item.styleRole === 'detailLinkSup'}
+      class:older-project-sup={item.styleRole === 'olderProjectSup'}
       class:older-project={item.styleRole === 'olderProject'}
       style:left="{item.domX}px"
       style:top="{item.domY}px"
@@ -2981,9 +3045,29 @@
     bind:this={detailLinkProbeEl}
   ></span>
   <span
+    class="detail-probe body-sup"
+    aria-hidden="true"
+    bind:this={bodySupProbeEl}
+  ></span>
+  <span
+    class="detail-probe body-arrow"
+    aria-hidden="true"
+    bind:this={bodyArrowProbeEl}
+  ></span>
+  <span
     class="detail-probe detail-sup"
     aria-hidden="true"
     bind:this={detailSupProbeEl}
+  ></span>
+  <span
+    class="detail-probe detail-link-sup"
+    aria-hidden="true"
+    bind:this={detailLinkSupProbeEl}
+  ></span>
+  <span
+    class="detail-probe older-project-sup"
+    aria-hidden="true"
+    bind:this={olderProjectSupProbeEl}
   ></span>
   <span
     class="detail-probe detail-link-gap"
@@ -3070,7 +3154,7 @@
       {/if}
     {/each}
   {:else}
-    {#each normalizedCopy as node (node.key)}
+    {#each fallbackCopy as node (node.key)}
       {#if node.kind === 'button'}
         <span
           role="button"
@@ -3086,7 +3170,8 @@
           role="button"
           data-press-key={node.key}
           class:touch-active={pressedKey === node.key}>{node.text}</span
-        >
+        >{#if node.footnote}<sup class="body-sup-fallback">{node.footnote}</sup
+          >{/if}
       {:else if node.kind === 'project'}
         {@const project = projects[node.projectId]}
         {#if project}
@@ -3094,15 +3179,22 @@
             class="project-fallback"
             data-project-id={node.projectId}
             class:touch-active={pressedProjectId === node.projectId}
-            ><span role="button">{project.name}</span>&nbsp;<span
-              class="inline-media-fallback"
-            >
+            ><span role="button">{project.name}</span>{#if node.footnote}<sup
+                class="body-sup-fallback">{node.footnote}</sup
+              >{/if}&nbsp;<span class="inline-media-fallback">
               {@render mediaContent(project.media, project.alt)}
             </span></span
           >
         {/if}
       {:else if node.kind === 'link'}
-        {@render linkElement(node, false, fallbackLinkBody, node)}
+        {@render linkElement(
+          node,
+          false,
+          fallbackLinkBody,
+          node
+        )}{#if opensNewTab(node)}<sup class="body-arrow-fallback"
+            >{externalLinkArrow}</sup
+          >{/if}
       {:else if node.styleRole === 'name'}
         <span class="name">{node.text}</span>
       {:else}
@@ -3236,17 +3328,61 @@
     vertical-align: baseline;
   }
 
+  .detail-probe.body-sup,
+  .glyph.body-sup {
+    font-size: 0.34em;
+    line-height: 1;
+    vertical-align: 1.35em;
+  }
+
+  .detail-probe.body-arrow,
+  .glyph.body-arrow {
+    font-size: 0.3em;
+    line-height: 1;
+    vertical-align: 1.55em;
+  }
+
+  .body-sup-fallback {
+    font-size: 0.34em;
+    line-height: 1;
+    vertical-align: 1.35em;
+    margin-left: 0.05em;
+  }
+
+  .body-arrow-fallback {
+    display: inline-block;
+    font-size: 0.3em;
+    line-height: 1;
+    vertical-align: 1.55em;
+    margin-left: 0.05em;
+    transform: rotate(-45deg);
+  }
+
   .detail-probe.detail-sup,
   .glyph.detail-sup {
-    font-size: 0.31em;
+    font-size: 0.34em;
     line-height: 1;
-    vertical-align: 0.58em;
+    vertical-align: 0.56em;
+  }
+
+  .detail-probe.detail-link-sup,
+  .glyph.detail-link-sup {
+    font-size: 0.24em;
+    line-height: 1;
+    vertical-align: 0.92em;
+  }
+
+  .detail-probe.older-project-sup,
+  .glyph.older-project-sup {
+    font-size: 0.36em;
+    line-height: 1;
+    vertical-align: 0.72em;
   }
 
   .detail-probe.detail-link-gap {
     font-size: 0.44em;
     line-height: 1.35;
-    letter-spacing: 1.4em;
+    letter-spacing: 0.8em;
   }
 
   .detail-probe.older-project,

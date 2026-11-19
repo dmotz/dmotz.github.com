@@ -21,9 +21,12 @@ export const underlineOffsetRatio = 0.12
 export const glyphOriginYRatio = 0.54
 export const detailLinksGapRatio = 0.55
 export const detailBottomGapRatio = 0.55
-export const detailSupGapRatio = 0.16
+export const supAfterGapRatio = 0.22
+export const supBeforeGapRatio = 0.05
 export const sectionTopGapRatio = 0.52
 export const olderProjectRowGapRatio = 0.24
+export const externalLinkArrow = '⇒'
+export const externalLinkArrowAngle = -45
 
 // solve cubic-bezier(0.22, 1, 0.36, 1) matching the css reflow curve
 const cbX1 = 0.22
@@ -90,6 +93,60 @@ export const isSvelteKitRoute = node =>
 
 export const opensNewTab = node =>
   typeof node.external === 'boolean' ? node.external : hasScheme(node.href)
+
+const romanNumerals = [
+  'i',
+  'ii',
+  'iii',
+  'iv',
+  'v',
+  'vi',
+  'vii',
+  'viii',
+  'ix',
+  'x'
+]
+
+export const getSupGap = (token, styles) => {
+  if (token.kind !== 'sup') {
+    return 0
+  }
+
+  const baseRole =
+    token.styleRole === 'bodySup' || token.styleRole === 'bodyArrow'
+      ? 'body'
+      : token.styleRole === 'olderProjectSup'
+        ? 'olderProject'
+        : token.styleRole === 'detailLinkSup'
+          ? 'detailLink'
+          : 'detail'
+
+  if (token.supPosition === 'leading') {
+    return Math.round(styles[baseRole].fontSize * supAfterGapRatio)
+  }
+
+  if (token.supPosition === 'trailing') {
+    return Math.round(styles[baseRole].fontSize * supBeforeGapRatio)
+  }
+
+  return 0
+}
+
+export const annotateCopyFootnotes = (nodes, projects = {}, sections = {}) => {
+  let footnoteIndex = 0
+
+  return nodes.map(node => {
+    if (node.kind === 'section' && sections[node.sectionId]) {
+      return {...node, footnote: `${++footnoteIndex}`}
+    }
+
+    if (node.kind === 'project' && projects[node.projectId]) {
+      return {...node, footnote: `${++footnoteIndex}`}
+    }
+
+    return node
+  })
+}
 
 /** Normalize shorthand copy entries (strings, links, buttons, sections, projects) into typed nodes. */
 export const normalizeCopy = rawCopy => {
@@ -369,14 +426,6 @@ const buildLinkTokens = (ownerPrefix, links, activeSection) => {
     }
 
     linkTokens.push({
-      kind: 'sup',
-      key: `${ownerPrefix}-sup-${linkIndex}`,
-      text: `${linkIndex + 1}`,
-      styleRole: 'detailSup',
-      activeSection
-    })
-
-    linkTokens.push({
       kind: 'link',
       key: `${ownerPrefix}-link-${linkIndex}`,
       text: link.label,
@@ -385,12 +434,28 @@ const buildLinkTokens = (ownerPrefix, links, activeSection) => {
       styleRole: 'detailLink',
       activeSection
     })
+
+    if (opensNewTab(link)) {
+      linkTokens.push({
+        kind: 'sup',
+        key: `${ownerPrefix}-link-ext-${linkIndex}`,
+        text: externalLinkArrow,
+        styleRole: 'detailLinkSup',
+        supPosition: 'trailing',
+        baseAngle: externalLinkArrowAngle,
+        activeSection
+      })
+    }
   })
 
   return linkTokens
 }
 
-export const buildExpandedProjectSegments = (project, activeSection = true) => {
+export const buildExpandedProjectSegments = (
+  project,
+  activeSection = true,
+  footnote = null
+) => {
   const segments = [
     {
       kind: 'expanded-media',
@@ -406,28 +471,43 @@ export const buildExpandedProjectSegments = (project, activeSection = true) => {
   ]
 
   const hasLinks = Array.isArray(project.links) && project.links.length > 0
+  const detailTokens = []
+
+  if (footnote) {
+    detailTokens.push({
+      kind: 'sup',
+      key: `p-${project.id}-fn`,
+      text: footnote,
+      styleRole: 'detailSup',
+      supPosition: 'leading',
+      activeSection
+    })
+  }
+
+  detailTokens.push({
+    kind: 'text',
+    key: `p-${project.id}-details`,
+    text: project.details,
+    styleRole: 'detail',
+    activeSection
+  })
 
   segments.push({
     kind: 'flow',
     ownerId: project.id,
+    baseRole: 'detail',
     clearExpandedFloat: !hasLinks,
-    tokens: [
-      {
-        kind: 'text',
-        key: `p-${project.id}-details`,
-        text: project.details,
-        styleRole: 'detail',
-        activeSection
-      }
-    ]
+    tokens: detailTokens
   })
 
   if (hasLinks) {
     segments.push({
       kind: 'flow',
       ownerId: project.id,
+      baseRole: 'detailLink',
       marginTopRole: 'detailLink',
       marginTopRatio: detailLinksGapRatio,
+      inheritIndent: Boolean(footnote),
       clearExpandedFloat: true,
       tokens: buildLinkTokens(`p-${project.id}`, project.links, activeSection)
     })
@@ -439,25 +519,40 @@ export const buildExpandedProjectSegments = (project, activeSection = true) => {
 const buildDetailSectionSegments = (
   sectionId,
   section,
-  activeSection = true
+  activeSection = true,
+  footnote = null
 ) => {
   const hasLinks = Array.isArray(section.links) && section.links.length > 0
+  const detailTokens = []
+
+  if (footnote) {
+    detailTokens.push({
+      kind: 'sup',
+      key: `s-${sectionId}-fn`,
+      text: footnote,
+      styleRole: 'detailSup',
+      supPosition: 'leading',
+      activeSection
+    })
+  }
+
+  detailTokens.push({
+    kind: 'text',
+    key: `s-${sectionId}-details`,
+    text: section.details,
+    styleRole: 'detail',
+    activeSection
+  })
+
   const segments = [
     {
       kind: 'flow',
       ownerId: sectionId,
+      baseRole: 'detail',
       marginTopRole: 'detail',
       marginTopRatio: sectionTopGapRatio,
       clearExpandedFloat: !hasLinks,
-      tokens: [
-        {
-          kind: 'text',
-          key: `s-${sectionId}-details`,
-          text: section.details,
-          styleRole: 'detail',
-          activeSection
-        }
-      ]
+      tokens: detailTokens
     }
   ]
 
@@ -465,8 +560,10 @@ const buildDetailSectionSegments = (
     segments.push({
       kind: 'flow',
       ownerId: sectionId,
+      baseRole: 'detailLink',
       marginTopRole: 'detailLink',
       marginTopRatio: detailLinksGapRatio,
+      inheritIndent: Boolean(footnote),
       clearExpandedFloat: true,
       tokens: buildLinkTokens(`s-${sectionId}`, section.links, activeSection)
     })
@@ -480,10 +577,12 @@ const buildProjectListSegments = (
   projectIds,
   projects,
   expandedSet,
-  isExpanded
+  isExpanded,
+  sectionFootnote = null
 ) => {
   const segments = []
   let prevSubExpanded = false
+  let subFootnoteIndex = 0
 
   projectIds.forEach((subId, subIndex) => {
     const subProject = projects[subId]
@@ -495,17 +594,39 @@ const buildProjectListSegments = (
     const subExpanded = isExpanded && expandedSet.has(subProject.id)
     const isFirst = subIndex === 0
     const isLast = subIndex === projectIds.length - 1
-    const rowTokens = [
-      {
-        kind: 'project-toggle',
-        key: `p-${subProject.id}-toggle`,
-        projectId: subProject.id,
-        text: subProject.name,
-        styleRole: 'olderProject',
-        expanded: subExpanded,
+    const subFootnote =
+      romanNumerals[subFootnoteIndex++] ?? `${subFootnoteIndex}`
+    const rowTokens = []
+
+    if (isFirst && sectionFootnote) {
+      rowTokens.push({
+        kind: 'sup',
+        key: `s-${sectionId}-fn`,
+        text: sectionFootnote,
+        styleRole: 'olderProjectSup',
+        supPosition: 'leading',
         activeSection: isExpanded
-      }
-    ]
+      })
+    }
+
+    rowTokens.push({
+      kind: 'project-toggle',
+      key: `p-${subProject.id}-toggle`,
+      projectId: subProject.id,
+      text: subProject.name,
+      styleRole: 'olderProject',
+      expanded: subExpanded,
+      activeSection: isExpanded
+    })
+
+    rowTokens.push({
+      kind: 'sup',
+      key: `p-${subProject.id}-sup`,
+      text: subFootnote,
+      styleRole: 'olderProjectSup',
+      supPosition: 'trailing',
+      activeSection: isExpanded
+    })
 
     if (!subExpanded) {
       rowTokens.push({
@@ -542,14 +663,18 @@ const buildProjectListSegments = (
     segments.push({
       kind: 'flow',
       ownerId: sectionId,
+      baseRole: 'olderProject',
       marginTopRole,
       marginTopRatio,
+      inheritIndent: !isFirst && Boolean(sectionFootnote),
       clearExpandedFloat: isLast && !subExpanded,
       tokens: rowTokens
     })
 
     if (subExpanded) {
-      segments.push(...buildExpandedProjectSegments(subProject, true))
+      segments.push(
+        ...buildExpandedProjectSegments(subProject, true, subFootnote)
+      )
     }
 
     prevSubExpanded = subExpanded
@@ -558,13 +683,19 @@ const buildProjectListSegments = (
   return segments
 }
 
-const buildSectionSegments = (sectionId, section, projects, expandedSet) => {
+const buildSectionSegments = (
+  sectionId,
+  section,
+  projects,
+  expandedSet,
+  footnote = null
+) => {
   if (!section) {
     return []
   }
 
   if (section.details) {
-    return buildDetailSectionSegments(sectionId, section, true)
+    return buildDetailSectionSegments(sectionId, section, true, footnote)
   }
 
   if (Array.isArray(section.projectIds)) {
@@ -573,7 +704,8 @@ const buildSectionSegments = (sectionId, section, projects, expandedSet) => {
       section.projectIds,
       projects,
       expandedSet,
-      true
+      true,
+      footnote
     )
   }
 
@@ -589,6 +721,7 @@ export const buildLayoutSegments = (
   const segments = []
   let currentFlow = []
   let afterExpanded = false
+  let footnoteIndex = 0
 
   const flushFlow = (extra = {}) => {
     if (currentFlow.length === 0) {
@@ -606,6 +739,7 @@ export const buildLayoutSegments = (
       afterExpanded = false
       const section = sections[node.sectionId]
       const expanded = Boolean(section) && expandedSet.has(node.sectionId)
+      const footnote = section ? `${++footnoteIndex}` : null
 
       currentFlow.push({
         kind: 'section-toggle',
@@ -615,6 +749,17 @@ export const buildLayoutSegments = (
         expanded,
         activeSection: expanded
       })
+
+      if (footnote) {
+        currentFlow.push({
+          kind: 'sup',
+          key: `s-${node.sectionId}-sup`,
+          text: footnote,
+          styleRole: 'bodySup',
+          supPosition: 'trailing',
+          activeSection: expanded
+        })
+      }
 
       if (!expanded) {
         if (nodes[i + 1]?.kind === 'text' && nodes[i + 1].text === '.') {
@@ -637,7 +782,13 @@ export const buildLayoutSegments = (
 
       flushFlow()
       segments.push(
-        ...buildSectionSegments(node.sectionId, section, projects, expandedSet)
+        ...buildSectionSegments(
+          node.sectionId,
+          section,
+          projects,
+          expandedSet,
+          footnote
+        )
       )
       afterExpanded = true
       continue
@@ -666,6 +817,18 @@ export const buildLayoutSegments = (
       }
 
       currentFlow.push(node)
+
+      if (node.kind === 'link' && opensNewTab(node)) {
+        currentFlow.push({
+          kind: 'sup',
+          key: `${node.key}-ext`,
+          text: externalLinkArrow,
+          styleRole: 'bodyArrow',
+          supPosition: 'trailing',
+          baseAngle: externalLinkArrowAngle
+        })
+      }
+
       continue
     }
 
@@ -677,6 +840,7 @@ export const buildLayoutSegments = (
     }
 
     const expanded = expandedSet.has(project.id)
+    const footnote = `${++footnoteIndex}`
 
     currentFlow.push({
       kind: 'project-toggle',
@@ -684,6 +848,15 @@ export const buildLayoutSegments = (
       projectId: project.id,
       text: project.name,
       expanded,
+      activeSection: expanded
+    })
+
+    currentFlow.push({
+      kind: 'sup',
+      key: `p-${project.id}-sup`,
+      text: footnote,
+      styleRole: 'bodySup',
+      supPosition: 'trailing',
       activeSection: expanded
     })
 
@@ -707,7 +880,7 @@ export const buildLayoutSegments = (
     }
 
     flushFlow()
-    segments.push(...buildExpandedProjectSegments(project, true))
+    segments.push(...buildExpandedProjectSegments(project, true, footnote))
     afterExpanded = true
   }
 
@@ -781,7 +954,11 @@ export const getStyleKey = styles =>
     'name',
     'detail',
     'detailLink',
+    'bodySup',
+    'bodyArrow',
     'detailSup',
+    'detailLinkSup',
+    'olderProjectSup',
     'detailLinkGap',
     'olderProject'
   ]
@@ -791,16 +968,17 @@ export const getStyleKey = styles =>
     })
     .join(';')
 
-export const prepareSegmentList = (segments, styles, cache) => {
-  const supGap = Math.round(styles.detailLink.fontSize * detailSupGapRatio)
-
-  return segments.map(segment => {
+export const prepareSegmentList = (segments, styles, cache) =>
+  segments.map(segment => {
     if (segment.kind !== 'flow') {
       return segment
     }
 
     const sig = segment.tokens
-      .map(t => `${t.key}:${t.kind}:${t.styleRole ?? ''}:${t.text ?? ''}`)
+      .map(
+        t =>
+          `${t.key}:${t.kind}:${t.styleRole ?? ''}:${t.supPosition ?? ''}:${t.text ?? ''}`
+      )
       .join('|')
     let prepared = cache[sig]
 
@@ -819,11 +997,12 @@ export const prepareSegmentList = (segments, styles, cache) => {
         }
 
         const nextToken = segment.tokens[tokenIndex + 1]
+        const supGap = getSupGap(token, styles)
 
         if (nextToken?.kind === 'media') {
           const mediaStyle = styles[nextToken.styleRole || 'body']
           entry.extraWidth = mediaStyle.lineHeight * getMediaAspect(nextToken)
-        } else if (token.styleRole === 'detailSup' && supGap > 0) {
+        } else if (supGap > 0) {
           entry.extraWidth = supGap
         }
 
@@ -839,7 +1018,6 @@ export const prepareSegmentList = (segments, styles, cache) => {
       prepared
     }
   })
-}
 
 export const sameCursor = (a, b) =>
   a.itemIndex === b.itemIndex &&
@@ -1090,13 +1268,18 @@ export const layoutFlowSegmentLines = (
   maxWidth,
   placedFloats,
   startY,
-  startLineIndex
+  startLineIndex,
+  inheritedIndent = 0
 ) => {
-  const segBaseRole = seg.marginTopRole || seg.tokens[0]?.styleRole || 'body'
+  const segBaseRole =
+    seg.baseRole || seg.marginTopRole || seg.tokens[0]?.styleRole || 'body'
   const segStyleMaxWidth =
     segBaseRole !== 'body' && segBaseRole !== 'name'
       ? activeStyles[segBaseRole]?.maxWidth
       : null
+  const hasLeadingSup =
+    seg.tokens[0]?.kind === 'sup' && seg.tokens[0]?.supPosition === 'leading'
+  let hangingIndent = 0
   let checkLineHeight = activeStyles[segBaseRole].lineHeight
 
   for (let t = 0; t < seg.tokens.length; t++) {
@@ -1108,7 +1291,11 @@ export const layoutFlowSegmentLines = (
   }
 
   const stepSegmentLine = (lineCursor, y, overrideMaxWidth = null) => {
-    let lineOffsetX = 0
+    const isFirstLine =
+      lineCursor.itemIndex === 0 &&
+      lineCursor.segmentIndex === 0 &&
+      lineCursor.graphemeIndex === 0
+    let floatOffsetX = 0
 
     for (let p = 0; p < placedFloats.length; p++) {
       const fl = placedFloats[p]
@@ -1116,12 +1303,18 @@ export const layoutFlowSegmentLines = (
       if (y + checkLineHeight > fl.y && y < fl.clearBottom) {
         const rightEdge = fl.x + fl.width + floatGutter
 
-        if (rightEdge > lineOffsetX) {
-          lineOffsetX = rightEdge
+        if (rightEdge > floatOffsetX) {
+          floatOffsetX = rightEdge
         }
       }
     }
 
+    const extraIndent = hasLeadingSup
+      ? isFirstLine
+        ? 0
+        : hangingIndent
+      : inheritedIndent
+    const lineOffsetX = floatOffsetX + extraIndent
     const availableWidth = maxWidth - lineOffsetX
     const lineMaxWidth = Math.max(
       1,
@@ -1141,6 +1334,15 @@ export const layoutFlowSegmentLines = (
 
     if (!range || sameCursor(range.end, lineCursor)) {
       return null
+    }
+
+    if (
+      hasLeadingSup &&
+      isFirstLine &&
+      hangingIndent === 0 &&
+      range.fragments[0]?.itemIndex === 0
+    ) {
+      hangingIndent = range.fragments[0].occupiedWidth
     }
 
     let rowBaseline = 0
@@ -1218,7 +1420,8 @@ export const layoutFlowSegmentLines = (
   return {
     flowLines,
     nextY: currentY,
-    nextLineIndex: localLineIndex
+    nextLineIndex: localLineIndex,
+    hangingIndent
   }
 }
 
@@ -1247,7 +1450,11 @@ export const computeUnderlineTransform = run =>
   `translate3d(${(run.visX ?? run.x).toFixed(2)}px, ${(run.visY ?? run.y).toFixed(2)}px, 0)`
 
 export const computeGlyphTransform = glyph =>
-  formatTransform(glyph.tx ?? 0, glyph.ty ?? 0, glyph.angle ?? 0)
+  formatTransform(
+    glyph.tx ?? 0,
+    glyph.ty ?? 0,
+    (glyph.baseAngle ?? 0) + (glyph.angle ?? 0)
+  )
 
 export const computeBoxTransform = box => {
   const domW = box.domWidth ?? box.width
