@@ -52,7 +52,6 @@
   const offscreenLineStagger = 40
   const offscreenWordStagger = 16
   const reflowDurationMs = 340
-  const touchDragThresholdSq = 36
 
   let paragraphEl = $state(null)
   let detailProbeEl = $state(null)
@@ -109,9 +108,6 @@
   let pointerClientY = 0
   let touchOnly = false
   let activeTouchId = null
-  let pendingTouchId = null
-  let touchStartX = 0
-  let touchStartY = 0
   let lastToggleClickEvent = null
   let lastToggleBlockedBySelection = false
   let warmIdleHandle = null
@@ -2336,10 +2332,31 @@
     return null
   }
 
+  const triggerRipple = (clientX, clientY, centered = false) => {
+    const rectLeft = cachedDocLeft - cachedScrollX
+    const rectTop = cachedDocTop - cachedScrollY
+    const rectWidth = cachedMaxWidth
+    const rectHeight = layoutHeight
+    const ox = centered ? rectWidth / 2 : clientX - rectLeft
+    const oy = centered ? rectHeight / 2 : clientY - rectTop
+    const maxRadius = Math.hypot(
+      Math.max(Math.abs(ox), Math.abs(rectWidth - ox)),
+      Math.max(Math.abs(oy), Math.abs(rectHeight - oy))
+    )
+
+    ripples.push({
+      ox,
+      oy,
+      waveR: 0,
+      startTime: performance.now(),
+      maxRadius
+    })
+
+    ensureAnimationLoop()
+  }
+
   const updateTouchPointer = touch => {
-    const id = touch.identifier ?? 0
-    activeTouchId = id
-    pendingTouchId = id
+    activeTouchId = touch.identifier ?? 0
     pointerClientX = touch.clientX
     pointerClientY = touch.clientY
     pointerActive = true
@@ -2357,9 +2374,8 @@
       return
     }
 
-    pendingTouchId = touch.identifier ?? 0
-    touchStartX = touch.clientX
-    touchStartY = touch.clientY
+    updateTouchPointer(touch)
+    triggerRipple(touch.clientX, touch.clientY)
   }
 
   const handleTouchMove = event => {
@@ -2367,24 +2383,14 @@
       return
     }
 
-    const trackedId = activeTouchId ?? pendingTouchId
     const touch =
-      findTouchById(event.touches, trackedId) ||
-      findTouchById(event.changedTouches, trackedId) ||
+      findTouchById(event.touches, activeTouchId) ||
+      findTouchById(event.changedTouches, activeTouchId) ||
       event.changedTouches?.[0] ||
       event.touches?.[0]
 
     if (!touch) {
       return
-    }
-
-    if (!pointerActive) {
-      const dx = touch.clientX - touchStartX
-      const dy = touch.clientY - touchStartY
-
-      if (dx * dx + dy * dy < touchDragThresholdSq) {
-        return
-      }
     }
 
     updateTouchPointer(touch)
@@ -2404,7 +2410,6 @@
     }
 
     activeTouchId = null
-    pendingTouchId = null
 
     if (pointerActive) {
       pointerActive = false
@@ -2413,12 +2418,12 @@
   }
 
   const handleClick = event => {
-    if (!paragraphEl || reducedMotion || !hasLayout) {
-      return
-    }
-
     const wasToggleEvent = event === lastToggleClickEvent
     lastToggleClickEvent = null
+
+    if (touchOnly || !paragraphEl || reducedMotion || !hasLayout) {
+      return
+    }
 
     if (wasToggleEvent) {
       if (lastToggleBlockedBySelection) {
@@ -2428,28 +2433,7 @@
       return
     }
 
-    const rectLeft = cachedDocLeft - cachedScrollX
-    const rectTop = cachedDocTop - cachedScrollY
-    const rectWidth = cachedMaxWidth
-    const rectHeight = layoutHeight
-    const ox = event.detail === 0 ? rectWidth / 2 : event.clientX - rectLeft
-    const oy = event.detail === 0 ? rectHeight / 2 : event.clientY - rectTop
-    const maxRadius = Math.hypot(
-      Math.max(Math.abs(ox), Math.abs(rectWidth - ox)),
-      Math.max(Math.abs(oy), Math.abs(rectHeight - oy))
-    )
-
-    ripples.push({
-      ox,
-      oy,
-      waveR: 0,
-      startTime: performance.now(),
-      maxRadius
-    })
-
-    if (ripples.length > 0) {
-      ensureAnimationLoop()
-    }
+    triggerRipple(event.clientX, event.clientY, event.detail === 0)
   }
 
   const handleScroll = () => {
@@ -2519,7 +2503,6 @@
     const onTouchOnlyChange = event => {
       touchOnly = event.matches
       activeTouchId = null
-      pendingTouchId = null
       pointerActive = false
       hoveredProjectId = null
       ensureAnimationLoop()
