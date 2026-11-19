@@ -1,7 +1,4 @@
-import emdash1 from '#lib/media/emdash1.png?enhanced'
-import gilded1 from '#lib/media/gilded1.mp4'
-import oridomi1 from '#lib/media/oridomi1.mp4'
-import trystero1 from '#lib/media/trystero1.mp4'
+import {emdash1, gilded1, oridomi1, trystero1} from '#lib/media'
 
 const defaultExpandedSize = 260
 const olderExpandedSize = 220
@@ -63,48 +60,6 @@ export const projects = {
       {label: 'source code', href: 'https://github.com/dmotz/GildedGauge'}
     ]
   }
-  // hexaflip: {
-  //   id: 'hexaflip',
-  //   name: 'Hexaflip',
-  //   media: hexaflip2,
-  //   alt: 'Hexaflip 3D cube interface',
-  //   aspect: 1,
-  //   expandedSize: olderExpandedSize,
-  //   details:
-  //     'A 3D UI primitive that turns arbitrary lists of text, numbers, or images into spinnable cubes',
-  //   links: [
-  //     {label: 'demo site', href: '/hexaflip'},
-  //     {label: 'source code', href: 'https://github.com/dmotz/hexaflip'}
-  //   ]
-  // },
-  // maskew: {
-  //   id: 'maskew',
-  //   name: 'Maskew',
-  //   media: maskew1,
-  //   alt: 'Maskew oblique layout demo',
-  //   aspect: 1,
-  //   expandedSize: olderExpandedSize,
-  //   details:
-  //     'A layout tool for skewing web elements into oblique shapes without distorting their contents',
-  //   links: [
-  //     {label: 'demo site', href: '/maskew'},
-  //     {label: 'source code', href: 'https://github.com/dmotz/maskew'}
-  //   ]
-  // },
-  // turingType: {
-  //   id: 'turingType',
-  //   name: 'TuringType',
-  //   media: turingtype1,
-  //   alt: 'TuringType typing effect demo',
-  //   aspect: 1,
-  //   expandedSize: olderExpandedSize,
-  //   details:
-  //     'A sketch seeking to tease out human cadence from a handful of typing instructions',
-  //   links: [
-  //     {label: 'demo site', href: '/TuringType'},
-  //     {label: 'source code', href: 'https://github.com/dmotz/TuringType'}
-  //   ]
-  // }
 }
 
 export const sections = {
@@ -118,7 +73,7 @@ export const sections = {
 }
 
 export const bodyCopy = [
-  {text: 'Dan Motzenbecker', styleRole: 'name'},
+  {text: 'Dan Motzenbecker', styleRole: 'name', heading: true},
   ' is a ',
   {sectionId: 'work', text: 'creative and software engineer'},
   '.',
@@ -136,18 +91,12 @@ export const bodyCopy = [
   ' him, or peruse his ',
   {text: 'code', href: 'https://github.com/dmotz'},
   '.'
-].map((node, index) => {
-  if (typeof node === 'string') {
-    return {kind: 'text', key: `node-${index}`, text: node}
-  }
-  if (node.sectionId) {
-    return {kind: 'section', key: `s-${node.sectionId}`, ...node}
-  }
-  if (node.projectId) {
-    return {kind: 'project', ...node}
-  }
-  if (node.href) {
-    return {kind: 'link', key: `node-${index}`, ...node}
-  }
-  return {kind: 'text', key: `node-${index}`, ...node}
-})
+]
+
+export const notFoundCopy = [
+  'Four-o-four: not found. ',
+  {text: 'Go home', href: '/'},
+  ' or ',
+  {text: 'send an email', href: 'mailto:dan@oxism.com'},
+  '.'
+]

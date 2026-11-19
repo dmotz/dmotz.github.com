@@ -1,3 +1,4 @@
-.svelte-kit/
 build/
-pnpm-lock.yaml
+node_modules/
+src/lib/media/
+.DS_Store

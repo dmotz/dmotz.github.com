@@ -3,7 +3,12 @@ import pluginJs from '@eslint/js'
 import svelte from 'eslint-plugin-svelte'
 
 export default [
-  {languageOptions: {globals: {...globals.browser, process: true}}},
+  {ignores: ['build/**', 'node_modules/**', 'src/lib/media/**']},
+  {languageOptions: {globals: {...globals.browser}}},
+  {
+    files: ['scripts/**/*.js', 'vite.config.js', 'eslint.config.js'],
+    languageOptions: {globals: {...globals.node}}
+  },
   pluginJs.configs.recommended,
   ...svelte.configs['flat/recommended'],
   {
