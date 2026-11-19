@@ -1847,6 +1847,7 @@
     left: 0;
     z-index: 1;
     display: inline-block;
+    padding-right: 0.12em;
     contain: size layout style;
   }
 
@@ -1862,6 +1863,11 @@
     white-space: pre;
     transform-origin: 50% 54%;
     contain: size layout style;
+  }
+
+  .glyph.name {
+    padding-inline: 0.12em;
+    margin-left: -0.12em;
   }
 
   .descender {
