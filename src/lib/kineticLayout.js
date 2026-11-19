@@ -284,7 +284,7 @@ export const getCollapsedPrefetchUrls = (projects = {}, sections = {}) => {
       }
 
       const candidate =
-        media.kind === 'image' ? media.prefetchUrl : media.webm || media.mp4
+        media.kind === 'image' ? media.src : media.webm || media.mp4
 
       if (candidate && !seen.has(candidate)) {
         seen.add(candidate)
@@ -614,6 +614,7 @@ const buildProjectListSegments = (
         media: subProject.media,
         alt: subProject.alt,
         aspect: subProject.aspect,
+        expandedSize: subProject.expandedSize,
         styleRole: 'olderProject',
         expanded: false,
         activeSection: isExpanded
@@ -834,6 +835,7 @@ export const buildLayoutSegments = (
         media: project.media,
         alt: project.alt,
         aspect: project.aspect,
+        expandedSize: project.expandedSize,
         expanded: false
       })
       continue

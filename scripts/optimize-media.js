@@ -309,7 +309,6 @@ const generateIndexModule = entries => {
       })
 
       const fallbackVar = `${id}Webp${record.variants.length - 1}`
-      const prefetchVar = `${id}Avif${Math.min(1, record.variants.length - 1)}`
 
       exports.push(`export const ${id} = {
   kind: 'image',
@@ -318,8 +317,7 @@ const generateIndexModule = entries => {
   aspect: ${record.aspect},
   avifSrcset: \`${avifParts.join(', ')}\`,
   webpSrcset: \`${webpParts.join(', ')}\`,
-  src: ${fallbackVar},
-  prefetchUrl: ${prefetchVar}
+  src: ${fallbackVar}
 }`)
     } else {
       const webmVar = `${id}Webm`

@@ -50,6 +50,7 @@
   let pressedKey = $state(null)
   let pressedProjectId = $state(null)
   let touchInput = $state(false)
+  let fullResImagesReady = $state(false)
 
   let measureCtx = null
   let cachedStyleKey = ''
@@ -1126,6 +1127,63 @@
     let prefetchUsesIdle = false
     let cancelled = false
 
+    const preloadAndDecodeImage = (media, expandedSize = 260) => {
+      const picture = document.createElement('picture')
+      const sizes = `${expandedSize}px`
+
+      const avifSource = document.createElement('source')
+      avifSource.type = 'image/avif'
+      avifSource.srcset = media.avifSrcset
+      avifSource.sizes = sizes
+
+      const webpSource = document.createElement('source')
+      webpSource.type = 'image/webp'
+      webpSource.srcset = media.webpSrcset
+      webpSource.sizes = sizes
+
+      const img = document.createElement('img')
+      img.decoding = 'async'
+      picture.append(avifSource, webpSource, img)
+      img.src = media.src
+
+      return img.decode().catch(() => {})
+    }
+
+    const warmOnscreenImages = () => {
+      if (cancelled) {
+        return
+      }
+
+      const onscreenImageTasks = []
+
+      for (let i = 0; i < normalizedCopy.length; i++) {
+        const node = normalizedCopy[i]
+
+        if (node.kind !== 'project') {
+          continue
+        }
+
+        const project = projects[node.projectId]
+
+        if (project?.media?.kind === 'image') {
+          onscreenImageTasks.push(
+            preloadAndDecodeImage(project.media, project.expandedSize)
+          )
+        }
+      }
+
+      if (onscreenImageTasks.length === 0) {
+        fullResImagesReady = true
+        return
+      }
+
+      Promise.all(onscreenImageTasks).then(() => {
+        if (!cancelled) {
+          fullResImagesReady = true
+        }
+      })
+    }
+
     const scheduleCollapsedMediaPrefetch = () => {
       if (navigator.connection?.saveData) {
         return
@@ -1155,16 +1213,15 @@
           }
 
           for (const id of sec.projectIds) {
-            const media = projects[id]?.media
+            const subProject = projects[id]
+            const media = subProject?.media
 
             if (!media) {
               continue
             }
 
-            if (media.kind === 'image' && media.prefetchUrl) {
-              const img = new Image()
-              img.decoding = 'async'
-              img.src = media.prefetchUrl
+            if (media.kind === 'image') {
+              preloadAndDecodeImage(media, subProject.expandedSize)
             } else if (media.kind === 'video') {
               const url = supportsAv1Webm && media.webm ? media.webm : media.mp4
 
@@ -1176,24 +1233,25 @@
         }
       }
 
-      const enqueue = () => {
-        if (typeof requestIdleCallback === 'function') {
-          prefetchUsesIdle = true
-          prefetchIdleId = requestIdleCallback(runPrefetch, {timeout: 3000})
-        } else {
-          prefetchUsesIdle = false
-          prefetchIdleId = setTimeout(runPrefetch, 1200)
-        }
-      }
-
-      if (document.readyState === 'complete') {
-        enqueue()
+      if (typeof requestIdleCallback === 'function') {
+        prefetchUsesIdle = true
+        prefetchIdleId = requestIdleCallback(runPrefetch, {timeout: 3000})
       } else {
-        window.addEventListener('load', enqueue, {once: true})
+        prefetchUsesIdle = false
+        prefetchIdleId = setTimeout(runPrefetch, 1200)
       }
     }
 
-    scheduleCollapsedMediaPrefetch()
+    const onInitialLoadComplete = () => {
+      warmOnscreenImages()
+      scheduleCollapsedMediaPrefetch()
+    }
+
+    if (document.readyState === 'complete') {
+      onInitialLoadComplete()
+    } else {
+      window.addEventListener('load', onInitialLoadComplete, {once: true})
+    }
 
     const fontPromises = [document.fonts.load('400 1em "EB Garamond"')]
 
@@ -1282,9 +1340,10 @@
   onvisibilitychange={handleVisibilityChange}
 />
 
-{#snippet mediaContent(media, alt, expanded = false)}
+{#snippet mediaContent(media, alt, expanded = false, expandedSize = 260)}
   {#if media.kind === 'image'}
-    {@const sizes = expanded ? '260px' : '60px'}
+    {@const sizes =
+      expanded || fullResImagesReady ? `${expandedSize}px` : '60px'}
     <picture>
       <source type="image/avif" srcset={media.avifSrcset} {sizes} />
       <source type="image/webp" srcset={media.webpSrcset} {sizes} />
@@ -1294,7 +1353,7 @@
         width={media.width}
         height={media.height}
         loading="eager"
-        decoding="async"
+        decoding={fullResImagesReady ? 'sync' : 'async'}
       />
     </picture>
   {:else}
@@ -1373,7 +1432,12 @@
         }
       }}
     >
-      {@render mediaContent(item.media, item.alt, item.expanded)}
+      {@render mediaContent(
+        item.media,
+        item.alt,
+        item.expanded,
+        item.expandedSize
+      )}
     </button>
   {:else if item.kind === 'hitbox'}
     <span
@@ -1542,7 +1606,12 @@
             </span>{#if node.footnote}<sup class="body-sup-fallback">
                 {node.footnote}
               </sup>{/if}&nbsp;<span class="inline-media-fallback">
-              {@render mediaContent(project.media, project.alt, false)}
+              {@render mediaContent(
+                project.media,
+                project.alt,
+                false,
+                project.expandedSize
+              )}
             </span>
           </span>
         {/if}
