@@ -15,6 +15,7 @@ html {
   overflow-x: clip;
   -webkit-tap-highlight-color: transparent;
   touch-action: pan-y pinch-zoom;
+  -webkit-user-select: none;
   user-select: none;
 }
 
