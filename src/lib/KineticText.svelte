@@ -6,6 +6,7 @@
   import garamondGlyphs from '#lib/glyphs'
   import {
     buildLayoutSegments,
+    buildPrerenderSubsections,
     buildUnderlinePath,
     buildWarmSpecs,
     computeBoxTransform,
@@ -34,6 +35,9 @@
   const {copy = [], projects = {}, sections = {}} = $props()
 
   const normalizedCopy = $derived(normalizeCopy(copy))
+  const prerenderSubsections = $derived(
+    buildPrerenderSubsections(normalizedCopy, projects, sections)
+  )
 
   // pointer/ripple params
   const maxDegrees = 24
@@ -2695,9 +2699,17 @@
 
 {#snippet mediaContent(media, alt)}
   {#if media.sources}
-    <enhanced:img src={media} {alt} />
+    <enhanced:img src={media} {alt} loading="eager" />
   {:else}
-    <video src={media} loop muted autoplay playsinline></video>
+    <video src={media} preload="auto" loop muted autoplay playsinline></video>
+  {/if}
+{/snippet}
+
+{#snippet preloadMediaContent(media, alt)}
+  {#if media.sources}
+    <enhanced:img src={media} {alt} loading="eager" decoding="async" />
+  {:else}
+    <video src={media} preload="auto" muted playsinline></video>
   {/if}
 {/snippet}
 
@@ -2813,7 +2825,7 @@
 {/snippet}
 
 {#snippet fallbackLinkBody(node)}
-  {node.text}
+  {node.text ?? node.label}
 {/snippet}
 
 {#snippet linkElement(token, exiting, bodySnippet, bodyArg)}
@@ -2981,6 +2993,51 @@
     {/each}
   {/if}
 </p>
+
+{#if prerenderSubsections.length > 0}
+  <div class="prerendered-subsections" aria-hidden="true" inert>
+    {#each prerenderSubsections as sub (sub.key)}
+      <section>
+        <h2>{sub.title}</h2>
+        {#if sub.kind === 'section-projects'}
+          {#each sub.projects as project (project.key)}
+            <article>
+              <h3>{project.name}</h3>
+              {#if project.media}
+                {@render preloadMediaContent(project.media, project.alt)}
+              {/if}
+              {#if project.details}
+                <p>{project.details}</p>
+              {/if}
+              {#if project.links.length > 0}
+                <ul>
+                  {#each project.links as link (link.href)}
+                    <li>
+                      {@render linkElement(link, false, fallbackLinkBody, link)}
+                    </li>
+                  {/each}
+                </ul>
+              {/if}
+            </article>
+          {/each}
+        {:else}
+          {#if sub.details}
+            <p>{sub.details}</p>
+          {/if}
+          {#if sub.links.length > 0}
+            <ul>
+              {#each sub.links as link (link.href)}
+                <li>
+                  {@render linkElement(link, false, fallbackLinkBody, link)}
+                </li>
+              {/each}
+            </ul>
+          {/if}
+        {/if}
+      </section>
+    {/each}
+  </div>
+{/if}
 
 <style>
   p.pretext-active {
@@ -3186,6 +3243,16 @@
     height: 0;
     overflow: hidden;
     white-space: pre;
+    pointer-events: none;
+  }
+
+  .prerendered-subsections {
+    position: fixed;
+    top: 0;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
     pointer-events: none;
   }
 </style>

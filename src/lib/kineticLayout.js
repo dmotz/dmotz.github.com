@@ -170,6 +170,83 @@ export const buildWarmSpecs = (nodes, projects = {}, sections = {}) => {
   return specs
 }
 
+export const buildPrerenderSubsections = (
+  nodes,
+  projects = {},
+  sections = {}
+) => {
+  const subsections = []
+  const seen = new Set()
+
+  for (const node of nodes) {
+    if (node.kind === 'section') {
+      const section = sections[node.sectionId]
+
+      if (!section || seen.has(`s:${node.sectionId}`)) {
+        continue
+      }
+
+      seen.add(`s:${node.sectionId}`)
+
+      if (section.details) {
+        subsections.push({
+          key: `prerender-s-${node.sectionId}`,
+          kind: 'section-detail',
+          title: node.text,
+          details: section.details,
+          links: Array.isArray(section.links) ? section.links : []
+        })
+      } else if (Array.isArray(section.projectIds)) {
+        const items = []
+
+        for (const subId of section.projectIds) {
+          const subProject = projects[subId]
+
+          if (!subProject || seen.has(`p:${subProject.id}`)) {
+            continue
+          }
+
+          seen.add(`p:${subProject.id}`)
+          items.push({
+            key: `prerender-p-${subProject.id}`,
+            name: subProject.name,
+            media: subProject.media,
+            alt: subProject.alt,
+            details: subProject.details,
+            links: Array.isArray(subProject.links) ? subProject.links : []
+          })
+        }
+
+        if (items.length > 0) {
+          subsections.push({
+            key: `prerender-s-${node.sectionId}`,
+            kind: 'section-projects',
+            title: node.text,
+            projects: items
+          })
+        }
+      }
+    } else if (node.kind === 'project') {
+      const project = projects[node.projectId]
+
+      if (!project || seen.has(`p:${project.id}`)) {
+        continue
+      }
+
+      seen.add(`p:${project.id}`)
+      subsections.push({
+        key: `prerender-p-${project.id}`,
+        kind: 'project',
+        title: project.name,
+        details: project.details,
+        links: Array.isArray(project.links) ? project.links : []
+      })
+    }
+  }
+
+  return subsections
+}
+
 const transformUnderlinePoint = (glyph, localX, dyLocal, originX, originY) => {
   const px0 = glyph.x + glyph.width * 0.5
   const py0 = glyph.y + glyph.lineHeight * glyphOriginYRatio
