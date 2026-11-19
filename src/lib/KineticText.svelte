@@ -39,8 +39,12 @@
     buildPrerenderSubsections(normalizedCopy, projects, sections)
   )
 
+  const scrollFloorSettleDelayMs = 150
+
   let rootEl = $state(null)
   let layoutHeight = $state(0)
+  let scrollFloorHeight = $state(0)
+  const containerHeight = $derived(Math.max(layoutHeight, scrollFloorHeight))
   let hasLayout = $state(false)
   let renderGroups = $state.raw([])
   const expandedIds = new SvelteSet()
@@ -102,6 +106,8 @@
   let lastStepTime = 0
   let idleTimerId = null
   let idlePendingStart = false
+  let scrollFloorTimerId = null
+  let supportsScrollEnd = false
   let touchDown = false
   let hasLastRealPointer = false
   let lastRealPointerX = 0
@@ -224,6 +230,103 @@
     )
   }
 
+  const clearScrollFloorTimer = () => {
+    if (scrollFloorTimerId !== null) {
+      clearTimeout(scrollFloorTimerId)
+      scrollFloorTimerId = null
+    }
+  }
+
+  const getNeededBodyHeightForScroll = () => {
+    if (!rootEl) {
+      return 0
+    }
+
+    const scrollY = window.scrollY
+
+    if (scrollY <= 0) {
+      return 0
+    }
+
+    const bodyHeight = document.body.getBoundingClientRect().height
+    const rootHeight = rootEl.getBoundingClientRect().height
+    const verticalChrome = Math.max(0, bodyHeight - rootHeight)
+    const viewportHeight = Math.max(
+      window.innerHeight,
+      document.documentElement.clientHeight
+    )
+
+    return Math.max(0, Math.ceil(scrollY + viewportHeight - verticalChrome))
+  }
+
+  const settleScrollFloor = () => {
+    clearScrollFloorTimer()
+
+    if (scrollFloorHeight <= 0 || touchDown) {
+      return
+    }
+
+    const scrollY = window.scrollY
+
+    if (scrollY < 0) {
+      return
+    }
+
+    if (scrollY === 0) {
+      scrollFloorHeight = 0
+      return
+    }
+
+    const needed = getNeededBodyHeightForScroll()
+
+    if (needed <= layoutHeight) {
+      scrollFloorHeight = 0
+    } else if (needed < scrollFloorHeight) {
+      scrollFloorHeight = needed
+    }
+  }
+
+  const scheduleScrollFloorSettle = (forceTimer = false) => {
+    if (scrollFloorHeight <= 0) {
+      return
+    }
+
+    if (supportsScrollEnd && !forceTimer && scrollFloorTimerId === null) {
+      return
+    }
+
+    clearScrollFloorTimer()
+    scrollFloorTimerId = setTimeout(settleScrollFloor, scrollFloorSettleDelayMs)
+  }
+
+  const applyLayoutHeight = nextHeight => {
+    const prevContainerHeight = Math.max(layoutHeight, scrollFloorHeight)
+
+    if (prevContainerHeight <= 0 || nextHeight >= prevContainerHeight) {
+      clearScrollFloorTimer()
+      scrollFloorHeight = 0
+      layoutHeight = nextHeight
+      return
+    }
+
+    if (touchDown && window.scrollY !== 0) {
+      scrollFloorHeight = Math.ceil(prevContainerHeight)
+      layoutHeight = nextHeight
+      return
+    }
+
+    const needed = getNeededBodyHeightForScroll()
+
+    if (needed > nextHeight) {
+      scrollFloorHeight = Math.min(Math.ceil(prevContainerHeight), needed)
+    } else {
+      clearScrollFloorTimer()
+      scrollFloorHeight = 0
+    }
+
+    layoutHeight = nextHeight
+  }
+
   const computeLayout = ({animate = false, checkStyles = true} = {}) => {
     if (!rootEl) {
       return
@@ -343,14 +446,14 @@
       if (result.mainLayoutHeight < layoutHeight) {
         deferredLayoutHeight = result.mainLayoutHeight
       } else {
-        layoutHeight = result.mainLayoutHeight
+        applyLayoutHeight(result.mainLayoutHeight)
         deferredLayoutHeight = null
       }
     } else {
       reflowActive = false
       reflowTotalDurationMs = reflowDurationMs
       isReflowing = false
-      layoutHeight = result.mainLayoutHeight
+      applyLayoutHeight(result.mainLayoutHeight)
       deferredLayoutHeight = null
     }
   }
@@ -635,8 +738,9 @@
     }
 
     if (deferredLayoutHeight !== null) {
-      layoutHeight = deferredLayoutHeight
+      const nextHeight = deferredLayoutHeight
       deferredLayoutHeight = null
+      applyLayoutHeight(nextHeight)
     }
   }
 
@@ -798,6 +902,15 @@
     touchDown = false
     clearTouchPress()
     hoveredProjectId = null
+
+    if (hadTouch && scrollFloorHeight > 0) {
+      if (window.scrollY === 0) {
+        clearScrollFloorTimer()
+        scrollFloorHeight = 0
+      } else {
+        scheduleScrollFloorSettle(true)
+      }
+    }
 
     if (hadTouch && !screensaverActive && idleTimerId === null) {
       scheduleIdleTimer()
@@ -1023,6 +1136,15 @@
     touchDown = event.type === 'touchend' && event.touches.length > 0
     recordUserActivity({pauseIdle: touchDown})
 
+    if (!touchDown && scrollFloorHeight > 0) {
+      if (window.scrollY === 0) {
+        clearScrollFloorTimer()
+        scrollFloorHeight = 0
+      } else {
+        scheduleScrollFloorSettle(true)
+      }
+    }
+
     if (
       pressedTouchId !== null &&
       (event.type !== 'touchend' ||
@@ -1067,9 +1189,22 @@
     cachedScrollY = window.scrollY
     const wasScreensaver = recordUserActivity({pauseIdle: touchDown})
 
+    if (scrollFloorHeight > 0 && cachedScrollY >= 0) {
+      if (cachedScrollY === 0 && !touchDown) {
+        clearScrollFloorTimer()
+        scrollFloorHeight = 0
+      } else {
+        scheduleScrollFloorSettle()
+      }
+    }
+
     if (pointerActive || wasScreensaver) {
       ensureAnimationLoop()
     }
+  }
+
+  const handleScrollEnd = () => {
+    settleScrollFloor()
   }
 
   const handleResize = () => {
@@ -1080,10 +1215,16 @@
     }
 
     computeLayout({animate: false, checkStyles: true})
+
+    if (scrollFloorHeight > 0) {
+      settleScrollFloor()
+    }
+
     ensureAnimationLoop()
   }
 
   onMount(() => {
+    supportsScrollEnd = 'onscrollend' in window
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const touchOnlyQuery = window.matchMedia(
       '(hover: none) and (pointer: coarse)'
@@ -1290,6 +1431,7 @@
     return () => {
       cancelled = true
       clearIdleTimer()
+      clearScrollFloorTimer()
       stopScreensaver({smoothExit: false})
       clearTouchPress()
       setTouchInput(false)
@@ -1332,6 +1474,7 @@
   oncontextmenu={clearTouchPress}
   onclick={handleClick}
   onscroll={handleScroll}
+  onscrollend={handleScrollEnd}
   onresize={handleResize}
 />
 
@@ -1507,7 +1650,7 @@
   class:layout-active={hasLayout}
   class:reflowing={isReflowing}
   class:touch-input={touchInput}
-  style:height={hasLayout ? `${layoutHeight}px` : null}
+  style:height={hasLayout ? `${containerHeight}px` : null}
 >
   {#if hasLayout}
     {#each renderGroups as group (group.key)}
