@@ -49,9 +49,17 @@
   const tangentSoftSq = 36
 
   const offscreenBuffer = 80
-  const offscreenLineStagger = 40
-  const offscreenWordStagger = 16
+  const offscreenLineStagger = 52
+  const offscreenWordStagger = 28
   const reflowDurationMs = 340
+  const enterDurationMs = 400
+  const enterDurationJitterMs = 60
+  const enterLineDelayMs = 48
+  const enterWordDelayMs = 24
+  const enterMaxStaggerMs = 260
+  const enterDelayJitterMs = 26
+  const enterWordXSpread = 48
+  const enterWordYSpread = 28
 
   let paragraphEl = $state(null)
   let detailProbeEl = $state(null)
@@ -101,6 +109,7 @@
   let deferredLayoutHeight = null
   let reflowActive = false
   let reflowStartTime = 0
+  let reflowTotalDurationMs = reflowDurationMs
   let hasActiveGlyphMotion = false
 
   let pointerActive = false
@@ -115,6 +124,21 @@
   let warmedCacheKey = ''
   let rafId = null
   const ripples = []
+
+  const evalItemReflowEase = (item, elapsed) => {
+    const delay = item.reflowDelay ?? 0
+    const duration = item.reflowDuration ?? reflowDurationMs
+
+    if (elapsed <= delay) {
+      return 0
+    }
+
+    if (duration <= 0 || elapsed >= delay + duration) {
+      return 1
+    }
+
+    return evalReflowEase((elapsed - delay) / duration)
+  }
 
   const getSegmenter = () => {
     const locale = document.documentElement.lang || 'en'
@@ -407,17 +431,9 @@
     cachedOffscreenX = offscreenX
     const activeStyles = cachedStyles
 
-    const prevEase = reflowActive
-      ? evalReflowEase(
-          Math.max(
-            0,
-            Math.min(
-              1,
-              (performance.now() - reflowStartTime) / reflowDurationMs
-            )
-          )
-        )
-      : 1
+    const prevElapsed = reflowActive
+      ? Math.max(0, performance.now() - reflowStartTime)
+      : Infinity
     const prevReflowById = Object.create(null)
     const prevWordById = Object.create(null)
     const prevGlyphById = Object.create(null)
@@ -430,16 +446,18 @@
         continue
       }
 
+      const itemEase = reflowActive ? evalItemReflowEase(item, prevElapsed) : 1
+
       if (item.kind === 'box') {
         const curSx =
           typeof item.reflowStartSx === 'number'
             ? item.reflowStartSx +
-              (item.reflowEndSx - item.reflowStartSx) * prevEase
+              (item.reflowEndSx - item.reflowStartSx) * itemEase
             : 1
         const curSy =
           typeof item.reflowStartSy === 'number'
             ? item.reflowStartSy +
-              (item.reflowEndSy - item.reflowStartSy) * prevEase
+              (item.reflowEndSy - item.reflowStartSy) * itemEase
             : 1
         const domW = item.domWidth ?? item.width
         const domH = item.domHeight ?? item.height
@@ -448,12 +466,12 @@
         const visCx =
           typeof item.reflowStartCx === 'number'
             ? item.reflowStartCx +
-              (item.reflowEndCx - item.reflowStartCx) * prevEase
+              (item.reflowEndCx - item.reflowStartCx) * itemEase
             : item.x + item.width * 0.5
         const visCy =
           typeof item.reflowStartCy === 'number'
             ? item.reflowStartCy +
-              (item.reflowEndCy - item.reflowStartCy) * prevEase
+              (item.reflowEndCy - item.reflowStartCy) * itemEase
             : item.y + item.height * 0.5
 
         prevReflowById[item.id] = {
@@ -469,12 +487,12 @@
         const visX =
           typeof item.reflowStartX === 'number'
             ? item.reflowStartX +
-              (item.reflowEndX - item.reflowStartX) * prevEase
+              (item.reflowEndX - item.reflowStartX) * itemEase
             : item.x
         const visY =
           typeof item.reflowStartY === 'number'
             ? item.reflowStartY +
-              (item.reflowEndY - item.reflowStartY) * prevEase
+              (item.reflowEndY - item.reflowStartY) * itemEase
             : item.y
         prevReflowById[item.id] = {
           item,
@@ -1234,10 +1252,16 @@
       entry.kind === 'box' ||
       entry.kind === 'underline'
 
-    const computeOffscreenTargetMap = (groupList, rawAnchorY, clampHeight) => {
+    const computeOffscreenTargetMap = (
+      groupList,
+      rawAnchorY,
+      clampHeight,
+      {stagger = false} = {}
+    ) => {
       let minX = Infinity
       let minY = Infinity
       let maxBottom = -Infinity
+      let minLineIndex = Infinity
 
       for (let g = 0; g < groupList.length; g++) {
         const groupItems = groupList[g].items
@@ -1262,6 +1286,12 @@
           if (bottom > maxBottom) {
             maxBottom = bottom
           }
+
+          const lineIdx = entry.sectionLineIndex ?? 0
+
+          if (lineIdx < minLineIndex) {
+            minLineIndex = lineIdx
+          }
         }
       }
 
@@ -1278,6 +1308,73 @@
       const clampedTop = Math.max(0, Math.min(desiredTop, maxTop))
       const shiftY = clampedTop - minY
 
+      const slotProfiles = stagger ? Object.create(null) : null
+
+      if (stagger) {
+        let maxRawDelay = 0
+
+        for (let g = 0; g < groupList.length; g++) {
+          const groupItems = groupList[g].items
+
+          for (let i = 0; i < groupItems.length; i++) {
+            const entry = groupItems[i]
+
+            if (!isReflowTarget(entry)) {
+              continue
+            }
+
+            const relLine =
+              (entry.sectionLineIndex ?? minLineIndex) - minLineIndex
+            const slotWord =
+              (entry.wordIndex ?? 0) + (entry.kind === 'box' ? 1 : 0)
+            const slotKey = `${relLine}:${slotWord}`
+
+            if (!slotProfiles[slotKey]) {
+              const rawDelay =
+                relLine * enterLineDelayMs + slotWord * enterWordDelayMs
+
+              if (rawDelay > maxRawDelay) {
+                maxRawDelay = rawDelay
+              }
+
+              slotProfiles[slotKey] = {
+                rawDelay,
+                delay: 0,
+                duration:
+                  enterDurationMs +
+                  (Math.random() - 0.5) * 2 * enterDurationJitterMs,
+                xJitter: Math.random() * enterWordXSpread,
+                yJitter: (Math.random() - 0.5) * enterWordYSpread
+              }
+            }
+          }
+        }
+
+        const delayScale =
+          maxRawDelay > enterMaxStaggerMs ? enterMaxStaggerMs / maxRawDelay : 1
+        let minDelay = Infinity
+
+        for (const key of Object.keys(slotProfiles)) {
+          const slot = slotProfiles[key]
+          slot.delay =
+            slot.rawDelay * delayScale +
+            (Math.random() - 0.5) * enterDelayJitterMs
+
+          if (slot.delay < minDelay) {
+            minDelay = slot.delay
+          }
+        }
+
+        if (minDelay !== Infinity) {
+          for (const key of Object.keys(slotProfiles)) {
+            slotProfiles[key].delay = Math.max(
+              0,
+              slotProfiles[key].delay - minDelay
+            )
+          }
+        }
+      }
+
       for (let g = 0; g < groupList.length; g++) {
         const groupItems = groupList[g].items
 
@@ -1288,14 +1385,22 @@
             continue
           }
 
+          const relLine =
+            (entry.sectionLineIndex ?? minLineIndex) - minLineIndex
+          const slotWord =
+            (entry.wordIndex ?? 0) + (entry.kind === 'box' ? 1 : 0)
+          const slot = stagger ? slotProfiles[`${relLine}:${slotWord}`] : null
           const itemShiftX =
             baseShiftX +
-            (entry.sectionLineIndex ?? 0) * offscreenLineStagger +
-            (entry.wordIndex ?? 0) * offscreenWordStagger
+            relLine * offscreenLineStagger +
+            slotWord * offscreenWordStagger +
+            (slot ? slot.xJitter : 0)
 
           targets[entry.id] = {
             x: entry.x + itemShiftX,
-            y: entry.y + shiftY
+            y: entry.y + shiftY + (slot ? slot.yJitter : 0),
+            delay: slot ? slot.delay : 0,
+            duration: slot ? slot.duration : reflowDurationMs
           }
         }
       }
@@ -1359,7 +1464,8 @@
         const map = computeOffscreenTargetMap(
           enteringByOwner[ownerId],
           anchorY,
-          mainLayoutHeight
+          mainLayoutHeight,
+          {stagger: true}
         )
         Object.assign(enteringTargets, map)
       }
@@ -1388,6 +1494,9 @@
         if (shouldAnimate && prev) {
           const shrinking =
             entry.width < prev.visW - 0.5 || entry.height < prev.visH - 0.5
+
+          entry.reflowDelay = 0
+          entry.reflowDuration = reflowDurationMs
 
           if (shrinking) {
             entry.domWidth = prev.visW
@@ -1429,6 +1538,8 @@
           entry.reflowStartSy = 1
           entry.reflowEndSx = 1
           entry.reflowEndSy = 1
+          entry.reflowDelay = off.delay
+          entry.reflowDuration = off.duration
         } else {
           entry.domWidth = entry.width
           entry.domHeight = entry.height
@@ -1441,6 +1552,8 @@
           entry.reflowStartSy = 1
           entry.reflowEndSx = 1
           entry.reflowEndSy = 1
+          entry.reflowDelay = 0
+          entry.reflowDuration = reflowDurationMs
         }
 
         entry.visCx = entry.reflowStartCx
@@ -1465,17 +1578,23 @@
         entry.reflowStartY = prev.visY
         entry.reflowEndX = entry.x
         entry.reflowEndY = entry.y
+        entry.reflowDelay = 0
+        entry.reflowDuration = reflowDurationMs
       } else if (shouldAnimate && enteringTargets[entry.id]) {
         const off = enteringTargets[entry.id]
         entry.reflowStartX = off.x
         entry.reflowStartY = off.y
         entry.reflowEndX = entry.x
         entry.reflowEndY = entry.y
+        entry.reflowDelay = off.delay
+        entry.reflowDuration = off.duration
       } else {
         entry.reflowStartX = entry.x
         entry.reflowStartY = entry.y
         entry.reflowEndX = entry.x
         entry.reflowEndY = entry.y
+        entry.reflowDelay = 0
+        entry.reflowDuration = reflowDurationMs
       }
 
       entry.visX = entry.reflowStartX
@@ -1584,6 +1703,8 @@
               entry.visY = entry.reflowStartY
             }
 
+            entry.reflowDelay = 0
+            entry.reflowDuration = reflowDurationMs
             exitingReflowItems.push(entry)
             nextMovingReflowItems.push(entry)
           }
@@ -1630,8 +1751,21 @@
         : activeGroups
 
     if (shouldAnimate && nextMovingReflowItems.length > 0) {
+      let maxEndMs = reflowDurationMs
+
+      for (let i = 0; i < nextMovingReflowItems.length; i++) {
+        const it = nextMovingReflowItems[i]
+        const endMs =
+          (it.reflowDelay ?? 0) + (it.reflowDuration ?? reflowDurationMs)
+
+        if (endMs > maxEndMs) {
+          maxEndMs = endMs
+        }
+      }
+
       reflowActive = true
       reflowStartTime = performance.now()
+      reflowTotalDurationMs = maxEndMs
       isReflowing = true
 
       if (mainLayoutHeight < layoutHeight) {
@@ -1642,6 +1776,7 @@
       }
     } else {
       reflowActive = false
+      reflowTotalDurationMs = reflowDurationMs
       isReflowing = false
       layoutHeight = mainLayoutHeight
       deferredLayoutHeight = null
@@ -1808,6 +1943,8 @@
 
     for (let i = 0; i < activeReflowItems.length; i++) {
       const entry = activeReflowItems[i]
+      entry.reflowDelay = 0
+      entry.reflowDuration = reflowDurationMs
 
       if (entry.kind === 'word') {
         entry.reflowStartX = entry.x
@@ -1945,18 +2082,15 @@
       (maxDegrees !== 0 || maxRepulsion !== 0)
     const hasRipples = ripples.length > 0
 
-    let reflowEase = 1
+    let reflowElapsed = 0
     let reflowJustFinished = false
     const wasReflowActive = reflowActive
 
     if (wasReflowActive) {
-      const elapsed = Math.max(0, now - reflowStartTime)
+      reflowElapsed = Math.max(0, now - reflowStartTime)
 
-      if (elapsed >= reflowDurationMs) {
-        reflowEase = 1
+      if (reflowElapsed >= reflowTotalDurationMs) {
         reflowJustFinished = true
-      } else {
-        reflowEase = evalReflowEase(elapsed / reflowDurationMs)
       }
     }
 
@@ -1965,14 +2099,15 @@
     if (wasReflowActive && !reflowJustFinished) {
       for (let i = 0; i < movingReflowItems.length; i++) {
         const entry = movingReflowItems[i]
+        const itemEase = evalItemReflowEase(entry, reflowElapsed)
 
         if (entry.kind === 'word') {
           entry.visX =
             entry.reflowStartX +
-            (entry.reflowEndX - entry.reflowStartX) * reflowEase
+            (entry.reflowEndX - entry.reflowStartX) * itemEase
           entry.visY =
             entry.reflowStartY +
-            (entry.reflowEndY - entry.reflowStartY) * reflowEase
+            (entry.reflowEndY - entry.reflowStartY) * itemEase
 
           if (entry.el) {
             const nextT = computeWordTransform(entry)
@@ -1985,10 +2120,10 @@
         } else if (entry.kind === 'underline') {
           entry.visX =
             entry.reflowStartX +
-            (entry.reflowEndX - entry.reflowStartX) * reflowEase
+            (entry.reflowEndX - entry.reflowStartX) * itemEase
           entry.visY =
             entry.reflowStartY +
-            (entry.reflowEndY - entry.reflowStartY) * reflowEase
+            (entry.reflowEndY - entry.reflowStartY) * itemEase
 
           if (entry.svgEl) {
             const nextT = computeUnderlineTransform(entry)
@@ -2001,16 +2136,16 @@
         } else if (entry.kind === 'box') {
           entry.visCx =
             entry.reflowStartCx +
-            (entry.reflowEndCx - entry.reflowStartCx) * reflowEase
+            (entry.reflowEndCx - entry.reflowStartCx) * itemEase
           entry.visCy =
             entry.reflowStartCy +
-            (entry.reflowEndCy - entry.reflowStartCy) * reflowEase
+            (entry.reflowEndCy - entry.reflowStartCy) * itemEase
           entry.curReflowSx =
             entry.reflowStartSx +
-            (entry.reflowEndSx - entry.reflowStartSx) * reflowEase
+            (entry.reflowEndSx - entry.reflowStartSx) * itemEase
           entry.curReflowSy =
             entry.reflowStartSy +
-            (entry.reflowEndSy - entry.reflowStartSy) * reflowEase
+            (entry.reflowEndSy - entry.reflowStartSy) * itemEase
 
           if (entry.el) {
             const nextT = computeBoxTransform(entry)
