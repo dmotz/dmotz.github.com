@@ -33,6 +33,13 @@
     prepareSegmentList,
     readTypography
   } from '#lib/kineticLayout'
+  import {
+    createScreensaverController,
+    idleDelayMs,
+    screensaverExitDurationMs,
+    screensaverExitMinSmoothing,
+    screensaverSmoothing
+  } from '#lib/kineticScreensaver'
   import '../styles/main.css'
 
   const {copy = [], projects = {}, sections = {}} = $props()
@@ -142,6 +149,19 @@
   let warmedCacheKey = ''
   let rafId = null
   const ripples = []
+  const screensaver = createScreensaverController({radius})
+  let screensaverActive = false
+  let screensaverX = 0
+  let screensaverY = 0
+  let screensaverStrength = 0
+  let screensaverExitTime = 0
+  let lastStepTime = 0
+  let idleTimerId = null
+  let idlePendingStart = false
+  let touchDown = false
+  let hasLastRealPointer = false
+  let lastRealPointerX = 0
+  let lastRealPointerY = 0
 
   const evalItemReflowEase = (item, elapsed) => {
     const delay = item.reflowDelay ?? 0
@@ -1991,9 +2011,118 @@
     return next
   }
 
-  const stepAxis = (current, target) => {
+  const stepAxis = (current, target, factor = smoothing) => {
     const delta = target - current
-    return Math.abs(delta) > 0.02 ? current + delta * smoothing : target
+    return Math.abs(delta) > 0.02 ? current + delta * factor : target
+  }
+
+  const getVisibleBodyBounds = () => {
+    const pLeft = cachedDocLeft - cachedScrollX
+    const pTop = cachedDocTop - cachedScrollY
+    const vpLeft = -pLeft
+    const vpRight = window.innerWidth - pLeft
+    const vpTop = -pTop
+    const vpBottom = window.innerHeight - pTop
+    let left = Math.max(0, vpLeft)
+    let right = Math.min(cachedMaxWidth, vpRight)
+    let top = Math.max(0, vpTop)
+    let bottom = Math.min(layoutHeight, vpBottom)
+
+    if (right - left < 40) {
+      left = 0
+      right = cachedMaxWidth
+    }
+
+    if (bottom - top < 40) {
+      top = 0
+      bottom = layoutHeight
+    }
+
+    return {
+      left,
+      top,
+      width: Math.max(1, right - left),
+      height: Math.max(1, bottom - top)
+    }
+  }
+
+  const clearIdleTimer = () => {
+    if (idleTimerId !== null) {
+      clearTimeout(idleTimerId)
+      idleTimerId = null
+    }
+
+    idlePendingStart = false
+  }
+
+  const stopScreensaver = ({smoothExit = true} = {}) => {
+    if (!screensaverActive) {
+      return false
+    }
+
+    screensaverActive = false
+    screensaverStrength = 0
+    screensaver.stop()
+    screensaverExitTime = smoothExit ? performance.now() : 0
+    return true
+  }
+
+  const startScreensaver = () => {
+    idleTimerId = null
+
+    if (reducedMotion || document.hidden || touchDown) {
+      return
+    }
+
+    if (!fontsReady || !hasLayout || cachedMaxWidth <= 0 || layoutHeight <= 0) {
+      idlePendingStart = true
+      return
+    }
+
+    idlePendingStart = false
+    const bounds = getVisibleBodyBounds()
+    const startPointer =
+      pointerActive && !touchOnly
+        ? {
+            x: pointerClientX - (cachedDocLeft - cachedScrollX),
+            y: pointerClientY - (cachedDocTop - cachedScrollY)
+          }
+        : null
+    const init = screensaver.start(bounds, startPointer)
+
+    screensaverX = init.x
+    screensaverY = init.y
+    screensaverStrength = init.strength
+    screensaverExitTime = 0
+    screensaverActive = true
+    lastStepTime = performance.now()
+    ensureAnimationLoop()
+  }
+
+  const scheduleIdleTimer = () => {
+    clearIdleTimer()
+
+    if (reducedMotion || document.hidden || touchDown) {
+      return
+    }
+
+    idleTimerId = setTimeout(startScreensaver, idleDelayMs)
+  }
+
+  const recordUserActivity = ({pauseIdle = false} = {}) => {
+    const wasScreensaver = stopScreensaver({smoothExit: true})
+
+    if (pauseIdle) {
+      clearIdleTimer()
+    } else {
+      scheduleIdleTimer()
+    }
+
+    if (wasScreensaver) {
+      ensureAnimationLoop()
+    }
+
+    return wasScreensaver
   }
 
   const finishReflow = () => {
@@ -2125,9 +2254,25 @@
       return
     }
 
+    const dt =
+      lastStepTime > 0 ? Math.min(64, Math.max(1, now - lastStepTime)) : 16.6667
+    lastStepTime = now
+
     if (reducedMotion) {
       ripples.length = 0
+      stopScreensaver({smoothExit: false})
     } else {
+      if (document.hidden && screensaverActive) {
+        stopScreensaver({smoothExit: false})
+      }
+
+      if (screensaverActive) {
+        const next = screensaver.step(dt, getVisibleBodyBounds())
+        screensaverX = next.x
+        screensaverY = next.y
+        screensaverStrength = next.strength
+      }
+
       for (let r = ripples.length - 1; r >= 0; r--) {
         const ripple = ripples[r]
         const waveR = ((now - ripple.startTime) / 1000) * rippleSpeed
@@ -2141,9 +2286,31 @@
     }
 
     const active =
-      pointerActive &&
+      (pointerActive || screensaverActive) &&
       !reducedMotion &&
       (maxDegrees !== 0 || maxRepulsion !== 0)
+    const fieldIntensity = screensaverActive ? screensaverStrength : 1
+    let stepSmoothing = smoothing
+
+    if (screensaverActive) {
+      stepSmoothing = 1 - (1 - screensaverSmoothing) ** (dt / 16.6667)
+    } else if (screensaverExitTime > 0) {
+      const exitU = Math.min(
+        1,
+        Math.max(0, (now - screensaverExitTime) / screensaverExitDurationMs)
+      )
+
+      if (exitU >= 1) {
+        screensaverExitTime = 0
+      } else {
+        const eased = exitU * exitU * (3 - 2 * exitU)
+        const baseFactor =
+          screensaverExitMinSmoothing +
+          (smoothing - screensaverExitMinSmoothing) * eased
+        stepSmoothing = 1 - (1 - baseFactor) ** (dt / 16.6667)
+      }
+    }
+
     const hasRipples = ripples.length > 0
 
     let reflowElapsed = 0
@@ -2158,7 +2325,10 @@
       }
     }
 
-    let needsMore = hasRipples || (wasReflowActive && !reflowJustFinished)
+    let needsMore =
+      screensaverActive ||
+      hasRipples ||
+      (wasReflowActive && !reflowJustFinished)
 
     if (wasReflowActive && !reflowJustFinished) {
       for (let i = 0; i < movingReflowItems.length; i++) {
@@ -2224,8 +2394,16 @@
     }
 
     if (active || hasActiveGlyphMotion || hasRipples) {
-      const mx = active ? pointerClientX - (cachedDocLeft - cachedScrollX) : 0
-      const my = active ? pointerClientY - (cachedDocTop - cachedScrollY) : 0
+      const mx = active
+        ? screensaverActive
+          ? screensaverX
+          : pointerClientX - (cachedDocLeft - cachedScrollX)
+        : 0
+      const my = active
+        ? screensaverActive
+          ? screensaverY
+          : pointerClientY - (cachedDocTop - cachedScrollY)
+        : 0
       const safeRadius = Math.max(1, radius)
       const safeCore = Math.max(1, coreRadius)
       const radiusSq = safeRadius * safeRadius
@@ -2305,7 +2483,7 @@
         let targetAngle = 0
         const fieldScale = item.kind === 'box' ? 0.35 : 1
 
-        if (active && fieldScale !== 0) {
+        if (active && fieldScale !== 0 && fieldIntensity > 0) {
           const dx = item.cx + wordDx - mx
           const dy = item.cy + wordDy - my
           const distSq = dx * dx + dy * dy
@@ -2313,7 +2491,8 @@
           if (distSq < radiusSq) {
             // Softened inverse-square gravity falloff tapered to 0 at `radius`
             const gravity =
-              (1 / (1 + distSq / coreSq) - edgeFalloff) / falloffSpan
+              ((1 / (1 + distSq / coreSq) - edgeFalloff) / falloffSpan) *
+              fieldIntensity
             // Tangential alignment (-sin(2θ)) creates a subtle circular ring around the cursor
             const tangent = (-2 * dx * dy) / (distSq + tangentSoftSq)
             targetAngle = maxDegrees * gravity * tangent * fieldScale
@@ -2328,13 +2507,13 @@
         }
 
         if (active || item.tx !== 0 || item.ty !== 0 || item.angle !== 0) {
-          item.tx = stepAxis(item.tx, targetTx)
-          item.ty = stepAxis(item.ty, targetTy)
+          item.tx = stepAxis(item.tx, targetTx, stepSmoothing)
+          item.ty = stepAxis(item.ty, targetTy, stepSmoothing)
 
           const angleDelta = targetAngle - item.angle
 
           if (Math.abs(angleDelta) > 0.005) {
-            item.angle += angleDelta * smoothing
+            item.angle += angleDelta * stepSmoothing
           } else {
             item.angle = targetAngle
           }
@@ -2428,6 +2607,7 @@
 
   const ensureAnimationLoop = () => {
     if (rafId === null) {
+      lastStepTime = 0
       rafId = requestAnimationFrame(stepAnimation)
     }
   }
@@ -2512,17 +2692,80 @@
   }
 
   const handleTouchInterrupt = () => {
+    const hadTouch = touchDown
+    touchDown = false
     clearTouchPress()
     hoveredProjectId = null
+
+    if (hadTouch && !screensaverActive && idleTimerId === null) {
+      scheduleIdleTimer()
+    }
+  }
+
+  const handlePageHide = () => {
+    handleTouchInterrupt()
+    clearIdleTimer()
+    stopScreensaver({smoothExit: false})
+  }
+
+  const handlePageShow = () => {
+    if (!screensaverActive && idleTimerId === null) {
+      scheduleIdleTimer()
+    }
   }
 
   const handleVisibilityChange = () => {
     if (document.hidden) {
       handleTouchInterrupt()
+      clearIdleTimer()
+      stopScreensaver({smoothExit: false})
+    } else {
+      scheduleIdleTimer()
+
+      if (hasActiveGlyphMotion) {
+        ensureAnimationLoop()
+      }
+    }
+  }
+
+  const handlePointerDown = event => {
+    const isTouch = event.pointerType === 'touch'
+
+    if (isTouch) {
+      touchDown = true
+    }
+
+    recordUserActivity({pauseIdle: isTouch})
+
+    if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
+      setTouchInput(false)
+    }
+
+    if (!touchOnly && !isTouch) {
+      lastRealPointerX = event.clientX
+      lastRealPointerY = event.clientY
+      hasLastRealPointer = true
+      pointerClientX = event.clientX
+      pointerClientY = event.clientY
+      pointerActive = true
+      ensureAnimationLoop()
     }
   }
 
   const handlePointerMove = event => {
+    if (
+      hasLastRealPointer &&
+      event.clientX === lastRealPointerX &&
+      event.clientY === lastRealPointerY
+    ) {
+      return
+    }
+
+    lastRealPointerX = event.clientX
+    lastRealPointerY = event.clientY
+    hasLastRealPointer = true
+    recordUserActivity({pauseIdle: touchDown})
+
     if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
       setTouchInput(false)
     }
@@ -2538,13 +2781,24 @@
   }
 
   const handlePointerLeave = () => {
+    hasLastRealPointer = false
+
     if (touchOnly) {
       return
     }
 
     pointerActive = false
     hoveredProjectId = null
+    recordUserActivity()
     ensureAnimationLoop()
+  }
+
+  const handleKeyDown = () => {
+    recordUserActivity({pauseIdle: touchDown})
+  }
+
+  const handleWheel = () => {
+    recordUserActivity({pauseIdle: touchDown})
   }
 
   const findTouchById = (touches, targetId) => {
@@ -2593,6 +2847,8 @@
   }
 
   const handleTouchStart = event => {
+    touchDown = true
+    recordUserActivity({pauseIdle: true})
     setTouchInput(true)
     hoveredProjectId = null
 
@@ -2639,6 +2895,9 @@
   }
 
   const handleTouchMove = event => {
+    touchDown = event.touches.length > 0
+    recordUserActivity({pauseIdle: touchDown})
+
     if (!touchOnly || !paragraphEl || reducedMotion || !hasLayout) {
       return
     }
@@ -2657,6 +2916,9 @@
   }
 
   const handleTouchEnd = event => {
+    touchDown = event.type === 'touchend' && event.touches.length > 0
+    recordUserActivity({pauseIdle: touchDown})
+
     if (
       pressedTouchId !== null &&
       (event.type !== 'touchend' ||
@@ -2687,6 +2949,7 @@
   }
 
   const handleClick = event => {
+    recordUserActivity({pauseIdle: touchDown})
     const wasToggleEvent = event === lastToggleClickEvent
     lastToggleClickEvent = null
 
@@ -2708,13 +2971,16 @@
   const handleScroll = () => {
     cachedScrollX = window.scrollX
     cachedScrollY = window.scrollY
+    const wasScreensaver = recordUserActivity({pauseIdle: touchDown})
 
-    if (pointerActive) {
+    if (pointerActive || wasScreensaver) {
       ensureAnimationLoop()
     }
   }
 
   const handleResize = () => {
+    recordUserActivity({pauseIdle: touchDown})
+
     if (!fontsReady) {
       return
     }
@@ -2750,6 +3016,8 @@
     prevToggleBottomById = Object.create(null)
     hoveredProjectId = null
     clearTouchPress()
+    stopScreensaver({smoothExit: false})
+    scheduleIdleTimer()
 
     if (fontsReady && paragraphEl) {
       computeLayout({animate: false, checkStyles: true})
@@ -2767,20 +3035,32 @@
 
     const onMotionChange = event => {
       reducedMotion = event.matches
+
+      if (reducedMotion) {
+        clearIdleTimer()
+        stopScreensaver({smoothExit: false})
+      } else {
+        scheduleIdleTimer()
+      }
+
       ensureAnimationLoop()
     }
 
     const onTouchOnlyChange = event => {
       touchOnly = event.matches
       activeTouchId = null
+      touchDown = false
       pointerActive = false
       hoveredProjectId = null
       clearTouchPress()
+      stopScreensaver({smoothExit: false})
+      scheduleIdleTimer()
       ensureAnimationLoop()
     }
 
     motionQuery.addEventListener('change', onMotionChange)
     touchOnlyQuery.addEventListener('change', onTouchOnlyChange)
+    scheduleIdleTimer()
 
     let resizeObserver = null
     let cancelled = false
@@ -2792,6 +3072,11 @@
 
       fontsReady = true
       computeLayout({animate: false, checkStyles: true})
+
+      if (idlePendingStart) {
+        startScreensaver()
+      }
+
       resizeObserver = new ResizeObserver(() => {
         computeLayout({animate: false, checkStyles: true})
         ensureAnimationLoop()
@@ -2801,6 +3086,8 @@
 
     return () => {
       cancelled = true
+      clearIdleTimer()
+      stopScreensaver({smoothExit: false})
       cancelCacheWarm()
       clearTouchPress()
       setTouchInput(false)
@@ -2819,13 +3106,17 @@
 </script>
 
 <svelte:window
+  onpointerdown={handlePointerDown}
   onpointermove={handlePointerMove}
   ontouchstart={handleTouchStart}
   ontouchmove={handleTouchMove}
   ontouchend={handleTouchEnd}
   ontouchcancel={handleTouchEnd}
+  onkeydown={handleKeyDown}
+  onwheel={handleWheel}
   onblur={handleTouchInterrupt}
-  onpagehide={handleTouchInterrupt}
+  onpagehide={handlePageHide}
+  onpageshow={handlePageShow}
   oncontextmenu={clearTouchPress}
   onclick={handleClick}
   onscroll={handleScroll}
