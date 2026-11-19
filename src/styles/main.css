@@ -20,7 +20,8 @@ html {
 }
 
 body {
-  padding: clamp(1rem, 5vw, 8rem);
+  margin: 0;
+  padding: clamp(1.8rem, 5.2vw, 8rem);
   padding-bottom: clamp(2rem, 10vw, 16rem);
   overflow-x: clip;
   opacity: 0;
