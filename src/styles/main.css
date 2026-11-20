@@ -105,6 +105,10 @@ body.fonts-loaded {
   margin-left: 0.05em;
 }
 
+.body-sup-fallback::after {
+  content: attr(data-footnote);
+}
+
 .body-arrow-fallback {
   display: inline-block;
   font-size: 0.3em;
@@ -112,6 +116,10 @@ body.fonts-loaded {
   vertical-align: 1.55em;
   margin-left: 0.05em;
   transform: rotate(-45deg);
+}
+
+.body-arrow-fallback::after {
+  content: attr(data-arrow);
 }
 
 .prerendered-subsections {

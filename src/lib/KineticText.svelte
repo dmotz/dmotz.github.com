@@ -1531,7 +1531,7 @@
   </span>
 {/snippet}
 
-{#snippet layoutItem(item, nosnippet = false)}
+{#snippet layoutItem(item)}
   {#if item.kind === 'word'}
     <span
       use:bindWord={item}
@@ -1539,7 +1539,7 @@
       class:in-expanded={item.inExpanded}
       class:section-exiting={item.exiting}
       aria-hidden="true"
-      data-nosnippet={nosnippet ? '' : null}
+      data-nosnippet
       style:width="{item.width}px"
       style:height="{item.height}px"
     >
@@ -1720,7 +1720,7 @@
           {/if}
         {/if}
         {#each group.items as item (item.id)}
-          {@render layoutItem(item, group.token.kind === 'sup')}
+          {@render layoutItem(item)}
         {/each}
       {/if}
     {/each}
@@ -1736,8 +1736,9 @@
           {node.text}
         </span>{#if node.footnote}<sup
             class="body-sup-fallback"
-            aria-hidden="true"><span data-nosnippet>{node.footnote}</span></sup
-          >{/if}
+            aria-hidden="true"
+            data-footnote={node.footnote}
+          ></sup>{/if}
       {:else if node.kind === 'project'}
         {@const project = projects[node.projectId]}
         {#if project}
@@ -1751,8 +1752,8 @@
             </span>{#if node.footnote}<sup
                 class="body-sup-fallback"
                 aria-hidden="true"
-                ><span data-nosnippet>{node.footnote}</span></sup
-              >{/if}&nbsp;<span class="inline-media-fallback">
+                data-footnote={node.footnote}
+              ></sup>{/if}&nbsp;<span class="inline-media-fallback">
               {@render mediaContent(
                 project.media,
                 project.alt,
@@ -1771,8 +1772,8 @@
         )}{#if opensNewTab(node)}<sup
             class="body-arrow-fallback"
             aria-hidden="true"
-            ><span data-nosnippet>{externalLinkArrow}</span></sup
-          >{/if}
+            data-arrow={externalLinkArrow}
+          ></sup>{/if}
       {:else if node.heading}
         <h1 class="name fallback-heading">{node.text}</h1>
       {:else if node.styleRole === 'name'}
