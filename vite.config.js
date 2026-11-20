@@ -113,7 +113,12 @@ const oxismRoutesPlugin = () => ({
   }
 })
 
-export default defineConfig({
+const treeshakeOptions = {
+  propertyReadSideEffects: false,
+  unknownGlobalSideEffects: false
+}
+
+export default defineConfig(({isSsrBuild}) => ({
   publicDir: 'static',
   server: {
     port: 3333,
@@ -127,7 +132,44 @@ export default defineConfig({
   build: {
     outDir: 'build',
     emptyOutDir: true,
-    assetsInlineLimit: 0
+    assetsInlineLimit: 0,
+    modulePreload: false,
+    ...(isSsrBuild
+      ? {}
+      : {
+          rolldownOptions: {
+            optimization: {
+              inlineConst: true
+            },
+            treeshake: treeshakeOptions,
+            output: {
+              comments: false,
+              topLevelVar: false,
+              minify: {
+                compress: {
+                  target: 'esnext',
+                  dropConsole: true,
+                  dropDebugger: true,
+                  treeshake: treeshakeOptions
+                },
+                mangle: {
+                  toplevel: true
+                },
+                codegen: {
+                  legalComments: 'none'
+                }
+              }
+            }
+          }
+        })
   },
-  plugins: [svelte(), oxismRoutesPlugin()]
-})
+  plugins: [
+    svelte({
+      compilerOptions: {
+        discloseVersion: false,
+        cssHash: ({hash, css}) => `s${hash(css).slice(0, 3)}`
+      }
+    }),
+    oxismRoutesPlugin()
+  ]
+}))
