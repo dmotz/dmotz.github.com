@@ -1531,7 +1531,7 @@
   </span>
 {/snippet}
 
-{#snippet layoutItem(item)}
+{#snippet layoutItem(item, nosnippet = false)}
   {#if item.kind === 'word'}
     <span
       use:bindWord={item}
@@ -1539,6 +1539,7 @@
       class:in-expanded={item.inExpanded}
       class:section-exiting={item.exiting}
       aria-hidden="true"
+      data-nosnippet={nosnippet ? '' : null}
       style:width="{item.width}px"
       style:height="{item.height}px"
     >
@@ -1707,7 +1708,7 @@
           group.items
         )}
       {:else}
-        {#if !group.exiting && group.token.text && group.token.text !== '\u00A0'}
+        {#if !group.exiting && group.token.kind !== 'sup' && group.token.text && group.token.text !== '\u00A0'}
           {#if group.token.heading}
             <h1 class="sr-only" style:top="{group.items[0]?.y ?? 0}px">
               {group.token.text}
@@ -1719,7 +1720,7 @@
           {/if}
         {/if}
         {#each group.items as item (item.id)}
-          {@render layoutItem(item)}
+          {@render layoutItem(item, group.token.kind === 'sup')}
         {/each}
       {/if}
     {/each}
@@ -1733,9 +1734,10 @@
           class:touch-active={pressedKey === node.key}
         >
           {node.text}
-        </span>{#if node.footnote}<sup class="body-sup-fallback">
-            {node.footnote}
-          </sup>{/if}
+        </span>{#if node.footnote}<sup
+            class="body-sup-fallback"
+            aria-hidden="true"><span data-nosnippet>{node.footnote}</span></sup
+          >{/if}
       {:else if node.kind === 'project'}
         {@const project = projects[node.projectId]}
         {#if project}
@@ -1746,9 +1748,11 @@
           >
             <span role="button" class="fallback-btn">
               {project.name}
-            </span>{#if node.footnote}<sup class="body-sup-fallback">
-                {node.footnote}
-              </sup>{/if}&nbsp;<span class="inline-media-fallback">
+            </span>{#if node.footnote}<sup
+                class="body-sup-fallback"
+                aria-hidden="true"
+                ><span data-nosnippet>{node.footnote}</span></sup
+              >{/if}&nbsp;<span class="inline-media-fallback">
               {@render mediaContent(
                 project.media,
                 project.alt,
@@ -1764,9 +1768,11 @@
           false,
           null,
           null
-        )}{#if opensNewTab(node)}<sup class="body-arrow-fallback">
-            {externalLinkArrow}
-          </sup>{/if}
+        )}{#if opensNewTab(node)}<sup
+            class="body-arrow-fallback"
+            aria-hidden="true"
+            ><span data-nosnippet>{externalLinkArrow}</span></sup
+          >{/if}
       {:else if node.heading}
         <h1 class="name fallback-heading">{node.text}</h1>
       {:else if node.styleRole === 'name'}
