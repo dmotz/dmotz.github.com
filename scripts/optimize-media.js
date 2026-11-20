@@ -59,12 +59,35 @@ const probeVideoStream = filePath => {
   return {width: Number(stream.width), height: Number(stream.height)}
 }
 
-const runFfmpegAtomic = (args, targetPath) => {
-  const ext = extname(targetPath)
-  const tempPath = join(
+let cachedFfmpegEncoders = null
+
+const hasFfmpegEncoder = name => {
+  if (cachedFfmpegEncoders === null) {
+    const out = execFileSync('ffmpeg', ['-hide_banner', '-encoders'], {
+      encoding: 'utf8'
+    })
+    cachedFfmpegEncoders = new Set()
+
+    for (const line of out.split('\n')) {
+      const match = /^\s*[A-Z.]{6}\s+(\S+)/.exec(line)
+
+      if (match) {
+        cachedFfmpegEncoders.add(match[1])
+      }
+    }
+  }
+
+  return cachedFfmpegEncoders.has(name)
+}
+
+const createTempPath = ext =>
+  join(
     tmpdir(),
     `oxism-media-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`
   )
+
+const runFfmpegAtomic = (args, targetPath) => {
+  const tempPath = createTempPath(extname(targetPath))
 
   try {
     execFileSync('ffmpeg', ['-v', 'error', ...args, tempPath], {
@@ -73,6 +96,46 @@ const runFfmpegAtomic = (args, targetPath) => {
     copyFileSync(tempPath, targetPath)
   } finally {
     rmSync(tempPath, {force: true})
+  }
+}
+
+const runCwebpAtomic = (inputPath, vf, targetPath) => {
+  const tempPngPath = createTempPath('.png')
+  const tempWebpPath = createTempPath('.webp')
+
+  try {
+    execFileSync(
+      'ffmpeg',
+      [
+        '-v',
+        'error',
+        '-i',
+        inputPath,
+        '-map',
+        '0:v:0',
+        '-map_metadata',
+        '-1',
+        '-vf',
+        vf,
+        '-frames:v',
+        '1',
+        '-fflags',
+        '+bitexact',
+        '-flags:v',
+        '+bitexact',
+        tempPngPath
+      ],
+      {stdio: 'inherit'}
+    )
+    execFileSync(
+      'cwebp',
+      ['-quiet', '-q', '82', '-m', '6', tempPngPath, '-o', tempWebpPath],
+      {stdio: 'inherit'}
+    )
+    copyFileSync(tempWebpPath, targetPath)
+  } finally {
+    rmSync(tempPngPath, {force: true})
+    rmSync(tempWebpPath, {force: true})
   }
 }
 
@@ -99,6 +162,42 @@ const processImage = (inputPath, stem, dims) => {
 
   const variants = []
 
+  const avifCodecArgs = hasFfmpegEncoder('libaom-av1')
+    ? [
+        '-c:v',
+        'libaom-av1',
+        '-still-picture',
+        '1',
+        '-crf',
+        '28',
+        '-cpu-used',
+        '6',
+        '-threads',
+        '1'
+      ]
+    : hasFfmpegEncoder('libsvtav1')
+      ? [
+          '-c:v',
+          'libsvtav1',
+          '-crf',
+          '28',
+          '-preset',
+          '6',
+          '-pix_fmt',
+          'yuv420p',
+          '-svtav1-params',
+          'lp=1'
+        ]
+      : null
+
+  if (!avifCodecArgs) {
+    throw new Error(
+      'ffmpeg is missing an AV1 encoder (need libaom-av1 or libsvtav1)'
+    )
+  }
+
+  const useFfmpegWebp = hasFfmpegEncoder('libwebp')
+
   for (const box of widths) {
     const scaled = computeScaledDims(dims.width, dims.height, box, false)
     const avifFile = `${stem}-${box}w.avif`
@@ -117,16 +216,7 @@ const processImage = (inputPath, stem, dims) => {
         vf,
         '-frames:v',
         '1',
-        '-c:v',
-        'libaom-av1',
-        '-still-picture',
-        '1',
-        '-crf',
-        '28',
-        '-cpu-used',
-        '6',
-        '-threads',
-        '1',
+        ...avifCodecArgs,
         '-fflags',
         '+bitexact',
         '-flags:v',
@@ -135,33 +225,37 @@ const processImage = (inputPath, stem, dims) => {
       resolve(outDir, avifFile)
     )
 
-    runFfmpegAtomic(
-      [
-        '-i',
-        inputPath,
-        '-map',
-        '0:v:0',
-        '-map_metadata',
-        '-1',
-        '-vf',
-        vf,
-        '-frames:v',
-        '1',
-        '-c:v',
-        'libwebp',
-        '-quality',
-        '82',
-        '-compression_level',
-        '6',
-        '-threads',
-        '1',
-        '-fflags',
-        '+bitexact',
-        '-flags:v',
-        '+bitexact'
-      ],
-      resolve(outDir, webpFile)
-    )
+    if (useFfmpegWebp) {
+      runFfmpegAtomic(
+        [
+          '-i',
+          inputPath,
+          '-map',
+          '0:v:0',
+          '-map_metadata',
+          '-1',
+          '-vf',
+          vf,
+          '-frames:v',
+          '1',
+          '-c:v',
+          'libwebp',
+          '-quality',
+          '82',
+          '-compression_level',
+          '6',
+          '-threads',
+          '1',
+          '-fflags',
+          '+bitexact',
+          '-flags:v',
+          '+bitexact'
+        ],
+        resolve(outDir, webpFile)
+      )
+    } else {
+      runCwebpAtomic(inputPath, vf, resolve(outDir, webpFile))
+    }
 
     variants.push({
       width: scaled.width,
@@ -182,25 +276,12 @@ const processImage = (inputPath, stem, dims) => {
   }
 }
 
-let cachedHasSvtAv1 = null
-
-const hasSvtAv1Encoder = () => {
-  if (cachedHasSvtAv1 === null) {
-    const out = execFileSync('ffmpeg', ['-hide_banner', '-encoders'], {
-      encoding: 'utf8'
-    })
-    cachedHasSvtAv1 = /\blibsvtav1\b/.test(out)
-  }
-
-  return cachedHasSvtAv1
-}
-
 const processVideo = (inputPath, stem, dims) => {
   const scaled = computeScaledDims(dims.width, dims.height, maxVideoBox, true)
   const webmFile = `${stem}.webm`
   const mp4File = `${stem}.mp4`
   const vf = `scale=${maxVideoBox}:${maxVideoBox}:force_original_aspect_ratio=decrease:force_divisible_by=2:flags=lanczos+bitexact,setsar=1`
-  const av1CodecArgs = hasSvtAv1Encoder()
+  const av1CodecArgs = hasFfmpegEncoder('libsvtav1')
     ? [
         '-c:v',
         'libsvtav1',
@@ -211,18 +292,26 @@ const processVideo = (inputPath, stem, dims) => {
         '-svtav1-params',
         'tune=0:lp=1'
       ]
-    : [
-        '-c:v',
-        'libaom-av1',
-        '-crf',
-        '42',
-        '-b:v',
-        '0',
-        '-cpu-used',
-        '6',
-        '-threads',
-        '1'
-      ]
+    : hasFfmpegEncoder('libaom-av1')
+      ? [
+          '-c:v',
+          'libaom-av1',
+          '-crf',
+          '42',
+          '-b:v',
+          '0',
+          '-cpu-used',
+          '6',
+          '-threads',
+          '1'
+        ]
+      : null
+
+  if (!av1CodecArgs) {
+    throw new Error(
+      'ffmpeg is missing an AV1 encoder (need libsvtav1 or libaom-av1)'
+    )
+  }
 
   runFfmpegAtomic(
     [
